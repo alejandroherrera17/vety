@@ -32,11 +32,11 @@ export function LoginForm() {
         redirect: false,
       });
       if (result?.ok) {
-        toast.success("Welcome back");
+        toast.success("Bienvenido de vuelta");
         router.push("/dashboard");
         router.refresh();
       } else {
-        toast.error("Invalid email or password");
+        toast.error("Email o contraseña inválidos");
       }
     });
   }
@@ -44,23 +44,23 @@ export function LoginForm() {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
       {search.get("registered") ? (
-        <div className="rounded-xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
-          Account created. You can sign in now.
+        <div className="rounded-xl bg-black/10 px-4 py-3 text-sm font-medium text-black">
+          Cuenta creada. Ya puedes iniciar sesión.
         </div>
       ) : null}
       <Field label="Email" error={form.formState.errors.email?.message}>
         <Input autoFocus type="email" {...form.register("email")} />
       </Field>
-      <Field label="Password" error={form.formState.errors.password?.message}>
+      <Field label="Contraseña" error={form.formState.errors.password?.message}>
         <Input type="password" {...form.register("password")} />
       </Field>
       <Button type="submit" disabled={pending}>
-        {pending ? "Signing in..." : "Sign in"}
+        {pending ? "Iniciando sesión..." : "Iniciar sesión"}
       </Button>
-      <p className="text-center text-sm text-slate-500">
-        New clinic?{" "}
-        <Link href="/register" className="font-semibold text-emerald-700">
-          Create an account
+      <p className="text-center text-sm text-black/60">
+        ¿Nueva clínica?{" "}
+        <Link href="/register" className="font-semibold text-black">
+          Crear cuenta
         </Link>
       </p>
     </form>
@@ -78,32 +78,32 @@ export function RegisterForm() {
     startTransition(async () => {
       const result = await registerVeterinarian(values);
       if (result?.ok === false) {
-        toast.error(result.error ?? "Could not create account");
+        toast.error(result.error ?? "No se pudo crear la cuenta");
       }
     });
   }
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
-      <Field label="Clinic or doctor name" error={form.formState.errors.name?.message}>
+      <Field label="Nombre de la clínica o doctor" error={form.formState.errors.name?.message}>
         <Input autoFocus {...form.register("name")} />
       </Field>
       <Field label="Email" error={form.formState.errors.email?.message}>
         <Input type="email" {...form.register("email")} />
       </Field>
-      <Field label="Phone" error={form.formState.errors.phone?.message}>
+      <Field label="Teléfono" error={form.formState.errors.phone?.message}>
         <Input {...form.register("phone")} />
       </Field>
-      <Field label="Password" error={form.formState.errors.password?.message}>
+      <Field label="Contraseña" error={form.formState.errors.password?.message}>
         <Input type="password" {...form.register("password")} />
       </Field>
       <Button type="submit" disabled={pending}>
-        {pending ? "Creating..." : "Create account"}
+        {pending ? "Creando..." : "Crear cuenta"}
       </Button>
-      <p className="text-center text-sm text-slate-500">
-        Already registered?{" "}
-        <Link href="/login" className="font-semibold text-emerald-700">
-          Sign in
+      <p className="text-center text-sm text-black/60">
+        ¿Ya registrado?{" "}
+        <Link href="/login" className="font-semibold text-black">
+          Iniciar sesión
         </Link>
       </p>
     </form>

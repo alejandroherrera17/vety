@@ -16,8 +16,8 @@ export default async function ClientsPage() {
     <AppShell>
       <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <p className="text-sm font-semibold text-emerald-700">Owners</p>
-          <h1 className="text-3xl font-bold tracking-tight">Clients</h1>
+          <p className="text-sm font-semibold text-black">Propietarios</p>
+          <h1 className="text-3xl font-bold tracking-tight">Clientes</h1>
         </div>
         <ClientFormModal />
       </div>

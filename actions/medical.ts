@@ -26,7 +26,7 @@ export async function createConsultation(input: unknown): Promise<ActionResult> 
 
   const pet = await assertPetOwnership(parsed.data.petId, veterinarian.id);
   if (!pet) {
-    return { ok: false, error: "Pet not found" };
+    return { ok: false, error: "Mascota no encontrada" };
   }
 
   const medicalRecord =
@@ -98,7 +98,7 @@ export async function addVaccination(input: unknown): Promise<ActionResult> {
 
   const pet = await assertPetOwnership(parsed.data.petId, veterinarian.id);
   if (!pet) {
-    return { ok: false, error: "Pet not found" };
+    return { ok: false, error: "Mascota no encontrada" };
   }
 
   await prisma.vaccination.create({

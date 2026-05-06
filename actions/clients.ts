@@ -48,7 +48,7 @@ export async function updateClient(input: unknown): Promise<ActionResult> {
   });
 
   if (!client) {
-    return { ok: false, error: "Client not found" };
+    return { ok: false, error: "Cliente no encontrado" };
   }
 
   await prisma.client.update({
@@ -69,7 +69,7 @@ export async function deleteClient(input: unknown): Promise<ActionResult> {
   const parsed = deleteSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { ok: false, error: "Invalid client" };
+    return { ok: false, error: "Cliente inválido" };
   }
 
   const client = await prisma.client.findFirst({
@@ -78,7 +78,7 @@ export async function deleteClient(input: unknown): Promise<ActionResult> {
   });
 
   if (!client) {
-    return { ok: false, error: "Client not found" };
+    return { ok: false, error: "Cliente no encontrado" };
   }
 
   const petIds = client.pets.map((pet) => pet.id);

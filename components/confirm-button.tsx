@@ -26,20 +26,21 @@ export function ConfirmButton({
       size="sm"
       disabled={pending}
       onClick={() => {
-        if (!window.confirm(`Delete this record? This cannot be undone.`)) return;
+        if (!window.confirm(`¿Eliminar este registro? Esto no se puede deshacer.`)) return;
         startTransition(async () => {
           const result = await action({ id });
           if (result.ok) {
-            toast.success("Deleted");
+            toast.success("Eliminado");
             onDone?.();
           } else {
-            toast.error(result.error ?? "Could not delete");
+            toast.error(result.error ?? "No se pudo eliminar");
           }
         });
       }}
+      className="bg-black hover:bg-black"
     >
       <Trash2 className="h-4 w-4" />
-      {pending ? "Deleting..." : label}
+      {pending ? "Eliminando..." : label}
     </Button>
   );
 }

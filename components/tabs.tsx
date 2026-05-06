@@ -12,7 +12,7 @@ export function Tabs({
 
   return (
     <div className="grid gap-5">
-      <div className="flex gap-2 overflow-x-auto border-b border-slate-200">
+      <div className="flex gap-2 overflow-x-auto border-b border-black/15">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -21,8 +21,8 @@ export function Tabs({
             className={cn(
               "border-b-2 px-3 py-3 text-sm font-semibold transition",
               active === tab.id
-                ? "border-emerald-600 text-emerald-700"
-                : "border-transparent text-slate-500 hover:text-slate-950",
+                ? "border-black text-black"
+                : "border-transparent text-black/55 hover:text-black",
             )}
           >
             {tab.label}

@@ -34,7 +34,7 @@ export async function createPet(input: unknown): Promise<ActionResult<{ id: stri
   });
 
   if (!client) {
-    return { ok: false, error: "Select a valid client" };
+    return { ok: false, error: "Selecciona un cliente válido" };
   }
 
   const pet = await prisma.pet.create({
@@ -56,7 +56,7 @@ export async function updatePet(input: unknown): Promise<ActionResult> {
   }
 
   if (!parsed.data.id) {
-    return { ok: false, error: "Pet id is required" };
+    return { ok: false, error: "El ID de la mascota es obligatorio" };
   }
 
   const pet = await prisma.pet.findFirst({
@@ -68,7 +68,7 @@ export async function updatePet(input: unknown): Promise<ActionResult> {
   });
 
   if (!pet) {
-    return { ok: false, error: "Pet not found" };
+    return { ok: false, error: "Mascota no encontrada" };
   }
 
   const client = await prisma.client.findFirst({
@@ -77,7 +77,7 @@ export async function updatePet(input: unknown): Promise<ActionResult> {
   });
 
   if (!client) {
-    return { ok: false, error: "Select a valid client" };
+    return { ok: false, error: "Selecciona un cliente válido" };
   }
 
   const { id, ...data } = parsed.data;
@@ -96,7 +96,7 @@ export async function deletePet(input: unknown): Promise<ActionResult> {
   const parsed = deleteSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { ok: false, error: "Invalid pet" };
+    return { ok: false, error: "Mascota inválida" };
   }
 
   const pet = await prisma.pet.findFirst({
@@ -108,7 +108,7 @@ export async function deletePet(input: unknown): Promise<ActionResult> {
   });
 
   if (!pet) {
-    return { ok: false, error: "Pet not found" };
+    return { ok: false, error: "Mascota no encontrada" };
   }
 
   const records = await prisma.medicalRecord.findMany({

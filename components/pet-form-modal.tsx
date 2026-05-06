@@ -40,11 +40,11 @@ export function PetFormModal({
     startTransition(async () => {
       const result = pet?.id ? await updatePet({ ...values, id: pet.id }) : await createPet(values);
       if (result.ok) {
-        toast.success(pet?.id ? "Pet updated" : "Pet added");
+        toast.success(pet?.id ? "Mascota actualizada" : "Mascota agregada");
         setOpen(false);
         form.reset();
       } else {
-        toast.error(result.error ?? "Check the form and try again");
+        toast.error(result.error ?? "Revisa el formulario e intenta de nuevo");
       }
     });
   }
@@ -53,29 +53,29 @@ export function PetFormModal({
     <>
       <span onClick={() => setOpen(true)}>
         {trigger ?? (
-          <Button type="button" disabled={clients.length === 0}>
+          <Button type="button" disabled={clients.length === 0} className="bg-black hover:bg-black/90">
             <Plus className="h-4 w-4" />
-            Add Pet
+            Agregar Mascota
           </Button>
         )}
       </span>
       {open ? (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/30 p-4">
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/30 p-4 backdrop-blur-sm">
           <div className="w-full max-w-2xl rounded-2xl bg-white p-5 shadow-2xl">
             <div className="mb-5 flex items-center gap-3">
-              <span className="rounded-2xl bg-sky-100 p-3 text-sky-700">
+              <span className="rounded-2xl bg-lemon-chiffon p-3 text-black">
                 <PawPrint className="h-5 w-5" />
               </span>
               <div>
-                <h2 className="text-lg font-bold">{pet?.id ? "Edit pet" : "New pet"}</h2>
-                <p className="text-sm text-slate-500">Clinical identity and owner link.</p>
+                <h2 className="text-lg font-bold">{pet?.id ? "Editar mascota" : "Nueva mascota"}</h2>
+                <p className="text-sm text-black/60">Identidad clínica y enlace con propietario.</p>
               </div>
             </div>
             <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 sm:grid-cols-2">
-              <Field label="Name" error={form.formState.errors.name?.message}>
+              <Field label="Nombre" error={form.formState.errors.name?.message}>
                 <Input autoFocus {...form.register("name")} />
               </Field>
-              <Field label="Owner" error={form.formState.errors.clientId?.message}>
+              <Field label="Propietario" error={form.formState.errors.clientId?.message}>
                 <Select {...form.register("clientId")}>
                   {clients.map((client) => (
                     <option key={client.id} value={client.id}>
@@ -84,34 +84,34 @@ export function PetFormModal({
                   ))}
                 </Select>
               </Field>
-              <Field label="Species" error={form.formState.errors.species?.message}>
-                <Input placeholder="Dog, cat..." {...form.register("species")} />
+              <Field label="Especie" error={form.formState.errors.species?.message}>
+                <Input placeholder="Perro, gato..." {...form.register("species")} />
               </Field>
-              <Field label="Breed" error={form.formState.errors.breed?.message}>
+              <Field label="Raza" error={form.formState.errors.breed?.message}>
                 <Input {...form.register("breed")} />
               </Field>
-              <Field label="Sex" error={form.formState.errors.sex?.message}>
+              <Field label="Sexo" error={form.formState.errors.sex?.message}>
                 <Select {...form.register("sex")}>
-                  <option>Female</option>
-                  <option>Male</option>
-                  <option>Unknown</option>
+                  <option>Hembra</option>
+                  <option>Macho</option>
+                  <option>Desconocido</option>
                 </Select>
               </Field>
-              <Field label="Birth date" error={form.formState.errors.birthDate?.message}>
+              <Field label="Fecha de nacimiento" error={form.formState.errors.birthDate?.message}>
                 <Input type="date" {...form.register("birthDate")} />
               </Field>
-              <Field label="Weight kg" error={form.formState.errors.weight?.message}>
+              <Field label="Peso kg" error={form.formState.errors.weight?.message}>
                 <Input type="number" step="0.1" {...form.register("weight")} />
               </Field>
-              <Field label="Photo URL" error={form.formState.errors.photoUrl?.message}>
+              <Field label="URL de foto" error={form.formState.errors.photoUrl?.message}>
                 <Input {...form.register("photoUrl")} />
               </Field>
               <div className="flex justify-end gap-3 sm:col-span-2">
-                <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
-                  Cancel
+                <Button type="button" variant="secondary" onClick={() => setOpen(false)} className="hover:bg-black/10">
+                  Cancelar
                 </Button>
-                <Button type="submit" disabled={pending}>
-                  {pending ? "Saving..." : "Save pet"}
+                <Button type="submit" disabled={pending} className="bg-black hover:bg-black/90">
+                  {pending ? "Guardando..." : "Guardar mascota"}
                 </Button>
               </div>
             </form>

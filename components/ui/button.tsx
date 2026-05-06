@@ -15,13 +15,13 @@ export function Button({
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-xl text-sm font-semibold transition disabled:pointer-events-none disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500",
+        "inline-flex items-center justify-center gap-2 rounded-xl text-sm font-semibold transition disabled:pointer-events-none disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
         variant === "primary" &&
-          "bg-emerald-600 text-white shadow-sm hover:bg-emerald-700",
+          "bg-black text-white shadow-sm hover:bg-black/90",
         variant === "secondary" &&
-          "border border-slate-200 bg-white text-slate-800 shadow-sm hover:bg-slate-50",
-        variant === "ghost" && "text-slate-600 hover:bg-slate-100 hover:text-slate-950",
-        variant === "danger" && "bg-rose-600 text-white shadow-sm hover:bg-rose-700",
+          "border border-black/15 bg-white text-black shadow-sm hover:bg-black/5",
+        variant === "ghost" && "text-black hover:bg-black/5 hover:text-black",
+        variant === "danger" && "bg-black text-white shadow-sm hover:bg-black",
         size === "sm" && "h-9 px-3",
         size === "md" && "h-11 px-4",
         size === "icon" && "h-10 w-10",

@@ -38,11 +38,11 @@ export function ClientFormModal({
         ? await updateClient({ ...values, id: client.id })
         : await createClient(values);
       if (result.ok) {
-        toast.success(client?.id ? "Client updated" : "Client added");
+        toast.success(client?.id ? "Cliente actualizado" : "Cliente agregado");
         setOpen(false);
         form.reset();
       } else {
-        toast.error(result.error ?? "Check the form and try again");
+        toast.error(result.error ?? "Revisa el formulario e intenta de nuevo");
       }
     });
   }
@@ -51,50 +51,50 @@ export function ClientFormModal({
     <>
       <span onClick={() => setOpen(true)}>
         {trigger ?? (
-          <Button type="button">
+          <Button type="button" className="bg-black hover:bg-black/90">
             <Plus className="h-4 w-4" />
-            Add Client
+            Agregar Cliente
           </Button>
         )}
       </span>
       {open ? (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/30 p-4">
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/30 p-4 backdrop-blur-sm">
           <div className="w-full max-w-2xl rounded-2xl bg-white p-5 shadow-2xl">
             <div className="mb-5 flex items-center gap-3">
-              <span className="rounded-2xl bg-emerald-100 p-3 text-emerald-700">
+              <span className="rounded-2xl bg-black/10 p-3 text-black">
                 <UserRound className="h-5 w-5" />
               </span>
               <div>
-                <h2 className="text-lg font-bold text-slate-950">
-                  {client?.id ? "Edit client" : "New client"}
+                <h2 className="text-lg font-bold text-black">
+                  {client?.id ? "Editar cliente" : "Nuevo cliente"}
                 </h2>
-                <p className="text-sm text-slate-500">Owner details and contact information.</p>
+                <p className="text-sm text-black/60">Detalles del propietario e información de contacto.</p>
               </div>
             </div>
             <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 sm:grid-cols-2">
-              <Field label="Name" error={form.formState.errors.name?.message}>
+              <Field label="Nombre" error={form.formState.errors.name?.message}>
                 <Input autoFocus {...form.register("name")} />
               </Field>
-              <Field label="Phone" error={form.formState.errors.phone?.message}>
+              <Field label="Teléfono" error={form.formState.errors.phone?.message}>
                 <Input {...form.register("phone")} />
               </Field>
-              <Field label="Document" error={form.formState.errors.document?.message}>
+              <Field label="Documento" error={form.formState.errors.document?.message}>
                 <Input {...form.register("document")} />
               </Field>
               <Field label="Email" error={form.formState.errors.email?.message}>
                 <Input type="email" {...form.register("email")} />
               </Field>
               <div className="sm:col-span-2">
-                <Field label="Address" error={form.formState.errors.address?.message}>
+                <Field label="Dirección" error={form.formState.errors.address?.message}>
                   <Input {...form.register("address")} />
                 </Field>
               </div>
               <div className="flex justify-end gap-3 sm:col-span-2">
-                <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
-                  Cancel
+                <Button type="button" variant="secondary" onClick={() => setOpen(false)} className="hover:bg-black/10">
+                  Cancelar
                 </Button>
-                <Button disabled={pending} type="submit">
-                  {pending ? "Saving..." : "Save client"}
+                <Button disabled={pending} type="submit" className="bg-black hover:bg-black/90">
+                  {pending ? "Guardando..." : "Guardar cliente"}
                 </Button>
               </div>
             </form>

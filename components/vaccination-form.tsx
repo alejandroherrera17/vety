@@ -26,10 +26,10 @@ export function VaccinationForm({ petId }: { petId: string }) {
     startTransition(async () => {
       const result = await addVaccination(values);
       if (result.ok) {
-        toast.success("Vaccination added");
+        toast.success("Vacunación agregada");
         form.reset({ petId, vaccine: "", date: new Date().toISOString().slice(0, 10), nextDose: "" });
       } else {
-        toast.error(result.error ?? "Could not add vaccination");
+        toast.error(result.error ?? "No se pudo agregar la vacunación");
       }
     });
   }
@@ -37,19 +37,19 @@ export function VaccinationForm({ petId }: { petId: string }) {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 md:grid-cols-4">
       <input type="hidden" {...form.register("petId")} />
-      <Field label="Vaccine" error={form.formState.errors.vaccine?.message}>
+      <Field label="Vacuna" error={form.formState.errors.vaccine?.message}>
         <Input autoFocus {...form.register("vaccine")} />
       </Field>
-      <Field label="Date" error={form.formState.errors.date?.message}>
+      <Field label="Fecha" error={form.formState.errors.date?.message}>
         <Input type="date" {...form.register("date")} />
       </Field>
-      <Field label="Next dose" error={form.formState.errors.nextDose?.message}>
+      <Field label="Próxima dosis" error={form.formState.errors.nextDose?.message}>
         <Input type="date" {...form.register("nextDose")} />
       </Field>
       <div className="flex items-end">
-        <Button type="submit" disabled={pending} className="w-full">
+        <Button type="submit" disabled={pending} className="w-full border border-black/15 bg-white text-black hover:bg-lemon-chiffon">
           <Syringe className="h-4 w-4" />
-          {pending ? "Adding..." : "Add"}
+          {pending ? "Agregando..." : "Agregar"}
         </Button>
       </div>
     </form>
