@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Veterinarian {
+  id             String          @id @default(uuid())
+  name           String
+  email          String          @unique
+  password       String
+  phone          String?
+  createdAt      DateTime        @default(now())
+  clients        Client[]
+  medicalRecords MedicalRecord[]
+}
+
+model Client {
+  id             String       @id @default(uuid())
+  name           String
+  document       String?
+  phone          String
+  email          String?
+  address        String?
+  veterinarianId String
+  veterinarian   Veterinarian @relation(fields: [veterinarianId], references: [id])
+  pets           Pet[]
+}
+
+model Pet {
+  id             String          @id @default(uuid())
+  name           String
+  species        String
+  breed          String?
+  sex            String
+  birthDate      DateTime?
+  weight         Float?
+  photoUrl       String?
+  clientId       String
+  client         Client          @relation(fields: [clientId], references: [id])
+  medicalRecords MedicalRecord[]
+  vaccinations   Vaccination[]
+  attachments    Attachment[]
+}
+
+model MedicalRecord {
+  id             String         @id @default(uuid())
+  petId          String
+  veterinarianId String
+  createdAt      DateTime       @default(now())
+  pet            Pet            @relation(fields: [petId], references: [id])
+  veterinarian   Veterinarian   @relation(fields: [veterinarianId], references: [id])
+  consultations  Consultation[]
+}
+
+model Consultation {
+  id              String        @id @default(uuid())
+  medicalRecordId String
+  date            DateTime
+  symptoms        String
+  diagnosis       String
+  treatment       String
+  observations    String?
+  medicalRecord   MedicalRecord @relation(fields: [medicalRecordId], references: [id])
+}
+
+model Vaccination {
+  id       String    @id @default(uuid())
+  petId    String
+  vaccine  String
+  date     DateTime
+  nextDose DateTime?
+  pet      Pet       @relation(fields: [petId], references: [id])
+}
+
+model Attachment {
+  id      String @id @default(uuid())
+  petId   String
+  fileUrl String
+  type    String
+  pet     Pet    @relation(fields: [petId], references: [id])
+}
