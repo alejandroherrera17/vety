@@ -14,6 +14,17 @@ export function formatDate(date: Date | string | null | undefined) {
   }).format(new Date(date));
 }
 
+export function formatDateTime(date: Date | string | null | undefined) {
+  if (!date) return "Not set";
+  return new Intl.DateTimeFormat("es-CO", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(date));
+}
+
 export function initials(name: string) {
   return name
     .split(" ")

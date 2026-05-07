@@ -12,9 +12,11 @@ model Veterinarian {
   email          String          @unique
   password       String
   phone          String?
+  theme          Theme           @default(midnight_vet)
   createdAt      DateTime        @default(now())
   clients        Client[]
   medicalRecords MedicalRecord[]
+  appointments   Appointment[]
 }
 
 model Client {
@@ -24,6 +26,8 @@ model Client {
   phone          String
   email          String?
   address        String?
+  city           String?
+  emergencyContact String?
   veterinarianId String
   veterinarian   Veterinarian @relation(fields: [veterinarianId], references: [id])
   pets           Pet[]
@@ -38,11 +42,19 @@ model Pet {
   birthDate      DateTime?
   weight         Float?
   photoUrl       String?
+  color          String?
+  reproductiveStatus String?
+  microchip      String?
+  allergies      String?
+  previousDiseases String?
+  frequentMedications String?
+  generalObservations String?
   clientId       String
   client         Client          @relation(fields: [clientId], references: [id])
   medicalRecords MedicalRecord[]
   vaccinations   Vaccination[]
   attachments    Attachment[]
+  appointments    Appointment[]
 }
 
 model MedicalRecord {
@@ -59,26 +71,106 @@ model Consultation {
   id              String        @id @default(uuid())
   medicalRecordId String
   date            DateTime
+  reason          String?
+  anamnesis       String?
   symptoms        String
+  commonSymptoms  Json?
+  temperature     Float?
+  heartRate       Int?
+  respiratoryRate Int?
+  weight          Float?
+  physicalExam    String?
+  presumptiveDiagnosis String?
   diagnosis       String
+  definitiveDiagnosis String?
   treatment       String
+  recommendations String?
+  evolution       String?
   observations    String?
+  status          ClinicalEventStatus @default(open)
+  templateName    String?
+  updatedAt       DateTime      @updatedAt
   medicalRecord   MedicalRecord @relation(fields: [medicalRecordId], references: [id])
+  prescriptions   Prescription[]
+}
+
+model Appointment {
+  id             String            @id @default(uuid())
+  petId          String
+  veterinarianId String
+  title          String
+  notes          String?
+  startDate      DateTime
+  endDate        DateTime
+  status         AppointmentStatus
+  pet            Pet               @relation(fields: [petId], references: [id])
+  veterinarian   Veterinarian      @relation(fields: [veterinarianId], references: [id])
+  createdAt      DateTime          @default(now())
+}
+
+enum AppointmentStatus {
+  pending
+  confirmed
+  cancelled
+  completed
+}
+
+model Prescription {
+  id             String       @id @default(uuid())
+  consultationId String
+  medication     String
+  dosage         String
+  frequency      String?
+  duration       String
+  route          String?
+  observations   String?
+  instructions   String?
+  consultation   Consultation @relation(fields: [consultationId], references: [id])
+  createdAt      DateTime     @default(now())
 }
 
 model Vaccination {
-  id       String    @id @default(uuid())
-  petId    String
-  vaccine  String
-  date     DateTime
-  nextDose DateTime?
-  pet      Pet       @relation(fields: [petId], references: [id])
+  id               String    @id @default(uuid())
+  petId            String
+  vaccine          String
+  date             DateTime
+  nextDose         DateTime?
+  lot              String?
+  manufacturer     String?
+  expiresAt        DateTime?
+  veterinarianName String?
+  status           ClinicalEventStatus @default(closed)
+  notes            String?
+  pet              Pet       @relation(fields: [petId], references: [id])
 }
 
 model Attachment {
-  id      String @id @default(uuid())
-  petId   String
-  fileUrl String
-  type    String
-  pet     Pet    @relation(fields: [petId], references: [id])
+  id        String   @id @default(uuid())
+  petId     String
+  fileUrl   String
+  type      String
+  fileName  String?
+  category  String?
+  notes     String?
+  createdAt DateTime @default(now())
+  pet       Pet      @relation(fields: [petId], references: [id])
+}
+
+enum ClinicalEventStatus {
+  open
+  stable
+  critical
+  closed
+  scheduled
+}
+
+enum Theme {
+  midnight_vet
+  emerald_care
+  royal_purple
+  arctic_blue
+  sunset_orange
+  forest_dark
+  rose_gold
+  graphite_pro
 }

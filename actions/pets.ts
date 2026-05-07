@@ -118,8 +118,10 @@ export async function deletePet(input: unknown): Promise<ActionResult> {
   const recordIds = records.map((record) => record.id);
 
   await prisma.$transaction([
+    prisma.prescription.deleteMany({ where: { consultation: { medicalRecordId: { in: recordIds } } } }),
     prisma.consultation.deleteMany({ where: { medicalRecordId: { in: recordIds } } }),
     prisma.medicalRecord.deleteMany({ where: { id: { in: recordIds } } }),
+    prisma.appointment.deleteMany({ where: { petId: pet.id, veterinarianId: veterinarian.id } }),
     prisma.vaccination.deleteMany({ where: { petId: pet.id } }),
     prisma.attachment.deleteMany({ where: { petId: pet.id } }),
     prisma.pet.delete({ where: { id: pet.id } }),

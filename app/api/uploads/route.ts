@@ -37,6 +37,8 @@ export async function POST(request: Request) {
       petId: pet.id,
       fileUrl,
       type: file.type || "file",
+      fileName: file.name,
+      category: file.type.startsWith("image/") ? "imagen" : "documento",
     },
   });
 
