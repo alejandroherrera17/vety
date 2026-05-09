@@ -72,11 +72,11 @@ export function AppointmentCalendar({
   }
 
   return (
-    <div className="appointment-calendar rounded-2xl border border-black/15 bg-white p-3 shadow-sm lg:p-5">
+    <div className="appointment-calendar rounded-lg border border-white/10 bg-white/[0.06] p-3 shadow-2xl shadow-black/10 backdrop-blur-xl lg:p-5">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap gap-2 text-xs font-semibold text-black/70">
+        <div className="flex flex-wrap gap-2 text-xs font-semibold text-muted-foreground">
           {Object.entries(statusColors).map(([status, color]) => (
-            <span key={status} className="inline-flex items-center gap-2 rounded-full border border-black/10 px-3 py-1">
+            <span key={status} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1">
               <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} />
               {status}
             </span>

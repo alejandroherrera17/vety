@@ -5,7 +5,8 @@ import { authOptions } from "@/lib/auth";
 import { calculateAge } from "@/lib/clinical";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
-import { createPdfStyles, defaultPdfStyles } from "@/lib/pdf-styles";
+import { createPdfStyles } from "@/lib/pdf-styles";
+import type { ThemeName } from "@/lib/themes/themes";
 
 const h = React.createElement;
 
@@ -15,7 +16,7 @@ function field(label: string, value?: string | number | null) {
   return h(View, null, h(Text, { style: { color: "#64748b", fontSize: 7, textTransform: "uppercase", marginBottom: 2 } }, label), h(Text, { style: { fontSize: 9, lineHeight: 1.4, marginBottom: 7 } }, value || "No registrado"));
 }
 
-function header(type: PdfType, styles: any) {
+function header(type: PdfType, styles: ReturnType<typeof createPdfStyles>) {
   const title = type === "vaccines" ? "Carnet de vacunacion" : type === "summary" ? "Resumen clinico" : "Historia clinica integral";
   return h(View, { style: styles.header, fixed: true },
     h(View, { style: { flexDirection: "row", justifyContent: "space-between", gap: 16 } },
@@ -45,8 +46,8 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
     select: { theme: true }
   });
 
-  const themeName = veterinarian?.theme || 'midnight_vet';
-  const styles = createPdfStyles(themeName as any, 'light'); // Default to light mode for PDFs
+  const themeName: ThemeName = veterinarian?.theme ?? 'midnight_vet';
+  const styles = createPdfStyles(themeName, 'light');
 
   const pet = await prisma.pet.findFirst({
     where: { id, client: { veterinarianId: session.user.id } },

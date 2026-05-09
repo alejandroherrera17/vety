@@ -120,7 +120,7 @@ function ThemePreview({ themeName, isSelected, onSelect }: ThemePreviewProps) {
 }
 
 export function ThemeCustomizer() {
-  const { theme, mode, setTheme, setMode, toggleMode } = useTheme()
+  const { theme, mode, setTheme, toggleMode } = useTheme()
   const [tempTheme, setTempTheme] = useState<ThemeName>(theme)
   const [isSaving, setIsSaving] = useState(false)
 
@@ -134,7 +134,7 @@ export function ThemeCustomizer() {
     try {
       await updateUserTheme(tempTheme)
       toast.success('Tema guardado exitosamente')
-    } catch (error) {
+    } catch {
       toast.error('Error al guardar el tema')
     } finally {
       setIsSaving(false)
@@ -160,7 +160,7 @@ export function ThemeCustomizer() {
 
         <Button
           onClick={handleModeToggle}
-          variant="outline"
+          variant="secondary"
           size="sm"
           className="flex items-center gap-2"
         >
@@ -241,7 +241,7 @@ export function ThemeCustomizer() {
                   <div className="flex gap-2">
                     <Button size="sm">Primary</Button>
                     <Button variant="secondary" size="sm">Secondary</Button>
-                    <Button variant="outline" size="sm">Outline</Button>
+                    <Button variant="ghost" size="sm">Ghost</Button>
                   </div>
                 </div>
 
@@ -269,7 +269,7 @@ export function ThemeCustomizer() {
       </Tabs>
 
       <div className="flex justify-end gap-3">
-        <Button variant="outline">
+        <Button variant="secondary">
           Restaurar Default
         </Button>
         <Button onClick={handleSaveTheme} disabled={isSaving}>

@@ -34,12 +34,12 @@ export function ClientTable({ clients }: { clients: ClientRow[] }) {
   return (
     <div className="grid gap-4">
       <div className="relative max-w-md">
-        <Search className="pointer-events-none absolute left-3 top-3 h-5 w-5 text-black/50" />
+        <Search className="pointer-events-none absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
         <Input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Buscar clientes..."
-          className="pl-10 border-black/15 focus:border-black focus:ring-black/20"
+          className="pl-10"
         />
       </div>
       {clients.length === 0 ? (
@@ -49,9 +49,9 @@ export function ClientTable({ clients }: { clients: ClientRow[] }) {
           action={<ClientFormModal />}
         />
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-black/15 bg-white shadow-md">
+        <div className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.06] shadow-2xl shadow-black/10 backdrop-blur-xl">
           <table className="w-full min-w-[720px] text-left text-sm">
-            <thead className="bg-black/5 text-xs uppercase tracking-wide text-black/70">
+            <thead className="bg-white/[0.06] text-xs uppercase tracking-wide text-muted-foreground">
               <tr>
                 <th className="px-4 py-3">Nombre</th>
                 <th className="px-4 py-3">Teléfono</th>
@@ -60,13 +60,13 @@ export function ClientTable({ clients }: { clients: ClientRow[] }) {
                 <th className="px-4 py-3 text-right">Acciones</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-black/10">
+            <tbody className="divide-y divide-white/10">
               {filtered.map((client) => (
-                <tr key={client.id} className="hover:bg-black/5">
-                  <td className="px-4 py-3 font-semibold text-black">{client.name}</td>
-                  <td className="px-4 py-3 text-black/70">{client.phone}</td>
-                  <td className="px-4 py-3 text-black/70">{client.pets.length}</td>
-                  <td className="px-4 py-3 text-black/70">{client.email ?? "Sin email"}</td>
+                <tr key={client.id} className="transition hover:bg-white/[0.05]">
+                  <td className="px-4 py-3 font-semibold text-foreground">{client.name}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{client.phone}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{client.pets.length}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{client.email ?? "Sin email"}</td>
                   <td className="px-4 py-3">
                     <div className="flex justify-end gap-2">
                       <ClientFormModal
@@ -79,7 +79,7 @@ export function ClientTable({ clients }: { clients: ClientRow[] }) {
                           address: client.address ?? "",
                         }}
                         trigger={
-                          <Button type="button" variant="secondary" size="sm" className="hover:bg-black hover:text-white">
+                          <Button type="button" variant="secondary" size="sm">
                             <Pencil className="h-4 w-4" />
                             Editar
                           </Button>

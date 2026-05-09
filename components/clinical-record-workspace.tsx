@@ -198,8 +198,8 @@ export function ClinicalRecordWorkspace({ data }: { data: ClinicalRecordData }) 
   const latestConsultation = data.consultations[0];
 
   return (
-    <div className="min-h-screen bg-[#f6f7f9] text-zinc-950">
-      <section className="relative overflow-hidden rounded-[1.5rem] border border-white/70 bg-zinc-950 text-white shadow-2xl shadow-zinc-950/10">
+    <div className="text-foreground">
+      <section className="relative overflow-hidden rounded-lg border border-white/10 bg-white/[0.06] text-white shadow-2xl shadow-black/20 backdrop-blur-xl">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(20,184,166,0.22),transparent_34%),radial-gradient(circle_at_80%_10%,rgba(56,189,248,0.16),transparent_30%)]" />
         <div className="relative grid gap-6 p-5 md:p-7 lg:grid-cols-[1fr_auto] lg:items-end">
           <div className="flex flex-col gap-5 sm:flex-row">
@@ -401,7 +401,15 @@ export function ClinicalRecordWorkspace({ data }: { data: ClinicalRecordData }) 
 }
 
 function Panel({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("rounded-2xl border border-white bg-white shadow-sm shadow-zinc-950/5 ring-1 ring-zinc-200/70", className)} {...props} />;
+  return (
+    <div
+      className={cn(
+        "rounded-lg border border-white/10 bg-card/82 shadow-xl shadow-black/10 backdrop-blur-xl ring-1 ring-white/[0.035]",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
 function InfoLine({ icon: Icon, value }: { icon: typeof Phone; value: string }) {

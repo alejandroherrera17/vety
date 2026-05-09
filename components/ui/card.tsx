@@ -4,7 +4,10 @@ import { cn } from "@/lib/utils";
 export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("rounded-2xl border border-border bg-card shadow-sm", className)}
+      className={cn(
+        "rounded-lg border border-white/10 bg-card/82 shadow-xl shadow-black/10 backdrop-blur-xl ring-1 ring-white/[0.035]",
+        className,
+      )}
       {...props}
     />
   );
@@ -44,7 +47,7 @@ export function EmptyState({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-56 flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card p-8 text-center">
+    <div className="flex min-h-56 flex-col items-center justify-center rounded-lg border border-dashed border-white/15 bg-white/[0.045] p-8 text-center shadow-inner">
       <h3 className="text-base font-semibold text-foreground">{title}</h3>
       <p className="mt-2 max-w-md text-sm text-muted-foreground">{description}</p>
       {action ? <div className="mt-5">{action}</div> : null}

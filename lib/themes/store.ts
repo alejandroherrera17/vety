@@ -8,7 +8,7 @@ interface ThemeState {
   setTheme: (theme: ThemeName) => void
   setMode: (mode: ThemeMode) => void
   toggleMode: () => void
-  getThemeColors: () => themes[ThemeName]['light' | 'dark']
+  getThemeColors: () => (typeof themes)[ThemeName]['light' | 'dark']
 }
 
 export const useThemeStore = create<ThemeState>()(

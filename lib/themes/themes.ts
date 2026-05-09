@@ -62,8 +62,8 @@ export interface ThemeDefinition {
 export const themes: Record<ThemeName, ThemeDefinition> = {
   midnight_vet: {
     name: 'midnight_vet',
-    label: 'Midnight Vet',
-    description: 'Modern, technological, premium dark theme',
+    label: 'Midnight Neon',
+    description: 'Dark mode futurista con acentos cyan para equipos premium',
     light: {
       background: 'hsl(222, 47%, 11%)',
       foreground: 'hsl(210, 40%, 98%)',
@@ -137,8 +137,8 @@ export const themes: Record<ThemeName, ThemeDefinition> = {
   },
   emerald_care: {
     name: 'emerald_care',
-    label: 'Emerald Care',
-    description: 'Veterinary, natural, clean, reliable theme',
+    label: 'Verde Veterinario',
+    description: 'Paleta confiable y natural para clinicas veterinarias',
     light: {
       background: 'hsl(120, 20%, 98%)',
       foreground: 'hsl(120, 10%, 9%)',
@@ -212,8 +212,8 @@ export const themes: Record<ThemeName, ThemeDefinition> = {
   },
   royal_purple: {
     name: 'royal_purple',
-    label: 'Royal Purple',
-    description: 'Sophisticated, premium, modern theme',
+    label: 'Morado Premium',
+    description: 'Tema sofisticado para clinicas con identidad ejecutiva',
     light: {
       background: 'hsl(262, 83%, 98%)',
       foreground: 'hsl(262, 83%, 8%)',
@@ -287,8 +287,8 @@ export const themes: Record<ThemeName, ThemeDefinition> = {
   },
   arctic_blue: {
     name: 'arctic_blue',
-    label: 'Arctic Blue',
-    description: 'Minimalist, medical, ultra clean theme',
+    label: 'Azul Clinico',
+    description: 'Azul medico limpio para operaciones clinicas modernas',
     light: {
       background: 'hsl(210, 40%, 98%)',
       foreground: 'hsl(222, 47%, 11%)',
@@ -362,8 +362,8 @@ export const themes: Record<ThemeName, ThemeDefinition> = {
   },
   sunset_orange: {
     name: 'sunset_orange',
-    label: 'Sunset Orange',
-    description: 'Friendly, warm, energetic theme',
+    label: 'Ocean Blue',
+    description: 'Azules profundos y energia tecnologica para dashboards',
     light: {
       background: 'hsl(45, 93%, 98%)',
       foreground: 'hsl(20, 14%, 4%)',
@@ -437,8 +437,8 @@ export const themes: Record<ThemeName, ThemeDefinition> = {
   },
   forest_dark: {
     name: 'forest_dark',
-    label: 'Forest Dark',
-    description: 'Nature, veterinary premium, elegant theme',
+    label: 'Emerald Tech',
+    description: 'Verde tecnologico con contraste profesional en modo dark',
     light: {
       background: 'hsl(120, 10%, 98%)',
       foreground: 'hsl(120, 10%, 9%)',
@@ -512,8 +512,8 @@ export const themes: Record<ThemeName, ThemeDefinition> = {
   },
   rose_gold: {
     name: 'rose_gold',
-    label: 'Rose Gold',
-    description: 'Boutique, grooming premium, luxury theme',
+    label: 'Minimal Blanco',
+    description: 'Base clara, limpia y editorial para clinicas minimalistas',
     light: {
       background: 'hsl(20, 50%, 98%)',
       foreground: 'hsl(20, 14%, 4%)',
@@ -587,8 +587,8 @@ export const themes: Record<ThemeName, ThemeDefinition> = {
   },
   graphite_pro: {
     name: 'graphite_pro',
-    label: 'Graphite Pro',
-    description: 'Corporate, futuristic, ultra minimalist theme',
+    label: 'Dark Graphite',
+    description: 'Grafito corporativo para entornos enterprise sobrios',
     light: {
       background: 'hsl(0, 0%, 98%)',
       foreground: 'hsl(0, 0%, 9%)',

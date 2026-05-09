@@ -29,10 +29,11 @@ export default async function AppointmentsPage() {
 
   return (
     <AppShell>
-      <div className="mb-6 flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+      <div className="mb-6 rounded-lg border border-white/10 bg-white/[0.06] p-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-6">
+        <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
         <div>
-          <p className="text-sm font-semibold text-black">Agenda clinica</p>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">Calendario de citas</h1>
+          <p className="text-sm font-semibold text-cyan-100">Agenda clinica</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">Calendario de citas</h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
             Vista diaria y semanal para coordinar pacientes, propietarios y estados de atencion.
           </p>
@@ -54,6 +55,7 @@ export default async function AppointmentsPage() {
               {nextAppointment ? formatDateTime(nextAppointment.startDate) : "Sin citas"}
             </p>
           </Card>
+        </div>
         </div>
       </div>
       <AppointmentCalendar

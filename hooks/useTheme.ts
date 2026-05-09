@@ -1,5 +1,4 @@
 import { useThemeStore } from '@/lib/themes/store'
-import { ThemeName, ThemeMode } from '@/lib/themes/themes'
 
 export function useTheme() {
   const {

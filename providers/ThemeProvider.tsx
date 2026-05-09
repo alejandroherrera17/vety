@@ -16,7 +16,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     // Apply CSS variables to :root
     const root = document.documentElement
     Object.entries(colors).forEach(([key, value]) => {
-      root.style.setProperty(`--${key}`, value)
+      root.style.setProperty(`--${key}`, String(value))
     })
 
     // Apply data-theme attribute for additional styling
@@ -31,7 +31,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       const root = document.documentElement
 
       Object.entries(colors).forEach(([key, value]) => {
-        root.style.setProperty(`--${key}`, value)
+        root.style.setProperty(`--${key}`, String(value))
       })
 
       root.setAttribute('data-theme', state.theme)

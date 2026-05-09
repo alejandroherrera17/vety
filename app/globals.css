@@ -88,9 +88,11 @@ a {
 }
 
 .appointment-calendar .fc {
-  --fc-border-color: rgb(0 0 0 / 0.12);
-  --fc-today-bg-color: rgb(250 240 202 / 0.55);
-  color: #000;
+  --fc-border-color: rgb(255 255 255 / 0.12);
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: rgb(255 255 255 / 0.04);
+  --fc-today-bg-color: rgb(34 211 238 / 0.10);
+  color: var(--foreground);
   font-size: 0.875rem;
 }
 
@@ -140,10 +142,10 @@ a {
 }
 
 .appointment-calendar .fc .fc-button {
-  border: 1px solid rgb(0 0 0 / 0.15);
-  border-radius: 0.75rem;
-  background: #fff;
-  color: #000;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: 0.5rem;
+  background: rgb(255 255 255 / 0.07);
+  color: var(--foreground);
   font-weight: 700;
   text-transform: capitalize;
   box-shadow: none;
@@ -152,9 +154,9 @@ a {
 .appointment-calendar .fc .fc-button-primary:not(:disabled).fc-button-active,
 .appointment-calendar .fc .fc-button-primary:not(:disabled):active,
 .appointment-calendar .fc .fc-button:hover {
-  border-color: #000;
-  background: #000;
-  color: #fff;
+  border-color: rgb(103 232 249 / 0.45);
+  background: rgb(103 232 249 / 0.18);
+  color: var(--foreground);
 }
 
 .appointment-calendar .fc .fc-event {

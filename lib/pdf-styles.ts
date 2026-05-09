@@ -60,6 +60,11 @@ export function createPdfStyles(themeName: ThemeName, mode: 'light' | 'dark' = '
       marginBottom: 20,
       borderRadius: 8,
     },
+    headerRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      gap: 16,
+    },
     headerTitle: {
       fontSize: 24,
       fontWeight: 'bold',
@@ -76,6 +81,13 @@ export function createPdfStyles(themeName: ThemeName, mode: 'light' | 'dark' = '
       borderRadius: 6,
       border: `1px solid ${parseHsl(theme.border)}`,
     },
+    grid: {
+      flexDirection: 'row',
+      gap: 10,
+    },
+    column: {
+      flex: 1,
+    },
     sectionTitle: {
       fontSize: 16,
       fontWeight: 'bold',
@@ -88,6 +100,7 @@ export function createPdfStyles(themeName: ThemeName, mode: 'light' | 'dark' = '
       marginTop: 10,
     },
     tableHeader: {
+      flexDirection: 'row',
       backgroundColor: parseHsl(theme.muted),
       padding: 8,
       fontWeight: 'bold',
@@ -96,12 +109,18 @@ export function createPdfStyles(themeName: ThemeName, mode: 'light' | 'dark' = '
       borderBottom: `1px solid ${parseHsl(theme.border)}`,
     },
     tableRow: {
+      flexDirection: 'row',
       padding: 6,
       borderBottom: `1px solid ${parseHsl(theme.border)}`,
       fontSize: 9,
     },
     tableCell: {
       color: parseHsl(theme.foreground),
+      flex: 1,
+    },
+    wideCell: {
+      color: parseHsl(theme.foreground),
+      flex: 2,
     },
     badge: {
       backgroundColor: parseHsl(theme.primary),
@@ -141,6 +160,38 @@ export function createPdfStyles(themeName: ThemeName, mode: 'light' | 'dark' = '
       color: parseHsl(theme.accentForeground),
       padding: 2,
       borderRadius: 2,
+    },
+    value: {
+      fontSize: 9,
+      lineHeight: 1.4,
+      marginBottom: 7,
+      color: parseHsl(theme.foreground),
+    },
+    qr: {
+      width: 54,
+      height: 54,
+      border: `1px solid ${parseHsl(theme.border)}`,
+      borderRadius: 8,
+      textAlign: 'center',
+      paddingTop: 21,
+      color: parseHsl(theme.mutedForeground),
+      fontSize: 7,
+    },
+    timelineItem: {
+      borderLeft: `2px solid ${parseHsl(theme.primary)}`,
+      paddingLeft: 10,
+      paddingBottom: 10,
+      marginBottom: 2,
+    },
+    row: {
+      flexDirection: 'row',
+      borderBottom: `1px solid ${parseHsl(theme.border)}`,
+      paddingVertical: 8,
+      paddingHorizontal: 8,
+    },
+    cell: {
+      flex: 1,
+      lineHeight: 1.4,
     }
   })
 }
@@ -160,6 +211,11 @@ export const defaultPdfStyles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 8,
   },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 16,
+  },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -176,6 +232,13 @@ export const defaultPdfStyles = StyleSheet.create({
     borderRadius: 6,
     border: '1px solid #dee2e6',
   },
+  grid: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  column: {
+    flex: 1,
+  },
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -187,6 +250,7 @@ export const defaultPdfStyles = StyleSheet.create({
     marginTop: 10,
   },
   tableHeader: {
+    flexDirection: 'row',
     backgroundColor: '#e9ecef',
     padding: 8,
     fontWeight: 'bold',
@@ -194,12 +258,18 @@ export const defaultPdfStyles = StyleSheet.create({
     borderBottom: '1px solid #dee2e6',
   },
   tableRow: {
+    flexDirection: 'row',
     padding: 6,
     borderBottom: '1px solid #dee2e6',
     fontSize: 9,
   },
   tableCell: {
     color: '#000000',
+    flex: 1,
+  },
+  wideCell: {
+    color: '#000000',
+    flex: 2,
   },
   badge: {
     backgroundColor: '#0d3b66',
@@ -239,5 +309,37 @@ export const defaultPdfStyles = StyleSheet.create({
     color: '#856404',
     padding: 2,
     borderRadius: 2,
-  }
+  },
+  value: {
+    fontSize: 9,
+    lineHeight: 1.4,
+    marginBottom: 7,
+    color: '#000000',
+  },
+  qr: {
+    width: 54,
+    height: 54,
+    border: '1px solid #94a3b8',
+    borderRadius: 8,
+    textAlign: 'center',
+    paddingTop: 21,
+    color: '#64748b',
+    fontSize: 7,
+  },
+  timelineItem: {
+    borderLeft: '2px solid #0d3b66',
+    paddingLeft: 10,
+    paddingBottom: 10,
+    marginBottom: 2,
+  },
+  row: {
+    flexDirection: 'row',
+    borderBottom: '1px solid #dee2e6',
+    paddingVertical: 8,
+    paddingHorizontal: 8,
+  },
+  cell: {
+    flex: 1,
+    lineHeight: 1.4,
+  },
 })
