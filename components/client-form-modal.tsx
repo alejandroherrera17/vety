@@ -2,11 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, UserRound } from "lucide-react";
+import type { ReactNode } from "react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { createClient, updateClient } from "@/actions/clients";
 import { Button } from "@/components/ui/button";
+import { FormModalShell } from "@/components/ui/form-modal-shell";
 import { Field, Input } from "@/components/ui/input";
 import { clientSchema, type ClientInput } from "@/lib/validations";
 
@@ -17,7 +19,7 @@ export function ClientFormModal({
   trigger,
 }: {
   client?: ClientFormValues;
-  trigger?: React.ReactNode;
+  trigger?: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
   const [pending, startTransition] = useTransition();
@@ -51,55 +53,47 @@ export function ClientFormModal({
     <>
       <span onClick={() => setOpen(true)}>
         {trigger ?? (
-          <Button type="button" className="bg-black hover:bg-black/90">
+          <Button type="button">
             <Plus className="h-4 w-4" />
-            Agregar Cliente
+            Agregar cliente
           </Button>
         )}
       </span>
       {open ? (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/30 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-2xl rounded-2xl bg-white p-5 shadow-2xl">
-            <div className="mb-5 flex items-center gap-3">
-              <span className="rounded-2xl bg-black/10 p-3 text-black">
-                <UserRound className="h-5 w-5" />
-              </span>
-              <div>
-                <h2 className="text-lg font-bold text-black">
-                  {client?.id ? "Editar cliente" : "Nuevo cliente"}
-                </h2>
-                <p className="text-sm text-black/60">Detalles del propietario e información de contacto.</p>
-              </div>
+        <FormModalShell
+          title={client?.id ? "Editar cliente" : "Nuevo cliente"}
+          description="Detalles del propietario e informacion de contacto."
+          icon={<UserRound className="h-5 w-5" />}
+          onClose={() => setOpen(false)}
+        >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 sm:grid-cols-2">
+            <Field label="Nombre" error={form.formState.errors.name?.message}>
+              <Input autoFocus placeholder="Nombre completo" {...form.register("name")} />
+            </Field>
+            <Field label="Telefono" error={form.formState.errors.phone?.message}>
+              <Input placeholder="300 123 4567" {...form.register("phone")} />
+            </Field>
+            <Field label="Documento" error={form.formState.errors.document?.message}>
+              <Input placeholder="Documento de identidad" {...form.register("document")} />
+            </Field>
+            <Field label="Email" error={form.formState.errors.email?.message}>
+              <Input type="email" placeholder="cliente@correo.com" {...form.register("email")} />
+            </Field>
+            <div className="sm:col-span-2">
+              <Field label="Direccion" error={form.formState.errors.address?.message}>
+                <Input placeholder="Direccion de residencia" {...form.register("address")} />
+              </Field>
             </div>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 sm:grid-cols-2">
-              <Field label="Nombre" error={form.formState.errors.name?.message}>
-                <Input autoFocus {...form.register("name")} />
-              </Field>
-              <Field label="Teléfono" error={form.formState.errors.phone?.message}>
-                <Input {...form.register("phone")} />
-              </Field>
-              <Field label="Documento" error={form.formState.errors.document?.message}>
-                <Input {...form.register("document")} />
-              </Field>
-              <Field label="Email" error={form.formState.errors.email?.message}>
-                <Input type="email" {...form.register("email")} />
-              </Field>
-              <div className="sm:col-span-2">
-                <Field label="Dirección" error={form.formState.errors.address?.message}>
-                  <Input {...form.register("address")} />
-                </Field>
-              </div>
-              <div className="flex justify-end gap-3 sm:col-span-2">
-                <Button type="button" variant="secondary" onClick={() => setOpen(false)} className="hover:bg-black/10">
-                  Cancelar
-                </Button>
-                <Button disabled={pending} type="submit" className="bg-black hover:bg-black/90">
-                  {pending ? "Guardando..." : "Guardar cliente"}
-                </Button>
-              </div>
-            </form>
-          </div>
-        </div>
+            <div className="flex flex-col-reverse justify-end gap-3 sm:col-span-2 sm:flex-row">
+              <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
+                Cancelar
+              </Button>
+              <Button disabled={pending} type="submit">
+                {pending ? "Guardando..." : "Guardar cliente"}
+              </Button>
+            </div>
+          </form>
+        </FormModalShell>
       ) : null}
     </>
   );

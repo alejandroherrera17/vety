@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { createPrescription } from "@/actions/prescriptions";
 import { Button } from "@/components/ui/button";
+import { FormModalShell } from "@/components/ui/form-modal-shell";
 import { Field, Input, Textarea } from "@/components/ui/input";
 import { prescriptionSchema, type PrescriptionInput } from "@/lib/validations";
 
@@ -44,44 +45,43 @@ export function PrescriptionFormModal({ consultationId }: { consultationId: stri
         Formula
       </Button>
       {open ? (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/35 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-xl rounded-2xl bg-white p-5 shadow-2xl">
-            <div className="mb-5 flex items-center gap-3">
-              <span className="rounded-2xl bg-black/10 p-3 text-black">
-                <Pill className="h-5 w-5" />
-              </span>
-              <div>
-                <h2 className="text-lg font-bold text-black">Nueva formula medica</h2>
-                <p className="text-sm text-black/60">Medicamento, dosis, duracion e indicaciones.</p>
-              </div>
+        <FormModalShell
+          title="Nueva formula medica"
+          description="Medicamento, dosis, duracion e indicaciones."
+          icon={<Pill className="h-5 w-5" />}
+          onClose={() => setOpen(false)}
+          className="max-w-xl"
+        >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+            <input type="hidden" {...form.register("consultationId")} />
+            <Field label="Medicamento" error={form.formState.errors.medication?.message}>
+              <Input autoFocus placeholder="Nombre del medicamento" {...form.register("medication")} />
+            </Field>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="Dosis" error={form.formState.errors.dosage?.message}>
+                <Input placeholder="Ej. 1 tableta cada 12 h" {...form.register("dosage")} />
+              </Field>
+              <Field label="Duracion" error={form.formState.errors.duration?.message}>
+                <Input placeholder="Ej. 7 dias" {...form.register("duration")} />
+              </Field>
             </div>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
-              <input type="hidden" {...form.register("consultationId")} />
-              <Field label="Medicamento" error={form.formState.errors.medication?.message}>
-                <Input autoFocus {...form.register("medication")} />
-              </Field>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Dosis" error={form.formState.errors.dosage?.message}>
-                  <Input {...form.register("dosage")} />
-                </Field>
-                <Field label="Duracion" error={form.formState.errors.duration?.message}>
-                  <Input {...form.register("duration")} />
-                </Field>
-              </div>
-              <Field label="Indicaciones" error={form.formState.errors.instructions?.message}>
-                <Textarea className="min-h-28" {...form.register("instructions")} />
-              </Field>
-              <div className="flex justify-end gap-3">
-                <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
-                  Cancelar
-                </Button>
-                <Button type="submit" disabled={pending}>
-                  {pending ? "Guardando..." : "Guardar formula"}
-                </Button>
-              </div>
-            </form>
-          </div>
-        </div>
+            <Field label="Indicaciones" error={form.formState.errors.instructions?.message}>
+              <Textarea
+                className="min-h-28"
+                placeholder="Indicaciones para el propietario"
+                {...form.register("instructions")}
+              />
+            </Field>
+            <div className="flex flex-col-reverse justify-end gap-3 sm:flex-row">
+              <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
+                Cancelar
+              </Button>
+              <Button type="submit" disabled={pending}>
+                {pending ? "Guardando..." : "Guardar formula"}
+              </Button>
+            </div>
+          </form>
+        </FormModalShell>
       ) : null}
     </>
   );

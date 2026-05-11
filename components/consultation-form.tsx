@@ -154,7 +154,7 @@ export function ConsultationForm({ petId }: { petId: string }) {
           <Mic className="h-4 w-4" />
           Dictado preparado
         </Button>
-        <Button type="submit" disabled={pending} className="w-full bg-black hover:bg-black/90 sm:w-fit">
+        <Button type="submit" disabled={pending} className="w-full sm:w-fit">
           <Save className="h-4 w-4" />
           {pending ? "Autoguardando..." : "Guardar consulta"}
         </Button>

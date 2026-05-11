@@ -82,7 +82,7 @@ export function VaccinationForm({ petId }: { petId: string }) {
       <Field label="Notas" error={form.formState.errors.notes?.message}>
         <Textarea className="min-h-20" {...form.register("notes")} />
       </Field>
-      <Button type="submit" disabled={pending} className="w-full bg-black text-white hover:bg-black/90 sm:w-fit">
+      <Button type="submit" disabled={pending} className="w-full sm:w-fit">
         <Syringe className="h-4 w-4" />
         {pending ? "Agregando..." : "Agregar vacuna"}
       </Button>

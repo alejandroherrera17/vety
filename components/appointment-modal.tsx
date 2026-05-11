@@ -2,11 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarPlus, Trash2 } from "lucide-react";
+import type { ReactNode } from "react";
 import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { createAppointment, deleteAppointment, updateAppointment } from "@/actions/appointments";
 import { Button } from "@/components/ui/button";
+import { FormModalShell } from "@/components/ui/form-modal-shell";
 import { Field, Input, Select, Textarea } from "@/components/ui/input";
 import { appointmentSchema, type AppointmentInput } from "@/lib/validations";
 
@@ -49,7 +51,7 @@ export function AppointmentModal({
   pets: AppointmentPetOption[];
   appointment?: AppointmentFormValue;
   startDate?: string;
-  trigger?: React.ReactNode;
+  trigger?: ReactNode;
   openOnMount?: boolean;
 }) {
   const [open, setOpen] = useState(openOnMount);
@@ -121,75 +123,71 @@ export function AppointmentModal({
         )}
       </span>
       {open ? (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/35 p-4 backdrop-blur-sm">
-          <div className="max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl">
-            <div className="mb-5 flex items-start justify-between gap-4">
-              <div>
-                <h2 className="text-lg font-bold text-black">
-                  {appointment?.id ? "Editar cita" : "Nueva cita"}
-                </h2>
-                <p className="text-sm text-black/60">Agenda clinica con propietario, paciente y estado.</p>
-              </div>
-              <Button type="button" variant="ghost" onClick={() => setOpen(false)}>
-                Cerrar
-              </Button>
+        <FormModalShell
+          title={appointment?.id ? "Editar cita" : "Nueva cita"}
+          description="Agenda clinica con propietario, paciente y estado."
+          icon={<CalendarPlus className="h-5 w-5" />}
+          onClose={() => setOpen(false)}
+        >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 sm:grid-cols-2">
+            <Field label="Mascota" error={form.formState.errors.petId?.message}>
+              <Select {...form.register("petId")}>
+                {pets.map((pet) => (
+                  <option key={pet.id} value={pet.id}>
+                    {pet.name} - {pet.owner}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+            <Field label="Estado" error={form.formState.errors.status?.message}>
+              <Select {...form.register("status")}>
+                {Object.entries(statusLabels).map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+            <div className="sm:col-span-2">
+              <Field label="Titulo" error={form.formState.errors.title?.message}>
+                <Input placeholder="Consulta general, control postoperatorio..." {...form.register("title")} />
+              </Field>
             </div>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 sm:grid-cols-2">
-              <Field label="Mascota" error={form.formState.errors.petId?.message}>
-                <Select {...form.register("petId")}>
-                  {pets.map((pet) => (
-                    <option key={pet.id} value={pet.id}>
-                      {pet.name} - {pet.owner}
-                    </option>
-                  ))}
-                </Select>
+            <Field label="Inicio" error={form.formState.errors.startDate?.message}>
+              <Input type="datetime-local" {...form.register("startDate")} />
+            </Field>
+            <Field label="Fin" error={form.formState.errors.endDate?.message}>
+              <Input type="datetime-local" {...form.register("endDate")} />
+            </Field>
+            <div className="sm:col-span-2">
+              <Field label="Notas" error={form.formState.errors.notes?.message}>
+                <Textarea
+                  className="min-h-24"
+                  placeholder="Indicaciones internas, motivo o detalles de la cita"
+                  {...form.register("notes")}
+                />
               </Field>
-              <Field label="Estado" error={form.formState.errors.status?.message}>
-                <Select {...form.register("status")}>
-                  {Object.entries(statusLabels).map(([value, label]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </Select>
-              </Field>
-              <div className="sm:col-span-2">
-                <Field label="Titulo" error={form.formState.errors.title?.message}>
-                  <Input placeholder="Consulta general, control postoperatorio..." {...form.register("title")} />
-                </Field>
+            </div>
+            <div className="flex flex-col-reverse justify-between gap-3 sm:col-span-2 sm:flex-row">
+              {appointment?.id ? (
+                <Button type="button" variant="danger" onClick={onDelete} disabled={pending}>
+                  <Trash2 className="h-4 w-4" />
+                  Eliminar
+                </Button>
+              ) : (
+                <span />
+              )}
+              <div className="flex flex-col-reverse justify-end gap-3 sm:flex-row">
+                <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
+                  Cancelar
+                </Button>
+                <Button disabled={pending} type="submit">
+                  {pending ? "Guardando..." : "Guardar cita"}
+                </Button>
               </div>
-              <Field label="Inicio" error={form.formState.errors.startDate?.message}>
-                <Input type="datetime-local" {...form.register("startDate")} />
-              </Field>
-              <Field label="Fin" error={form.formState.errors.endDate?.message}>
-                <Input type="datetime-local" {...form.register("endDate")} />
-              </Field>
-              <div className="sm:col-span-2">
-                <Field label="Notas" error={form.formState.errors.notes?.message}>
-                  <Textarea className="min-h-24" {...form.register("notes")} />
-                </Field>
-              </div>
-              <div className="flex flex-col-reverse justify-between gap-3 sm:col-span-2 sm:flex-row">
-                {appointment?.id ? (
-                  <Button type="button" variant="danger" onClick={onDelete} disabled={pending}>
-                    <Trash2 className="h-4 w-4" />
-                    Eliminar
-                  </Button>
-                ) : (
-                  <span />
-                )}
-                <div className="flex justify-end gap-3">
-                  <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
-                    Cancelar
-                  </Button>
-                  <Button disabled={pending} type="submit">
-                    {pending ? "Guardando..." : "Guardar cita"}
-                  </Button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
+            </div>
+          </form>
+        </FormModalShell>
       ) : null}
     </>
   );
