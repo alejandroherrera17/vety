@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { requireVeterinarian } from "@/lib/session";
+import { requireWorkspace } from "@/lib/session";
 import { clientSchema, deleteSchema } from "@/lib/validations";
 
 export type ActionResult<T = void> = {
@@ -13,7 +13,7 @@ export type ActionResult<T = void> = {
 };
 
 export async function createClient(input: unknown): Promise<ActionResult> {
-  const veterinarian = await requireVeterinarian();
+  const workspace = await requireWorkspace();
   const parsed = clientSchema.omit({ id: true }).safeParse(input);
 
   if (!parsed.success) {
@@ -24,7 +24,8 @@ export async function createClient(input: unknown): Promise<ActionResult> {
     data: {
       ...parsed.data,
       email: parsed.data.email || undefined,
-      veterinarianId: veterinarian.id,
+      organizationId: workspace.organizationId,
+      veterinarianId: workspace.veterinarianId,
     },
   });
 
@@ -34,7 +35,7 @@ export async function createClient(input: unknown): Promise<ActionResult> {
 }
 
 export async function updateClient(input: unknown): Promise<ActionResult> {
-  const veterinarian = await requireVeterinarian();
+  const workspace = await requireWorkspace();
   const parsed = clientSchema.required({ id: true }).safeParse(input);
 
   if (!parsed.success) {
@@ -43,7 +44,7 @@ export async function updateClient(input: unknown): Promise<ActionResult> {
 
   const { id, ...data } = parsed.data;
   const client = await prisma.client.findFirst({
-    where: { id, veterinarianId: veterinarian.id },
+    where: { id, organizationId: workspace.organizationId },
     select: { id: true },
   });
 
@@ -65,7 +66,7 @@ export async function updateClient(input: unknown): Promise<ActionResult> {
 }
 
 export async function deleteClient(input: unknown): Promise<ActionResult> {
-  const veterinarian = await requireVeterinarian();
+  const workspace = await requireWorkspace();
   const parsed = deleteSchema.safeParse(input);
 
   if (!parsed.success) {
@@ -73,7 +74,7 @@ export async function deleteClient(input: unknown): Promise<ActionResult> {
   }
 
   const client = await prisma.client.findFirst({
-    where: { id: parsed.data.id, veterinarianId: veterinarian.id },
+    where: { id: parsed.data.id, organizationId: workspace.organizationId },
     include: { pets: { select: { id: true } } },
   });
 
@@ -83,7 +84,7 @@ export async function deleteClient(input: unknown): Promise<ActionResult> {
 
   const petIds = client.pets.map((pet) => pet.id);
   const records = await prisma.medicalRecord.findMany({
-    where: { petId: { in: petIds }, veterinarianId: veterinarian.id },
+    where: { petId: { in: petIds }, organizationId: workspace.organizationId },
     select: { id: true },
   });
   const recordIds = records.map((record) => record.id);
@@ -92,7 +93,7 @@ export async function deleteClient(input: unknown): Promise<ActionResult> {
     prisma.prescription.deleteMany({ where: { consultation: { medicalRecordId: { in: recordIds } } } }),
     prisma.consultation.deleteMany({ where: { medicalRecordId: { in: recordIds } } }),
     prisma.medicalRecord.deleteMany({ where: { id: { in: recordIds } } }),
-    prisma.appointment.deleteMany({ where: { petId: { in: petIds }, veterinarianId: veterinarian.id } }),
+    prisma.appointment.deleteMany({ where: { petId: { in: petIds }, organizationId: workspace.organizationId } }),
     prisma.vaccination.deleteMany({ where: { petId: { in: petIds } } }),
     prisma.attachment.deleteMany({ where: { petId: { in: petIds } } }),
     prisma.pet.deleteMany({ where: { id: { in: petIds } } }),

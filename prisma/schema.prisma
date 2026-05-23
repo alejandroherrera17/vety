@@ -6,113 +6,222 @@ datasource db {
   provider = "postgresql"
 }
 
+model Organization {
+  id                  String               @id @default(uuid())
+  name                String
+  slug                String?              @unique
+  logoUrl             String?
+  address             String?
+  city                String?
+  phone               String?
+  openingHours        Json?
+  specialties         String[]             @default([])
+  settings            Json?                @default("{}")
+  isPremium           Boolean              @default(false)
+  premiumSince        DateTime?
+  premiumExpiresAt    DateTime?
+  boldTransactionId   String?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  veterinarians       Veterinarian[]
+  users               OrganizationUser[]
+  clients             Client[]
+  pets                Pet[]
+  medicalRecords      MedicalRecord[]
+  appointments        Appointment[]
+  appointmentRequests AppointmentRequest[]
+  vaccinations        Vaccination[]
+  attachments         Attachment[]
+  schedules           Schedule[]
+  notifications       Notification[]
+  payments            Payment[]
+}
+
+model OrganizationUser {
+  id               String                 @id @default(uuid())
+  organizationId   String
+  veterinarianId   String?
+  name             String
+  email            String
+  phone            String?
+  role             OrganizationRole
+  status           OrganizationUserStatus @default(active)
+  invitedAt        DateTime?
+  acceptedAt       DateTime?
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+  organization     Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  veterinarian     Veterinarian?          @relation(fields: [veterinarianId], references: [id], onDelete: SetNull)
+  reviewedRequests AppointmentRequest[]   @relation("AppointmentRequestReviewer")
+  notifications    Notification[]
+
+  @@unique([organizationId, email])
+  @@index([organizationId, role])
+  @@index([email])
+}
+
 model Veterinarian {
-  id             String          @id @default(uuid())
-  name           String
-  email          String          @unique
-  password       String
-  phone          String?
-  theme          Theme           @default(midnight_vet)
-  createdAt      DateTime        @default(now())
-  clients        Client[]
-  medicalRecords MedicalRecord[]
-  appointments   Appointment[]
+  id                    String               @id @default(uuid())
+  organizationId        String?
+  name                  String
+  email                 String               @unique
+  password              String
+  phone                 String?
+  theme                 Theme                @default(midnight_vet)
+  createdAt             DateTime             @default(now())
+  organization          Organization?        @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  organizationUsers     OrganizationUser[]
+  clients               Client[]
+  medicalRecords        MedicalRecord[]
+  appointments          Appointment[]        @relation("AppointmentCreator")
+  assignedAppointments  Appointment[]        @relation("AppointmentAssignedVeterinarian")
+  requestedAppointments AppointmentRequest[] @relation("AppointmentRequestRequestedVeterinarian")
+  assignedRequests      AppointmentRequest[] @relation("AppointmentRequestAssignedVeterinarian")
+  schedules             Schedule[]
 }
 
 model Client {
-  id             String       @id @default(uuid())
-  name           String
-  document       String?
-  phone          String
-  email          String?
-  address        String?
-  city           String?
-  emergencyContact String?
-  veterinarianId String
-  veterinarian   Veterinarian @relation(fields: [veterinarianId], references: [id])
-  pets           Pet[]
+  id                  String               @id @default(uuid())
+  organizationId      String?
+  name                String
+  document            String?
+  phone               String
+  email               String?              @unique
+  password            String?
+  address             String?
+  city                String?
+  emergencyContact    String?
+  veterinarianId      String?
+  organization        Organization?        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  veterinarian        Veterinarian?        @relation(fields: [veterinarianId], references: [id])
+  pets                Pet[]
+  appointmentRequests AppointmentRequest[]
+  notifications       Notification[]
+
+  @@index([organizationId])
 }
 
 model Pet {
-  id             String          @id @default(uuid())
-  name           String
-  species        String
-  breed          String?
-  sex            String
-  birthDate      DateTime?
-  weight         Float?
-  photoUrl       String?
-  color          String?
-  reproductiveStatus String?
-  microchip      String?
-  allergies      String?
-  previousDiseases String?
+  id                  String               @id @default(uuid())
+  organizationId      String?
+  name                String
+  species             String
+  breed               String?
+  sex                 String
+  birthDate           DateTime?
+  weight              Float?
+  photoUrl            String?
+  color               String?
+  reproductiveStatus  String?
+  microchip           String?
+  allergies           String?
+  previousDiseases    String?
   frequentMedications String?
   generalObservations String?
-  clientId       String
-  client         Client          @relation(fields: [clientId], references: [id])
-  medicalRecords MedicalRecord[]
-  vaccinations   Vaccination[]
-  attachments    Attachment[]
-  appointments    Appointment[]
+  clientId            String
+  organization        Organization?        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  client              Client               @relation(fields: [clientId], references: [id])
+  medicalRecords      MedicalRecord[]
+  vaccinations        Vaccination[]
+  attachments         Attachment[]
+  appointments        Appointment[]
+  appointmentRequests AppointmentRequest[]
+
+  @@index([organizationId, clientId])
 }
 
 model MedicalRecord {
   id             String         @id @default(uuid())
+  organizationId String
   petId          String
   veterinarianId String
   createdAt      DateTime       @default(now())
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   pet            Pet            @relation(fields: [petId], references: [id])
   veterinarian   Veterinarian   @relation(fields: [veterinarianId], references: [id])
   consultations  Consultation[]
+
+  @@index([organizationId, petId])
 }
 
 model Consultation {
-  id              String        @id @default(uuid())
-  medicalRecordId String
-  date            DateTime
-  reason          String?
-  anamnesis       String?
-  symptoms        String
-  commonSymptoms  Json?
-  temperature     Float?
-  heartRate       Int?
-  respiratoryRate Int?
-  weight          Float?
-  physicalExam    String?
+  id                   String              @id @default(uuid())
+  medicalRecordId      String
+  date                 DateTime
+  reason               String?
+  anamnesis            String?
+  symptoms             String
+  commonSymptoms       Json?
+  temperature          Float?
+  heartRate            Int?
+  respiratoryRate      Int?
+  weight               Float?
+  physicalExam         String?
   presumptiveDiagnosis String?
-  diagnosis       String
-  definitiveDiagnosis String?
-  treatment       String
-  recommendations String?
-  evolution       String?
-  observations    String?
-  status          ClinicalEventStatus @default(open)
-  templateName    String?
-  updatedAt       DateTime      @updatedAt
-  medicalRecord   MedicalRecord @relation(fields: [medicalRecordId], references: [id])
-  prescriptions   Prescription[]
+  diagnosis            String
+  definitiveDiagnosis  String?
+  treatment            String
+  recommendations      String?
+  evolution            String?
+  observations         String?
+  status               ClinicalEventStatus @default(open)
+  templateName         String?
+  updatedAt            DateTime            @updatedAt
+  medicalRecord        MedicalRecord       @relation(fields: [medicalRecordId], references: [id])
+  prescriptions        Prescription[]
 }
 
 model Appointment {
-  id             String            @id @default(uuid())
-  petId          String
-  veterinarianId String
-  title          String
-  notes          String?
-  startDate      DateTime
-  endDate        DateTime
-  status         AppointmentStatus
-  pet            Pet               @relation(fields: [petId], references: [id])
-  veterinarian   Veterinarian      @relation(fields: [veterinarianId], references: [id])
-  createdAt      DateTime          @default(now())
+  id                     String               @id @default(uuid())
+  organizationId         String
+  petId                  String
+  veterinarianId         String
+  assignedVeterinarianId String?
+  title                  String
+  notes                  String?
+  startDate              DateTime
+  endDate                DateTime
+  status                 AppointmentStatus
+  pet                    Pet                  @relation(fields: [petId], references: [id])
+  organization           Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  veterinarian           Veterinarian         @relation("AppointmentCreator", fields: [veterinarianId], references: [id])
+  assignedVeterinarian   Veterinarian?        @relation("AppointmentAssignedVeterinarian", fields: [assignedVeterinarianId], references: [id], onDelete: SetNull)
+  requests               AppointmentRequest[]
+  createdAt              DateTime             @default(now())
+
+  @@index([organizationId, startDate])
+  @@index([organizationId, assignedVeterinarianId, startDate])
 }
 
-enum AppointmentStatus {
-  pending
-  confirmed
-  cancelled
-  completed
+model AppointmentRequest {
+  id                      String                   @id @default(uuid())
+  organizationId          String
+  clientId                String
+  petId                   String
+  requestedVeterinarianId String?
+  assignedVeterinarianId  String?
+  appointmentId           String?
+  service                 String
+  reason                  String?
+  requestedStart          DateTime
+  requestedEnd            DateTime?
+  proposedStart           DateTime?
+  proposedEnd             DateTime?
+  status                  AppointmentRequestStatus @default(pending)
+  reviewNote              String?
+  reviewedById            String?
+  reviewedAt              DateTime?
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  organization            Organization             @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  client                  Client                   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  pet                     Pet                      @relation(fields: [petId], references: [id], onDelete: Cascade)
+  requestedVeterinarian   Veterinarian?            @relation("AppointmentRequestRequestedVeterinarian", fields: [requestedVeterinarianId], references: [id], onDelete: SetNull)
+  assignedVeterinarian    Veterinarian?            @relation("AppointmentRequestAssignedVeterinarian", fields: [assignedVeterinarianId], references: [id], onDelete: SetNull)
+  appointment             Appointment?             @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+  reviewedBy              OrganizationUser?        @relation("AppointmentRequestReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  @@index([organizationId, status, requestedStart])
 }
 
 model Prescription {
@@ -130,7 +239,8 @@ model Prescription {
 }
 
 model Vaccination {
-  id               String    @id @default(uuid())
+  id               String              @id @default(uuid())
+  organizationId   String?
   petId            String
   vaccine          String
   date             DateTime
@@ -141,19 +251,129 @@ model Vaccination {
   veterinarianName String?
   status           ClinicalEventStatus @default(closed)
   notes            String?
-  pet              Pet       @relation(fields: [petId], references: [id])
+  organization     Organization?       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  pet              Pet                 @relation(fields: [petId], references: [id])
 }
 
 model Attachment {
-  id        String   @id @default(uuid())
-  petId     String
-  fileUrl   String
-  type      String
-  fileName  String?
-  category  String?
-  notes     String?
-  createdAt DateTime @default(now())
-  pet       Pet      @relation(fields: [petId], references: [id])
+  id             String        @id @default(uuid())
+  organizationId String?
+  petId          String
+  fileUrl        String
+  type           String
+  fileName       String?
+  category       String?
+  notes          String?
+  createdAt      DateTime      @default(now())
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  pet            Pet           @relation(fields: [petId], references: [id])
+}
+
+model Schedule {
+  id             String            @id @default(uuid())
+  organizationId String
+  veterinarianId String?
+  type           ScheduleBlockType
+  weekday        Int?
+  startTime      DateTime?         @db.Time
+  endTime        DateTime?         @db.Time
+  startDate      DateTime?
+  endDate        DateTime?
+  reason         String?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  organization   Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  veterinarian   Veterinarian?     @relation(fields: [veterinarianId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, veterinarianId])
+}
+
+model Notification {
+  id                 String            @id @default(uuid())
+  organizationId     String?
+  organizationUserId String?
+  clientId           String?
+  type               NotificationType
+  title              String
+  body               String?
+  data               Json?             @default("{}")
+  readAt             DateTime?
+  createdAt          DateTime          @default(now())
+  organization       Organization?     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationUser   OrganizationUser? @relation(fields: [organizationUserId], references: [id], onDelete: Cascade)
+  client             Client?           @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([organizationUserId, readAt, createdAt])
+  @@index([clientId, readAt, createdAt])
+}
+
+model Payment {
+  id                String        @id @default(uuid())
+  organizationId    String
+  userId            String
+  userEmail         String
+  orderId           String        @unique
+  provider          String        @default("bold")
+  amount            Int
+  currency          String        @default("COP")
+  status            PaymentStatus @default(pending)
+  description       String
+  boldTransactionId String?
+  boldPaymentId     String?
+  failureReason     String?
+  metadata          Json?         @default("{}")
+  rawPayload        Json?         @default("{}")
+  paidAt            DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  organization      Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, status, createdAt])
+  @@index([boldTransactionId])
+  @@index([boldPaymentId])
+}
+
+enum OrganizationRole {
+  admin
+  veterinarian
+  receptionist
+}
+
+enum OrganizationUserStatus {
+  invited
+  active
+  disabled
+}
+
+enum AppointmentRequestStatus {
+  pending
+  approved
+  rejected
+  rescheduled
+  cancelled
+}
+
+enum ScheduleBlockType {
+  availability
+  blocked
+  time_off
+}
+
+enum NotificationType {
+  appointment_request
+  appointment_approved
+  appointment_rejected
+  appointment_updated
+  system
+}
+
+enum AppointmentStatus {
+  pending
+  confirmed
+  in_progress
+  completed
+  cancelled
+  no_show
 }
 
 enum ClinicalEventStatus {
@@ -162,6 +382,14 @@ enum ClinicalEventStatus {
   critical
   closed
   scheduled
+}
+
+enum PaymentStatus {
+  pending
+  approved
+  rejected
+  expired
+  failed
 }
 
 enum Theme {

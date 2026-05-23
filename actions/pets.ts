@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { requireVeterinarian } from "@/lib/session";
+import { requireWorkspace } from "@/lib/session";
 import { deleteSchema, petSchema } from "@/lib/validations";
 import type { ActionResult } from "@/actions/clients";
 
@@ -21,7 +21,7 @@ function normalizePet(input: unknown) {
 }
 
 export async function createPet(input: unknown): Promise<ActionResult<{ id: string }>> {
-  const veterinarian = await requireVeterinarian();
+  const workspace = await requireWorkspace();
   const parsed = normalizePet(input);
 
   if (!parsed.success) {
@@ -29,7 +29,7 @@ export async function createPet(input: unknown): Promise<ActionResult<{ id: stri
   }
 
   const client = await prisma.client.findFirst({
-    where: { id: parsed.data.clientId, veterinarianId: veterinarian.id },
+    where: { id: parsed.data.clientId, organizationId: workspace.organizationId },
     select: { id: true },
   });
 
@@ -38,7 +38,10 @@ export async function createPet(input: unknown): Promise<ActionResult<{ id: stri
   }
 
   const pet = await prisma.pet.create({
-    data: parsed.data,
+    data: {
+      ...parsed.data,
+      organizationId: workspace.organizationId,
+    },
     select: { id: true },
   });
 
@@ -48,7 +51,7 @@ export async function createPet(input: unknown): Promise<ActionResult<{ id: stri
 }
 
 export async function updatePet(input: unknown): Promise<ActionResult> {
-  const veterinarian = await requireVeterinarian();
+  const workspace = await requireWorkspace();
   const parsed = normalizePet(input);
 
   if (!parsed.success) {
@@ -62,7 +65,7 @@ export async function updatePet(input: unknown): Promise<ActionResult> {
   const pet = await prisma.pet.findFirst({
     where: {
       id: parsed.data.id,
-      client: { veterinarianId: veterinarian.id },
+      organizationId: workspace.organizationId,
     },
     select: { id: true },
   });
@@ -72,7 +75,7 @@ export async function updatePet(input: unknown): Promise<ActionResult> {
   }
 
   const client = await prisma.client.findFirst({
-    where: { id: parsed.data.clientId, veterinarianId: veterinarian.id },
+    where: { id: parsed.data.clientId, organizationId: workspace.organizationId },
     select: { id: true },
   });
 
@@ -92,7 +95,7 @@ export async function updatePet(input: unknown): Promise<ActionResult> {
 }
 
 export async function deletePet(input: unknown): Promise<ActionResult> {
-  const veterinarian = await requireVeterinarian();
+  const workspace = await requireWorkspace();
   const parsed = deleteSchema.safeParse(input);
 
   if (!parsed.success) {
@@ -102,7 +105,7 @@ export async function deletePet(input: unknown): Promise<ActionResult> {
   const pet = await prisma.pet.findFirst({
     where: {
       id: parsed.data.id,
-      client: { veterinarianId: veterinarian.id },
+      organizationId: workspace.organizationId,
     },
     select: { id: true },
   });
@@ -112,7 +115,7 @@ export async function deletePet(input: unknown): Promise<ActionResult> {
   }
 
   const records = await prisma.medicalRecord.findMany({
-    where: { petId: pet.id, veterinarianId: veterinarian.id },
+    where: { petId: pet.id, organizationId: workspace.organizationId },
     select: { id: true },
   });
   const recordIds = records.map((record) => record.id);
@@ -121,7 +124,7 @@ export async function deletePet(input: unknown): Promise<ActionResult> {
     prisma.prescription.deleteMany({ where: { consultation: { medicalRecordId: { in: recordIds } } } }),
     prisma.consultation.deleteMany({ where: { medicalRecordId: { in: recordIds } } }),
     prisma.medicalRecord.deleteMany({ where: { id: { in: recordIds } } }),
-    prisma.appointment.deleteMany({ where: { petId: pet.id, veterinarianId: veterinarian.id } }),
+    prisma.appointment.deleteMany({ where: { petId: pet.id, organizationId: workspace.organizationId } }),
     prisma.vaccination.deleteMany({ where: { petId: pet.id } }),
     prisma.attachment.deleteMany({ where: { petId: pet.id } }),
     prisma.pet.delete({ where: { id: pet.id } }),

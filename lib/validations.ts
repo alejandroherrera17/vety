@@ -7,7 +7,8 @@ const optionalText = z
   .transform((value) => (value ? value : undefined));
 
 export const registerSchema = z.object({
-  name: z.string().trim().min(2, "El nombre es obligatorio"),
+  clinicName: z.string().trim().min(2, "El nombre de la clinica es obligatorio"),
+  adminName: z.string().trim().min(2, "Tu nombre es obligatorio"),
   email: z.email("Ingresa un email valido").trim().toLowerCase(),
   phone: optionalText,
   password: z.string().min(8, "Usa al menos 8 caracteres"),
@@ -73,11 +74,14 @@ export const consultationSchema = z.object({
   templateName: optionalText,
 });
 
-export const appointmentStatusSchema = z.enum(["pending", "confirmed", "cancelled", "completed"]);
+export const appointmentStatusSchema = z.enum(["pending", "confirmed", "in_progress", "completed", "cancelled", "no_show"]);
+export const appointmentRequestStatusSchema = z.enum(["pending", "approved", "rejected", "rescheduled", "cancelled"]);
+export const organizationRoleSchema = z.enum(["admin", "veterinarian", "receptionist"]);
 
 const appointmentBaseSchema = z.object({
   id: optionalText,
   petId: z.string().uuid("Selecciona una mascota"),
+  assignedVeterinarianId: optionalText,
   title: z.string().trim().min(3, "El titulo es obligatorio"),
   notes: optionalText,
   startDate: z.string().min(1, "La fecha inicial es obligatoria"),
@@ -106,6 +110,81 @@ export const updateAppointmentSchema = appointmentBaseSchema
     message: "La fecha final debe ser posterior al inicio",
     path: ["endDate"],
   });
+
+export const organizationProfileSchema = z.object({
+  name: z.string().trim().min(2, "El nombre de la clinica es obligatorio"),
+  logoUrl: optionalText,
+  address: optionalText,
+  city: optionalText,
+  phone: optionalText,
+  openingHours: optionalText,
+  specialties: optionalText,
+});
+
+export const teamMemberSchema = z.object({
+  name: z.string().trim().min(2, "El nombre es obligatorio"),
+  email: z.email("Ingresa un email valido").trim().toLowerCase(),
+  phone: optionalText,
+  role: organizationRoleSchema.exclude(["admin"]),
+  password: z.string().min(8, "Usa al menos 8 caracteres"),
+});
+
+export const updateTeamMemberSchema = z.object({
+  id: z.string().uuid(),
+  role: organizationRoleSchema,
+  status: z.enum(["active", "disabled"]),
+});
+
+export const portalAppointmentRequestSchema = z
+  .object({
+    organizationId: z.string().uuid("Selecciona una clinica"),
+    clientDocument: z.string().trim().min(5, "Ingresa el documento del propietario"),
+    petId: z.string().uuid("Selecciona una mascota"),
+    service: z.string().trim().min(2, "Selecciona o escribe un servicio"),
+    reason: optionalText,
+    requestedVeterinarianId: optionalText,
+    requestedStart: z.string().min(1, "Selecciona fecha y hora"),
+    requestedEnd: optionalText,
+  })
+  .refine(
+    (value) =>
+      !value.requestedEnd ||
+      new Date(value.requestedEnd) > new Date(value.requestedStart),
+    { message: "La hora final debe ser posterior", path: ["requestedEnd"] },
+  );
+
+export const portalPetLookupSchema = z.object({
+  organizationId: z.string().uuid("Selecciona una clinica"),
+  clientDocument: z.string().trim().min(5, "Ingresa el documento del propietario"),
+});
+
+export const portalClientRegistrationSchema = z.object({
+  organizationId: z.string().uuid("Selecciona una clinica"),
+  name: z.string().trim().min(2, "Tu nombre es obligatorio"),
+  document: z
+    .string()
+    .trim()
+    .min(5, "Ingresa tu documento")
+    .max(40, "Documento demasiado largo")
+    .regex(/^[a-zA-Z0-9.-]+$/, "Usa solo letras, numeros, puntos o guiones"),
+  phone: z.string().trim().min(5, "El telefono es obligatorio"),
+  email: z.union([z.email("Email invalido"), z.literal("")]).optional(),
+  address: optionalText,
+  city: optionalText,
+  petName: z.string().trim().min(2, "El nombre de la mascota es obligatorio"),
+  petSpecies: z.string().trim().min(2, "La especie es obligatoria"),
+  petBreed: optionalText,
+  petSex: z.string().trim().min(1, "El sexo es obligatorio"),
+  petBirthDate: optionalText,
+});
+
+export const appointmentRequestDecisionSchema = z.object({
+  id: z.string().uuid(),
+  assignedVeterinarianId: optionalText,
+  proposedStart: optionalText,
+  proposedEnd: optionalText,
+  reviewNote: optionalText,
+});
 
 export const prescriptionSchema = z.object({
   consultationId: z.string().uuid(),

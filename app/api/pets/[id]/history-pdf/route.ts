@@ -1,9 +1,8 @@
 import React from "react";
 import { Document, Page, Text, View, renderToStream } from "@react-pdf/renderer";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { calculateAge } from "@/lib/clinical";
 import { prisma } from "@/lib/prisma";
+import { getCurrentWorkspace } from "@/lib/session";
 import { formatDate } from "@/lib/utils";
 import { createPdfStyles } from "@/lib/pdf-styles";
 import type { ThemeName } from "@/lib/themes/themes";
@@ -33,8 +32,8 @@ function header(type: PdfType, styles: ReturnType<typeof createPdfStyles>) {
 }
 
 export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) return new Response("Unauthorized", { status: 401 });
+  const workspace = await getCurrentWorkspace();
+  if (!workspace) return new Response("Unauthorized", { status: 401 });
 
   const url = new URL(request.url);
   const type = (url.searchParams.get("type") || "complete") as PdfType;
@@ -42,7 +41,7 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
 
   // Get veterinarian with theme
   const veterinarian = await prisma.veterinarian.findUnique({
-    where: { id: session.user.id },
+    where: { id: workspace.veterinarianId },
     select: { theme: true }
   });
 
@@ -50,13 +49,13 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
   const styles = createPdfStyles(themeName, 'light');
 
   const pet = await prisma.pet.findFirst({
-    where: { id, client: { veterinarianId: session.user.id } },
+    where: { id, organizationId: workspace.organizationId },
     include: {
       client: true,
       vaccinations: { orderBy: { date: "desc" } },
       attachments: { orderBy: { createdAt: "desc" } },
       medicalRecords: {
-        where: { veterinarianId: session.user.id },
+        where: { organizationId: workspace.organizationId },
         include: { consultations: { orderBy: { date: "desc" }, include: { prescriptions: { orderBy: { createdAt: "desc" } } } } },
       },
     },

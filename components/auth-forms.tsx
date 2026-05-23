@@ -141,7 +141,7 @@ export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { name: "", email: "", phone: "", password: "" },
+    defaultValues: { clinicName: "", adminName: "", email: "", phone: "", password: "" },
   });
   const password = useWatch({ control: form.control, name: "password" });
   const strength = passwordStrength(password ?? "");
@@ -157,7 +157,7 @@ export function RegisterForm() {
 
   return (
     <motion.form
-      initial={{ opacity: 0, y: 18 }}
+      initial={false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: "easeOut" }}
       onSubmit={form.handleSubmit(onSubmit)}
@@ -178,9 +178,18 @@ export function RegisterForm() {
       </div>
 
       <div className="grid gap-4">
+        <div className="grid gap-1">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-100/70">
+            Workspace
+          </p>
+          <p className="text-sm text-slate-400">
+            Estos datos crean la clinica y el primer usuario administrador.
+          </p>
+        </div>
+
         <PremiumField
           label="Nombre de clinica"
-          error={form.formState.errors.name?.message}
+          error={form.formState.errors.clinicName?.message}
           icon={<Stethoscope className="h-4 w-4" />}
         >
           <Input
@@ -188,7 +197,20 @@ export function RegisterForm() {
             placeholder="Clinica Veterinaria Aurora"
             autoComplete="organization"
             className="h-12 rounded-lg border-white/10 bg-white/[0.06] pl-11 pr-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-white/30 hover:border-cyan-200/30 focus:border-cyan-200/60 focus:ring-cyan-300/15"
-            {...form.register("name")}
+            {...form.register("clinicName")}
+          />
+        </PremiumField>
+
+        <PremiumField
+          label="Administrador principal"
+          error={form.formState.errors.adminName?.message}
+          icon={<ShieldCheck className="h-4 w-4" />}
+        >
+          <Input
+            placeholder="Dra. Laura Perez"
+            autoComplete="name"
+            className="h-12 rounded-lg border-white/10 bg-white/[0.06] pl-11 pr-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-white/30 hover:border-cyan-200/30 focus:border-cyan-200/60 focus:ring-cyan-300/15"
+            {...form.register("adminName")}
           />
         </PremiumField>
 

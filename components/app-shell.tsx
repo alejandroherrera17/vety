@@ -2,6 +2,10 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import {
   CalendarDays,
+  Bot,
+  ClipboardList,
+  Crown,
+  Hospital,
   LayoutDashboard,
   LogOut,
   Palette,
@@ -9,21 +13,29 @@ import {
   Sparkles,
   Stethoscope,
   Users,
+  Inbox,
 } from "lucide-react";
 import { SignOutButton } from "@/components/sign-out-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { authOptions } from "@/lib/auth";
 
 const nav = [
-  { href: "/dashboard", label: "Panel de control", icon: LayoutDashboard },
-  { href: "/appointments", label: "Agenda", icon: CalendarDays },
-  { href: "/clients", label: "Clientes", icon: Users },
-  { href: "/pets", label: "Mascotas", icon: PawPrint },
-  { href: "/theme", label: "Temas", icon: Palette },
+  { href: "/dashboard", label: "Panel de control", icon: LayoutDashboard, roles: ["admin", "veterinarian", "receptionist"] },
+  { href: "/dashboard/requests", label: "Solicitudes", icon: Inbox, roles: ["admin", "veterinarian", "receptionist"] },
+  { href: "/ai", label: "VettiPets AI", icon: Bot, roles: ["admin", "veterinarian", "receptionist"] },
+  { href: "/premium", label: "Premium", icon: Crown, roles: ["admin", "veterinarian", "receptionist"] },
+  { href: "/appointments", label: "Agenda", icon: CalendarDays, roles: ["admin", "veterinarian", "receptionist"] },
+  { href: "/clients", label: "Clientes", icon: Users, roles: ["admin", "receptionist"] },
+  { href: "/pets", label: "Mascotas", icon: PawPrint, roles: ["admin", "veterinarian", "receptionist"] },
+  { href: "/team", label: "Equipo", icon: ClipboardList, roles: ["admin"] },
+  { href: "/clinic", label: "Clinica", icon: Hospital, roles: ["admin"] },
+  { href: "/theme", label: "Temas", icon: Palette, roles: ["admin", "veterinarian", "receptionist"] },
 ];
 
 export async function AppShell({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
+  const role = session?.user?.role ?? "veterinarian";
+  const visibleNav = nav.filter((item) => item.roles.includes(role));
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
@@ -43,8 +55,8 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
 
         <div className="mt-7 rounded-lg border border-white/10 bg-white/[0.045] p-3 shadow-inner">
           <div className="flex items-center gap-2 text-xs font-semibold text-cyan-100">
-            <Sparkles className="h-3.5 w-3.5" />
-            Clinica conectada
+            {session?.user?.role === "admin" ? <Crown className="h-3.5 w-3.5" /> : <Sparkles className="h-3.5 w-3.5" />}
+            {session?.user?.role ?? "workspace"}
           </div>
           <p className="mt-2 text-xs leading-5 text-muted-foreground">
             Operacion, pacientes y agenda en un mismo workspace premium.
@@ -52,7 +64,7 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav className="mt-7 grid gap-1">
-          {nav.map((item) => (
+          {visibleNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -87,7 +99,7 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
               VetyCare
             </Link>
             <nav className="flex items-center gap-1">
-              {nav.map((item) => (
+              {visibleNav.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}

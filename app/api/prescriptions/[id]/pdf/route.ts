@@ -1,8 +1,7 @@
 import React from "react";
 import { Document, Page, StyleSheet, Text, View, renderToStream } from "@react-pdf/renderer";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { getCurrentWorkspace } from "@/lib/session";
 import { formatDate } from "@/lib/utils";
 
 const h = React.createElement;
@@ -27,14 +26,14 @@ const styles = StyleSheet.create({
 });
 
 export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
+  const workspace = await getCurrentWorkspace();
+  if (!workspace) {
     return new Response("Unauthorized", { status: 401 });
   }
 
   const { id } = await context.params;
   const prescription = await prisma.prescription.findFirst({
-    where: { id, consultation: { medicalRecord: { veterinarianId: session.user.id } } },
+    where: { id, consultation: { medicalRecord: { organizationId: workspace.organizationId } } },
     include: {
       consultation: {
         include: {

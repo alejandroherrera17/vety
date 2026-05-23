@@ -18,6 +18,12 @@ export type AppointmentPetOption = {
   owner: string;
 };
 
+export type AppointmentVeterinarianOption = {
+  id: string;
+  name: string;
+  role: string;
+};
+
 export type AppointmentFormValue = AppointmentInput & {
   id?: string;
 };
@@ -25,8 +31,10 @@ export type AppointmentFormValue = AppointmentInput & {
 const statusLabels = {
   pending: "Pendiente",
   confirmed: "Confirmada",
+  in_progress: "En progreso",
   cancelled: "Cancelada",
   completed: "Completada",
+  no_show: "No asistio",
 };
 
 function toLocalInputValue(value: Date | string) {
@@ -43,12 +51,14 @@ function defaultEndDate(startDate: string) {
 
 export function AppointmentModal({
   pets,
+  veterinarians = [],
   appointment,
   startDate,
   trigger,
   openOnMount = false,
 }: {
   pets: AppointmentPetOption[];
+  veterinarians?: AppointmentVeterinarianOption[];
   appointment?: AppointmentFormValue;
   startDate?: string;
   trigger?: ReactNode;
@@ -61,6 +71,7 @@ export function AppointmentModal({
     resolver: zodResolver(appointmentSchema),
     defaultValues: appointment ?? {
       petId: pets[0]?.id ?? "",
+      assignedVeterinarianId: veterinarians[0]?.id ?? "",
       title: "",
       notes: "",
       startDate: initialStart,
@@ -75,6 +86,7 @@ export function AppointmentModal({
     form.reset(
       appointment ?? {
         petId: pets[0]?.id ?? "",
+        assignedVeterinarianId: veterinarians[0]?.id ?? "",
         title: "",
         notes: "",
         startDate: nextStart,
@@ -82,7 +94,7 @@ export function AppointmentModal({
         status: "pending",
       },
     );
-  }, [appointment, form, open, pets, startDate]);
+  }, [appointment, form, open, pets, startDate, veterinarians]);
 
   function onSubmit(values: AppointmentInput) {
     startTransition(async () => {
@@ -144,6 +156,15 @@ export function AppointmentModal({
                 {Object.entries(statusLabels).map(([value, label]) => (
                   <option key={value} value={value}>
                     {label}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+            <Field label="Veterinario asignado" error={form.formState.errors.assignedVeterinarianId?.message}>
+              <Select {...form.register("assignedVeterinarianId")}>
+                {veterinarians.map((veterinarian) => (
+                  <option key={veterinarian.id} value={veterinarian.id}>
+                    {veterinarian.name} - {veterinarian.role}
                   </option>
                 ))}
               </Select>

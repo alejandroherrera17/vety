@@ -26,13 +26,39 @@ export async function registerVeterinarian(input: unknown): Promise<ActionResult
   const password = await bcrypt.hash(parsed.data.password, 12);
 
   try {
-    await prisma.veterinarian.create({
-      data: {
-        name: parsed.data.name,
-        email: parsed.data.email,
-        phone: parsed.data.phone,
-        password,
-      },
+    await prisma.$transaction(async (tx) => {
+      const organization = await tx.organization.create({
+        data: {
+          name: parsed.data.clinicName,
+          phone: parsed.data.phone,
+          settings: {},
+        },
+        select: { id: true },
+      });
+
+      const veterinarian = await tx.veterinarian.create({
+        data: {
+          organizationId: organization.id,
+          name: parsed.data.adminName,
+          email: parsed.data.email,
+          phone: parsed.data.phone,
+          password,
+        },
+        select: { id: true },
+      });
+
+      await tx.organizationUser.create({
+        data: {
+          organizationId: organization.id,
+          veterinarianId: veterinarian.id,
+          name: parsed.data.adminName,
+          email: parsed.data.email,
+          phone: parsed.data.phone,
+          role: "admin",
+          status: "active",
+          acceptedAt: new Date(),
+        },
+      });
     });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

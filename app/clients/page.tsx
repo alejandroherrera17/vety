@@ -2,12 +2,12 @@ import { AppShell } from "@/components/app-shell";
 import { ClientFormModal } from "@/components/client-form-modal";
 import { ClientTable } from "@/components/client-table";
 import { prisma } from "@/lib/prisma";
-import { requireVeterinarian } from "@/lib/session";
+import { requireWorkspace } from "@/lib/session";
 
 export default async function ClientsPage() {
-  const veterinarian = await requireVeterinarian();
+  const workspace = await requireWorkspace();
   const clients = await prisma.client.findMany({
-    where: { veterinarianId: veterinarian.id },
+    where: { organizationId: workspace.organizationId },
     include: { pets: { select: { id: true } } },
     orderBy: { name: "asc" },
   });

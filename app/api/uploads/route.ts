@@ -1,10 +1,9 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { getCurrentWorkspace } from "@/lib/session";
 
 export async function POST(request: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
+  const workspace = await getCurrentWorkspace();
+  if (!workspace) {
     return new Response("Unauthorized", { status: 401 });
   }
 
@@ -21,7 +20,7 @@ export async function POST(request: Request) {
   }
 
   const pet = await prisma.pet.findFirst({
-    where: { id: petId, client: { veterinarianId: session.user.id } },
+    where: { id: petId, organizationId: workspace.organizationId },
     select: { id: true },
   });
 
@@ -34,6 +33,7 @@ export async function POST(request: Request) {
 
   await prisma.attachment.create({
     data: {
+      organizationId: workspace.organizationId,
       petId: pet.id,
       fileUrl,
       type: file.type || "file",

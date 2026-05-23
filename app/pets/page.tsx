@@ -7,19 +7,19 @@ import { PetFormModal } from "@/components/pet-form-modal";
 import { Button } from "@/components/ui/button";
 import { Card, EmptyState } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
-import { requireVeterinarian } from "@/lib/session";
+import { requireWorkspace } from "@/lib/session";
 import { initials } from "@/lib/utils";
 
 export default async function PetsPage() {
-  const veterinarian = await requireVeterinarian();
+  const workspace = await requireWorkspace();
   const [pets, clients] = await Promise.all([
     prisma.pet.findMany({
-      where: { client: { veterinarianId: veterinarian.id } },
+      where: { organizationId: workspace.organizationId },
       include: { client: true },
       orderBy: { name: "asc" },
     }),
     prisma.client.findMany({
-      where: { veterinarianId: veterinarian.id },
+      where: { organizationId: workspace.organizationId },
       orderBy: { name: "asc" },
       select: { id: true, name: true },
     }),

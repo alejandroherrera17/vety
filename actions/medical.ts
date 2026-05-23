@@ -2,29 +2,29 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { requireVeterinarian } from "@/lib/session";
+import { requireWorkspace } from "@/lib/session";
 import { consultationSchema, vaccinationSchema } from "@/lib/validations";
 import type { ActionResult } from "@/actions/clients";
 
-async function assertPetOwnership(petId: string, veterinarianId: string) {
+async function assertPetOwnership(petId: string, organizationId: string) {
   return prisma.pet.findFirst({
     where: {
       id: petId,
-      client: { veterinarianId },
+      organizationId,
     },
     select: { id: true },
   });
 }
 
 export async function createConsultation(input: unknown): Promise<ActionResult> {
-  const veterinarian = await requireVeterinarian();
+  const workspace = await requireWorkspace();
   const parsed = consultationSchema.safeParse(input);
 
   if (!parsed.success) {
     return { ok: false, fieldErrors: parsed.error.flatten().fieldErrors };
   }
 
-  const pet = await assertPetOwnership(parsed.data.petId, veterinarian.id);
+  const pet = await assertPetOwnership(parsed.data.petId, workspace.organizationId);
   if (!pet) {
     return { ok: false, error: "Mascota no encontrada" };
   }
@@ -33,14 +33,15 @@ export async function createConsultation(input: unknown): Promise<ActionResult> 
     (await prisma.medicalRecord.findFirst({
       where: {
         petId: pet.id,
-        veterinarianId: veterinarian.id,
+        organizationId: workspace.organizationId,
       },
       select: { id: true },
     })) ??
     (await prisma.medicalRecord.create({
       data: {
+        organizationId: workspace.organizationId,
         petId: pet.id,
-        veterinarianId: veterinarian.id,
+        veterinarianId: workspace.veterinarianId,
       },
       select: { id: true },
     }));
@@ -76,18 +77,18 @@ export async function createConsultation(input: unknown): Promise<ActionResult> 
 }
 
 export async function getPetHistory(petId: string) {
-  const veterinarian = await requireVeterinarian();
+  const workspace = await requireWorkspace();
   const pet = await prisma.pet.findFirst({
     where: {
       id: petId,
-      client: { veterinarianId: veterinarian.id },
+      organizationId: workspace.organizationId,
     },
     include: {
       client: true,
       vaccinations: { orderBy: { date: "desc" } },
       attachments: true,
       medicalRecords: {
-        where: { veterinarianId: veterinarian.id },
+        where: { organizationId: workspace.organizationId },
         include: {
           consultations: {
             orderBy: { date: "desc" },
@@ -106,14 +107,14 @@ export async function getPetHistory(petId: string) {
 }
 
 export async function addVaccination(input: unknown): Promise<ActionResult> {
-  const veterinarian = await requireVeterinarian();
+  const workspace = await requireWorkspace();
   const parsed = vaccinationSchema.safeParse(input);
 
   if (!parsed.success) {
     return { ok: false, fieldErrors: parsed.error.flatten().fieldErrors };
   }
 
-  const pet = await assertPetOwnership(parsed.data.petId, veterinarian.id);
+  const pet = await assertPetOwnership(parsed.data.petId, workspace.organizationId);
   if (!pet) {
     return { ok: false, error: "Mascota no encontrada" };
   }
@@ -121,13 +122,14 @@ export async function addVaccination(input: unknown): Promise<ActionResult> {
   await prisma.vaccination.create({
     data: {
       petId: pet.id,
+      organizationId: workspace.organizationId,
       vaccine: parsed.data.vaccine,
       date: new Date(parsed.data.date),
       nextDose: parsed.data.nextDose ? new Date(parsed.data.nextDose) : undefined,
       lot: parsed.data.lot,
       manufacturer: parsed.data.manufacturer,
       expiresAt: parsed.data.expiresAt ? new Date(parsed.data.expiresAt) : undefined,
-      veterinarianName: parsed.data.veterinarianName ?? veterinarian.name,
+      veterinarianName: parsed.data.veterinarianName ?? workspace.name,
       status: parsed.data.status,
       notes: parsed.data.notes,
     },

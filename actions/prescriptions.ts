@@ -2,12 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { requireVeterinarian } from "@/lib/session";
+import { requireWorkspace } from "@/lib/session";
 import { prescriptionSchema } from "@/lib/validations";
 import type { ActionResult } from "@/actions/clients";
 
 export async function createPrescription(input: unknown): Promise<ActionResult> {
-  const veterinarian = await requireVeterinarian();
+  const workspace = await requireWorkspace();
   const parsed = prescriptionSchema.safeParse(input);
 
   if (!parsed.success) {
@@ -17,7 +17,7 @@ export async function createPrescription(input: unknown): Promise<ActionResult> 
   const consultation = await prisma.consultation.findFirst({
     where: {
       id: parsed.data.consultationId,
-      medicalRecord: { veterinarianId: veterinarian.id },
+      medicalRecord: { organizationId: workspace.organizationId },
     },
     select: {
       id: true,

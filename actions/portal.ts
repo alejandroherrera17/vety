@@ -1,9 +1,10 @@
 "use server";
 
 import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit } from "@/lib/rate-limit";
-import { portalLookupSchema } from "@/lib/validations";
+import { portalClientRegistrationSchema, portalLookupSchema } from "@/lib/validations";
 import type { ActionResult } from "@/actions/clients";
 
 function publicDate(value: Date | null | undefined) {
@@ -59,6 +60,22 @@ export async function lookupPortal(input: unknown): Promise<ActionResult<{ pets:
             take: 8,
             select: { id: true, title: true, notes: true, startDate: true, endDate: true, status: true },
           },
+          appointmentRequests: {
+            orderBy: { createdAt: "desc" },
+            take: 12,
+            select: {
+              id: true,
+              service: true,
+              reason: true,
+              requestedStart: true,
+              requestedEnd: true,
+              proposedStart: true,
+              proposedEnd: true,
+              status: true,
+              reviewNote: true,
+              organization: { select: { name: true } },
+            },
+          },
           medicalRecords: {
             orderBy: { createdAt: "desc" },
             select: {
@@ -110,6 +127,14 @@ export async function lookupPortal(input: unknown): Promise<ActionResult<{ pets:
         startDate: publicDate(appointment.startDate),
         endDate: publicDate(appointment.endDate),
       })),
+      appointmentRequests: pet.appointmentRequests.map((request) => ({
+        ...request,
+        requestedStart: publicDate(request.requestedStart),
+        requestedEnd: publicDate(request.requestedEnd),
+        proposedStart: publicDate(request.proposedStart),
+        proposedEnd: publicDate(request.proposedEnd),
+        clinicName: request.organization.name,
+      })),
       consultations: pet.medicalRecords.flatMap((record) =>
         record.consultations.map((consultation) => ({
           ...consultation,
@@ -130,4 +155,101 @@ export async function lookupPortal(input: unknown): Promise<ActionResult<{ pets:
   }
 
   return { ok: true, data: { pets } };
+}
+
+export async function registerPortalClient(input: unknown): Promise<ActionResult<{ document: string }>> {
+  const parsed = portalClientRegistrationSchema.safeParse(input);
+
+  if (!parsed.success) {
+    return { ok: false, fieldErrors: parsed.error.flatten().fieldErrors };
+  }
+
+  const organization = await prisma.organization.findUnique({
+    where: { id: parsed.data.organizationId },
+    select: {
+      id: true,
+      users: {
+        where: {
+          status: "active",
+          veterinarianId: { not: null },
+          role: { in: ["admin", "veterinarian"] },
+        },
+        orderBy: [{ role: "asc" }, { createdAt: "asc" }],
+        take: 1,
+        select: { veterinarianId: true },
+      },
+    },
+  });
+
+  const veterinarianId = organization?.users[0]?.veterinarianId;
+
+  if (!organization || !veterinarianId) {
+    return { ok: false, error: "La clinica seleccionada aun no tiene equipo disponible" };
+  }
+
+  const existingClient = await prisma.client.findFirst({
+    where: {
+      organizationId: parsed.data.organizationId,
+      document: normalizeDocument(parsed.data.document),
+    },
+    select: { id: true },
+  });
+
+  const clientId = existingClient?.id
+    ? (
+        await prisma.client.update({
+          where: { id: existingClient.id },
+          data: {
+            name: parsed.data.name,
+            phone: parsed.data.phone,
+            email: parsed.data.email || undefined,
+            address: parsed.data.address,
+            city: parsed.data.city,
+          },
+          select: { id: true },
+        })
+      ).id
+    : (
+        await prisma.client.create({
+          data: {
+            organizationId: parsed.data.organizationId,
+            veterinarianId,
+            name: parsed.data.name,
+            document: normalizeDocument(parsed.data.document),
+            phone: parsed.data.phone,
+            email: parsed.data.email || undefined,
+            address: parsed.data.address,
+            city: parsed.data.city,
+          },
+          select: { id: true },
+        })
+      ).id;
+
+  const existingPet = await prisma.pet.findFirst({
+    where: {
+      organizationId: parsed.data.organizationId,
+      clientId,
+      name: parsed.data.petName,
+    },
+    select: { id: true },
+  });
+
+  if (!existingPet) {
+    await prisma.pet.create({
+      data: {
+        organizationId: parsed.data.organizationId,
+        clientId,
+        name: parsed.data.petName,
+        species: parsed.data.petSpecies,
+        breed: parsed.data.petBreed,
+        sex: parsed.data.petSex,
+        birthDate: parsed.data.petBirthDate ? new Date(parsed.data.petBirthDate) : undefined,
+      },
+    });
+  }
+
+  revalidatePath("/clients");
+  revalidatePath("/pets");
+  revalidatePath("/dashboard");
+  return { ok: true, data: { document: normalizeDocument(parsed.data.document) } };
 }
