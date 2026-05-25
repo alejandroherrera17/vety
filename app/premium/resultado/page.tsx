@@ -5,10 +5,11 @@ import { requireWorkspace } from "@/lib/session";
 export default async function PremiumResultPage({
   searchParams,
 }: {
-  searchParams: Promise<{ orderId?: string }>;
+  searchParams: Promise<{ orderId?: string; "bold-order-id"?: string }>;
 }) {
   await requireWorkspace();
-  const { orderId } = await searchParams;
+  const params = await searchParams;
+  const orderId = params.orderId ?? params["bold-order-id"];
 
   return (
     <AppShell>

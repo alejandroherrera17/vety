@@ -6,10 +6,10 @@ import { prisma } from "@/lib/prisma";
 
 export const BOLD_PREMIUM_AMOUNT = 5000;
 export const BOLD_PREMIUM_CURRENCY = "COP";
-export const BOLD_PREMIUM_DESCRIPTION = "VettiPets Premium mensual";
+export const BOLD_PREMIUM_DESCRIPTION = "VettiPets Premium 5 dias";
 export const BOLD_CHECKOUT_SCRIPT = "https://checkout.bold.co/library/boldPaymentButton.js";
 
-const PREMIUM_DAYS = 30;
+export const PREMIUM_DAYS = 5;
 
 type BoldAmount = {
   total?: number;
@@ -35,7 +35,9 @@ type BoldNotification = {
 type BoldPaymentStatus = {
   transaction_id?: string;
   reference_id?: string;
+  payment_status?: string;
   status?: string;
+  total?: number;
   amount?: BoldAmount;
 };
 
@@ -136,7 +138,7 @@ export async function createBoldPremiumPayment(input: {
       description: BOLD_PREMIUM_DESCRIPTION,
       metadata: {
         checkout: "button",
-        product: "premium_monthly",
+        product: "premium_5_days",
         userName: input.userName,
       },
     },
@@ -303,7 +305,7 @@ async function fetchBoldPaymentStatus(orderId: string) {
   }
 
   const response = await boldFetch(
-    `https://api.online.payments.bold.co/v1/payment/${encodeURIComponent(orderId)}`,
+    `https://payments.api.bold.co/v2/payment-voucher/${encodeURIComponent(orderId)}`,
     identityKey,
   );
 
@@ -337,13 +339,13 @@ async function processBoldStatusResponse(statusResponse: BoldPaymentStatus) {
 
   if (!orderId) return;
 
-  const status = normalizePaymentStatus(statusResponse.status);
+  const status = normalizePaymentStatus(statusResponse.payment_status ?? statusResponse.status);
   const payment = await prisma.payment.findUnique({ where: { orderId } });
 
   if (!payment) return;
 
   if (status === "approved") {
-    const amount = statusResponse.amount?.total_amount ?? statusResponse.amount?.total;
+    const amount = statusResponse.amount?.total_amount ?? statusResponse.amount?.total ?? statusResponse.total;
     const currency = statusResponse.amount?.currency ?? payment.currency;
 
     if (amount !== payment.amount || currency !== payment.currency) {
@@ -364,7 +366,7 @@ async function processBoldStatusResponse(statusResponse: BoldPaymentStatus) {
   } else if (status === "rejected") {
     await markPaymentRejected({
       orderId,
-      reason: statusResponse.status ?? "REJECTED",
+      reason: statusResponse.payment_status ?? statusResponse.status ?? "REJECTED",
       rawPayload: statusResponse,
       providerTransactionId: statusResponse.transaction_id,
     });

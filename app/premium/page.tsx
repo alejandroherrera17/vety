@@ -5,7 +5,7 @@ import { PremiumCheckoutButton, PremiumTrustBadges } from "@/components/premium-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { BOLD_PREMIUM_AMOUNT, BOLD_PREMIUM_CURRENCY } from "@/lib/bold";
+import { BOLD_PREMIUM_AMOUNT, BOLD_PREMIUM_CURRENCY, PREMIUM_DAYS } from "@/lib/bold";
 import { prisma } from "@/lib/prisma";
 import { requireWorkspace } from "@/lib/session";
 
@@ -59,7 +59,7 @@ export default async function PremiumPage() {
                 Lleva tu clinica a un flujo premium con IA y automatizacion segura.
               </h1>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-                Suscripcion mensual para desbloquear funciones avanzadas en VettiPets. El pago se procesa con Bold y se confirma desde backend antes de activar el acceso.
+                Acceso premium por {PREMIUM_DAYS} dias para desbloquear funciones avanzadas en VettiPets. El pago se procesa con Bold y se confirma desde backend antes de activar el acceso.
               </p>
               <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <PremiumCheckoutButton disabled={premiumIsActive} />
@@ -85,7 +85,7 @@ export default async function PremiumPage() {
                       maximumFractionDigits: 0,
                     }).format(BOLD_PREMIUM_AMOUNT)}
                   </p>
-                  <p className="mt-1 text-sm text-muted-foreground">por workspace / mes</p>
+                  <p className="mt-1 text-sm text-muted-foreground">por workspace / {PREMIUM_DAYS} dias</p>
                 </div>
                 <span className="grid h-12 w-12 place-items-center rounded-lg border border-cyan-200/25 bg-cyan-300/10 text-cyan-100">
                   <Crown className="h-5 w-5" />
@@ -93,12 +93,12 @@ export default async function PremiumPage() {
               </div>
               <div className="mt-5 rounded-lg border border-white/10 bg-white/[0.045] p-4">
                 <p className="text-sm font-semibold text-foreground">
-                  {premiumIsActive ? "Premium activo" : "Premium listo para activar"}
+                  {premiumIsActive ? "Actualmente tienes Premium activo" : "Premium listo para activar"}
                 </p>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
                   {premiumIsActive && organization?.premiumExpiresAt
-                    ? `Tu acceso vence el ${new Intl.DateTimeFormat("es-CO", { dateStyle: "medium" }).format(organization.premiumExpiresAt)}.`
-                    : "Pagas una orden unica por 30 dias. Puedes renovar antes del vencimiento."}
+                    ? `Tu servicio premium esta activo y vence el ${new Intl.DateTimeFormat("es-CO", { dateStyle: "medium" }).format(organization.premiumExpiresAt)}. Todas las funciones premium estan desbloqueadas en este workspace.`
+                    : `Pagas una orden unica por ${PREMIUM_DAYS} dias. Puedes renovar antes del vencimiento.`}
                 </p>
               </div>
             </div>
@@ -148,6 +148,13 @@ export default async function PremiumPage() {
                         {new Intl.DateTimeFormat("es-CO", { dateStyle: "medium" }).format(payment.createdAt)}
                       </span>
                       <Badge className={statusClass(payment.status)}>{payment.status}</Badge>
+                      {payment.status === "pending" ? (
+                        <Link href={`/premium/resultado?orderId=${payment.orderId}`}>
+                          <Button type="button" variant="ghost" size="sm">
+                            Verificar
+                          </Button>
+                        </Link>
+                      ) : null}
                     </div>
                   </div>
                 ))
