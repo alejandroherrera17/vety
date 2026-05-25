@@ -2,6 +2,9 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { ThemeName, ThemeMode, themes, defaultTheme } from './themes'
 
+export const lockedTheme: ThemeName = 'emerald_care'
+export const lockedMode: ThemeMode = 'dark'
+
 interface ThemeState {
   theme: ThemeName
   mode: ThemeMode
@@ -14,22 +17,23 @@ interface ThemeState {
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set, get) => ({
-      theme: defaultTheme,
-      mode: 'light',
-      setTheme: (theme: ThemeName) => set({ theme }),
-      setMode: (mode: ThemeMode) => set({ mode }),
-      toggleMode: () => set((state) => ({
-        mode: state.mode === 'light' ? 'dark' : 'light'
-      })),
+      theme: lockedTheme,
+      mode: lockedMode,
+      setTheme: () => set({ theme: lockedTheme, mode: lockedMode }),
+      setMode: () => set({ theme: lockedTheme, mode: lockedMode }),
+      toggleMode: () => set({ theme: lockedTheme, mode: lockedMode }),
       getThemeColors: () => {
         const { theme, mode } = get()
-        return themes[theme][mode]
+        return themes[theme ?? defaultTheme][mode ?? lockedMode]
       }
     }),
     {
       name: 'vety-theme-storage',
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ theme: state.theme, mode: state.mode })
+      partialize: () => ({ theme: lockedTheme, mode: lockedMode }),
+      onRehydrateStorage: () => (state) => {
+        state?.setTheme(lockedTheme)
+      },
     }
   )
 )

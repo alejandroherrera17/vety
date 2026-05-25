@@ -36,7 +36,7 @@ export function ClinicProfileForm({
   return (
     <Card className="p-5">
       <div className="mb-5 flex items-start gap-3">
-        <span className="grid h-11 w-11 place-items-center rounded-lg border border-white/10 bg-white/[0.06] text-cyan-100">
+        <span className="grid h-11 w-11 place-items-center rounded-lg border border-white/10 bg-white/[0.06] text-emerald-100">
           <Building2 className="h-5 w-5" />
         </span>
         <div>

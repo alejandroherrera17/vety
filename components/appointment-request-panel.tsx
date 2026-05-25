@@ -92,7 +92,7 @@ export function AppointmentRequestPanel({
             key={request.id}
             type="button"
             onClick={() => setActiveId(request.id)}
-            className="rounded-lg border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-cyan-200/35 hover:bg-white/[0.07]"
+            className="rounded-lg border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-emerald-200/35 hover:bg-white/[0.07]"
           >
             <div className="flex items-start justify-between gap-3">
               <div>

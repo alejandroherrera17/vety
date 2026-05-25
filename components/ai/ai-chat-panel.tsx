@@ -31,12 +31,12 @@ export function AiChatPanel() {
     <section className="grid h-full min-h-0 overflow-hidden rounded-lg border border-white/10 bg-card/82 shadow-2xl shadow-black/15 backdrop-blur-xl ring-1 ring-white/[0.035] lg:grid-cols-[280px_minmax(0,1fr)]">
       <aside className="hidden min-h-0 overflow-y-auto border-r border-white/10 bg-white/[0.035] p-4 lg:block">
         <div className="flex items-center gap-3">
-          <span className="grid h-12 w-12 place-items-center rounded-lg border border-cyan-200/25 bg-cyan-300/10 text-cyan-100 shadow-[0_0_38px_rgba(34,211,238,0.14)]">
+          <span className="grid h-12 w-12 place-items-center rounded-lg border border-emerald-200/25 bg-emerald-300/10 text-emerald-100 shadow-[0_0_38px_rgba(52,211,153,0.14)]">
             <Bot className="h-5 w-5" />
           </span>
           <div>
             <p className="text-lg font-bold tracking-tight text-foreground">VettiPets AI</p>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-100/70">Clinic copilot</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100/70">Clinic copilot</p>
           </div>
         </div>
 
@@ -54,9 +54,9 @@ export function AiChatPanel() {
               type="button"
               onClick={() => void sendMessage(suggestion.label)}
               disabled={isLoading}
-              className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-3 text-left text-sm font-semibold text-muted-foreground transition hover:-translate-y-0.5 hover:border-cyan-200/30 hover:bg-white/[0.07] hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
+              className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-3 text-left text-sm font-semibold text-muted-foreground transition hover:-translate-y-0.5 hover:border-emerald-200/30 hover:bg-white/[0.07] hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
             >
-              <suggestion.icon className="h-4 w-4 text-cyan-100/75 transition group-hover:text-cyan-100" />
+              <suggestion.icon className="h-4 w-4 text-emerald-100/75 transition group-hover:text-emerald-100" />
               <span>{suggestion.label}</span>
             </button>
           ))}
@@ -127,7 +127,7 @@ function MessageBubble({ message, isLoading }: { message: AiChatMessage; isLoadi
   return (
     <article className={cn("flex gap-3", isUser && "justify-end")}>
       {!isUser ? (
-        <span className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-cyan-200/25 bg-cyan-300/10 text-cyan-100">
+        <span className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-emerald-200/25 bg-emerald-300/10 text-emerald-100">
           <Bot className="h-4 w-4" />
         </span>
       ) : null}
@@ -135,15 +135,15 @@ function MessageBubble({ message, isLoading }: { message: AiChatMessage; isLoadi
         className={cn(
           "max-w-[86%] rounded-lg border px-4 py-3 text-sm leading-6 shadow-lg",
           isUser
-            ? "border-cyan-200/25 bg-primary text-primary-foreground shadow-cyan-950/10"
+            ? "border-emerald-200/25 bg-primary text-primary-foreground shadow-emerald-950/10"
             : "border-white/10 bg-white/[0.055] text-foreground shadow-black/10",
         )}
       >
         {isLoading ? (
           <div className="flex items-center gap-2 text-muted-foreground">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-cyan-200" />
-            <span className="h-2 w-2 animate-pulse rounded-full bg-cyan-200 [animation-delay:120ms]" />
-            <span className="h-2 w-2 animate-pulse rounded-full bg-cyan-200 [animation-delay:240ms]" />
+            <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-200" />
+            <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-200 [animation-delay:120ms]" />
+            <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-200 [animation-delay:240ms]" />
           </div>
         ) : (
           <MarkdownText content={message.content} />

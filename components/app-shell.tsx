@@ -8,7 +8,6 @@ import {
   Hospital,
   LayoutDashboard,
   LogOut,
-  Palette,
   PawPrint,
   Sparkles,
   Stethoscope,
@@ -16,7 +15,6 @@ import {
   Inbox,
 } from "lucide-react";
 import { SignOutButton } from "@/components/sign-out-button";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { authOptions } from "@/lib/auth";
 
 const nav = [
@@ -29,7 +27,6 @@ const nav = [
   { href: "/pets", label: "Mascotas", icon: PawPrint, roles: ["admin", "veterinarian", "receptionist"] },
   { href: "/team", label: "Equipo", icon: ClipboardList, roles: ["admin"] },
   { href: "/clinic", label: "Clinica", icon: Hospital, roles: ["admin"] },
-  { href: "/theme", label: "Temas", icon: Palette, roles: ["admin", "veterinarian", "receptionist"] },
 ];
 
 export async function AppShell({ children }: { children: React.ReactNode }) {
@@ -39,22 +36,22 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(34,211,238,0.13),transparent_30%),radial-gradient(circle_at_85%_5%,rgba(16,185,129,0.11),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.045),transparent_38%)]" />
-      <div className="pointer-events-none fixed inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-200/45 to-transparent" />
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(52,211,153,0.16),transparent_30%),radial-gradient(circle_at_85%_5%,rgba(187,247,208,0.10),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.045),transparent_38%)]" />
+      <div className="pointer-events-none fixed inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-200/45 to-transparent" />
 
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 border-r border-white/10 bg-sidebar/72 px-4 py-5 text-sidebar-foreground shadow-2xl shadow-black/25 backdrop-blur-2xl lg:block">
         <Link href="/dashboard" className="flex items-center gap-3 rounded-lg px-2 py-1 text-sidebar-foreground">
-          <span className="grid h-12 w-12 place-items-center rounded-lg border border-cyan-200/25 bg-cyan-300/10 text-cyan-100 shadow-[0_0_42px_rgba(34,211,238,0.16)]">
+          <span className="grid h-12 w-12 place-items-center rounded-lg border border-emerald-200/25 bg-emerald-300/10 text-emerald-100 shadow-[0_0_42px_rgba(52,211,153,0.16)]">
             <Stethoscope className="h-5 w-5" />
           </span>
           <span>
             <span className="block text-lg font-semibold tracking-tight">VetyCare</span>
-            <span className="block text-xs uppercase tracking-[0.2em] text-cyan-100/60">Veterinary OS</span>
+            <span className="block text-xs uppercase tracking-[0.2em] text-emerald-100/70">Veterinary OS</span>
           </span>
         </Link>
 
         <div className="mt-7 rounded-lg border border-white/10 bg-white/[0.045] p-3 shadow-inner">
-          <div className="flex items-center gap-2 text-xs font-semibold text-cyan-100">
+          <div className="flex items-center gap-2 text-xs font-semibold text-emerald-100">
             {session?.user?.role === "admin" ? <Crown className="h-3.5 w-3.5" /> : <Sparkles className="h-3.5 w-3.5" />}
             {session?.user?.role ?? "workspace"}
           </div>
@@ -81,7 +78,9 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
             <p className="truncate text-sm font-semibold text-card-foreground">
               {session?.user?.name}
             </p>
-            <ThemeToggle />
+            <span className="rounded-full border border-emerald-200/20 bg-emerald-300/10 px-2 py-1 text-[10px] font-bold uppercase tracking-normal text-emerald-100">
+              Verde
+            </span>
           </div>
           <p className="truncate text-xs text-muted-foreground">{session?.user?.email}</p>
           <SignOutButton>
@@ -95,10 +94,10 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
         <header className="sticky top-0 z-20 border-b border-white/10 bg-background/82 px-4 py-3 shadow-lg shadow-black/10 backdrop-blur-xl lg:hidden">
           <div className="flex items-center justify-between">
             <Link href="/dashboard" className="flex items-center gap-2 font-bold">
-              <Stethoscope className="h-5 w-5 text-cyan-100" />
+              <Stethoscope className="h-5 w-5 text-emerald-100" />
               VetyCare
             </Link>
-            <nav className="flex items-center gap-1">
+            <nav className="flex max-w-[72vw] items-center gap-1 overflow-x-auto">
               {visibleNav.map((item) => (
                 <Link
                   key={item.href}

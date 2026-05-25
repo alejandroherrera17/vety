@@ -69,7 +69,7 @@ export default async function DashboardRequestsPage() {
           <div className="grid gap-4 md:grid-cols-3">
             <div className="rounded-lg border border-white/10 bg-card/82 p-4 shadow-xl shadow-black/10 backdrop-blur-xl">
               <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-cyan-500/10 p-2 text-cyan-500">
+                <div className="rounded-lg bg-emerald-500/10 p-2 text-emerald-500">
                   <Calendar className="h-5 w-5" />
                 </div>
                 <div>

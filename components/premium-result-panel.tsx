@@ -80,11 +80,11 @@ export function PremiumResultPanel({ orderId }: { orderId?: string }) {
 
   return (
     <section className="mx-auto grid max-w-2xl gap-5 rounded-lg border border-white/10 bg-card/82 p-6 text-center shadow-2xl shadow-black/15 backdrop-blur-xl sm:p-8">
-      <div className="mx-auto grid h-16 w-16 place-items-center rounded-lg border border-white/10 bg-white/[0.055] text-cyan-100">
+      <div className="mx-auto grid h-16 w-16 place-items-center rounded-lg border border-white/10 bg-white/[0.055] text-emerald-100">
         <content.icon className={content.animate ? "h-8 w-8 animate-spin" : "h-8 w-8"} />
       </div>
       <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-100/75">Bold Checkout</p>
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-100/75">Bold Checkout</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">{content.title}</h1>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground">{content.description}</p>
       </div>

@@ -89,7 +89,7 @@ export default async function DashboardPage() {
       <div className="mb-6 overflow-hidden rounded-lg border border-white/10 bg-white/[0.06] p-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-6">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <p className="text-sm font-semibold text-cyan-100">Hoy en VetyCare</p>
+          <p className="text-sm font-semibold text-emerald-100">Hoy en VetyCare</p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">
             Que bueno verte, {workspace.organizationName}
           </h1>
@@ -110,35 +110,35 @@ export default async function DashboardPage() {
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="p-5 transition hover:-translate-y-0.5 hover:border-cyan-200/25">
+        <Card className="p-5 transition hover:-translate-y-0.5 hover:border-emerald-200/25">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">Total de clientes</span>
             <Users className="h-5 w-5 text-muted-foreground" />
           </div>
           <p className="mt-4 text-3xl font-bold">{totalClients}</p>
         </Card>
-        <Card className="p-5 transition hover:-translate-y-0.5 hover:border-cyan-200/25">
+        <Card className="p-5 transition hover:-translate-y-0.5 hover:border-emerald-200/25">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">Total de mascotas</span>
             <PawPrint className="h-5 w-5 text-muted-foreground" />
           </div>
           <p className="mt-4 text-3xl font-bold">{totalPets}</p>
         </Card>
-        <Card className="p-5 transition hover:-translate-y-0.5 hover:border-cyan-200/25">
+        <Card className="p-5 transition hover:-translate-y-0.5 hover:border-emerald-200/25">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">Citas de hoy</span>
             <CalendarDays className="h-5 w-5 text-muted-foreground" />
           </div>
           <p className="mt-4 text-3xl font-bold">{todaysAppointments.length}</p>
         </Card>
-        <Card className="p-5 transition hover:-translate-y-0.5 hover:border-cyan-200/25">
+        <Card className="p-5 transition hover:-translate-y-0.5 hover:border-emerald-200/25">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">Solicitudes pendientes</span>
             <Inbox className="h-5 w-5 text-muted-foreground" />
           </div>
           <p className="mt-4 text-3xl font-bold">{pendingRequests.length}</p>
         </Card>
-        <Card className="p-5 transition hover:-translate-y-0.5 hover:border-cyan-200/25">
+        <Card className="p-5 transition hover:-translate-y-0.5 hover:border-emerald-200/25">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">Equipo activo</span>
             <UserRoundCheck className="h-5 w-5 text-muted-foreground" />
@@ -155,7 +155,7 @@ export default async function DashboardPage() {
                 <Link
                   key={request.id}
                   href="/appointments"
-                  className="rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:-translate-y-0.5 hover:border-cyan-200/30 hover:bg-white/[0.07]"
+                  className="rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:-translate-y-0.5 hover:border-emerald-200/30 hover:bg-white/[0.07]"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
@@ -190,7 +190,7 @@ export default async function DashboardPage() {
                 <Link
                   href={`/pets/${consultation.medicalRecord.pet.id}`}
                   key={consultation.id}
-                  className="rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:-translate-y-0.5 hover:border-cyan-200/30 hover:bg-white/[0.07]"
+                  className="rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:-translate-y-0.5 hover:border-emerald-200/30 hover:bg-white/[0.07]"
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div>
@@ -220,7 +220,7 @@ export default async function DashboardPage() {
                 <Link
                   key={appointment.id}
                   href="/appointments"
-                  className="rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:-translate-y-0.5 hover:border-cyan-200/30 hover:bg-white/[0.07]"
+                  className="rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:-translate-y-0.5 hover:border-emerald-200/30 hover:bg-white/[0.07]"
                 >
                   <p className="font-semibold text-foreground">{appointment.pet.name}</p>
                   <p className="text-sm text-muted-foreground">{appointment.pet.client.name}</p>
@@ -243,7 +243,7 @@ export default async function DashboardPage() {
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {todaysAppointments.length ? (
               todaysAppointments.map((appointment) => (
-                <Link key={appointment.id} href="/appointments" className="rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:-translate-y-0.5 hover:border-cyan-200/30 hover:bg-white/[0.07]">
+                <Link key={appointment.id} href="/appointments" className="rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:-translate-y-0.5 hover:border-emerald-200/30 hover:bg-white/[0.07]">
                   <p className="font-semibold text-foreground">{appointment.title}</p>
                   <p className="mt-1 text-sm text-muted-foreground">
                     {appointment.pet.name} - {appointment.pet.client.name}

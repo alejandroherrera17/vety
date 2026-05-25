@@ -9,17 +9,17 @@ export default function LoginPage() {
       <section className="relative mx-auto grid min-h-screen w-full max-w-6xl grid-cols-1 items-center gap-8 px-5 py-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
         <div className="hidden lg:block">
           <div className="flex items-center gap-3">
-            <div className="grid h-12 w-12 place-items-center rounded-lg border border-cyan-200/25 bg-cyan-300/10 shadow-[0_0_42px_rgba(34,211,238,0.2)]">
-              <Stethoscope className="h-6 w-6 text-cyan-100" />
+            <div className="grid h-12 w-12 place-items-center rounded-lg border border-emerald-200/25 bg-emerald-300/10 shadow-[0_0_42px_rgba(52,211,153,0.2)]">
+              <Stethoscope className="h-6 w-6 text-emerald-100" />
             </div>
             <div>
               <p className="text-xl font-semibold tracking-tight">VetyCare</p>
-              <p className="text-xs uppercase tracking-[0.32em] text-cyan-100/70">Veterinary OS</p>
+              <p className="text-xs uppercase tracking-[0.32em] text-emerald-100/70">Veterinary OS</p>
             </div>
           </div>
 
           <div className="mt-16 max-w-xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 text-xs font-semibold text-cyan-100 backdrop-blur-xl">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 text-xs font-semibold text-emerald-100 backdrop-blur-xl">
               <Sparkles className="h-3.5 w-3.5" />
               Operacion clinica en tiempo real
             </div>
@@ -37,10 +37,10 @@ export default function LoginPage() {
               ["99.9%", "Disponibilidad del workspace", ShieldCheck],
               ["Live", "Agenda y pacientes sincronizados", Activity],
               ["360", "Vision clinica por paciente", HeartPulse],
-              ["8", "Temas enterprise personalizables", Sparkles],
+              ["8", "Interfaz verde veterinaria", Sparkles],
             ].map(([value, label, Icon]) => (
               <div key={label as string} className="rounded-lg border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl">
-                <Icon className="h-4 w-4 text-cyan-100" />
+                <Icon className="h-4 w-4 text-emerald-100" />
                 <p className="mt-5 text-2xl font-semibold">{value as string}</p>
                 <p className="mt-1 text-xs text-slate-400">{label as string}</p>
               </div>
@@ -50,8 +50,8 @@ export default function LoginPage() {
 
         <div className="mx-auto w-full max-w-[500px]">
           <div className="mb-8 flex items-center gap-3 lg:hidden">
-            <div className="grid h-11 w-11 place-items-center rounded-lg border border-cyan-200/25 bg-cyan-300/10">
-              <Stethoscope className="h-5 w-5 text-cyan-100" />
+            <div className="grid h-11 w-11 place-items-center rounded-lg border border-emerald-200/25 bg-emerald-300/10">
+              <Stethoscope className="h-5 w-5 text-emerald-100" />
             </div>
             <div>
               <p className="text-lg font-semibold">VetyCare</p>
@@ -61,7 +61,7 @@ export default function LoginPage() {
 
           <div className="rounded-lg border border-white/12 bg-white/[0.075] p-5 shadow-2xl shadow-black/35 backdrop-blur-2xl sm:p-8">
             <div className="mb-6">
-              <p className="text-sm font-semibold text-cyan-100">Acceso seguro</p>
+              <p className="text-sm font-semibold text-emerald-100">Acceso seguro</p>
               <h2 className="mt-2 text-3xl font-semibold tracking-tight">Iniciar sesion</h2>
               <p className="mt-2 text-sm leading-6 text-slate-300">
                 Entra al workspace privado de tu clinica.

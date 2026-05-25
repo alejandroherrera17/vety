@@ -1,62 +1,37 @@
 'use client'
 
-import Link from 'next/link'
-import { useTheme } from '@/hooks/useTheme'
-import { themes } from '@/lib/themes/themes'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Palette, Sun, Moon } from 'lucide-react'
+import { Leaf, ShieldCheck } from 'lucide-react'
 
 export function ThemeInfo() {
-  const { theme, mode } = useTheme()
-  const themeData = themes[theme]
-
   return (
-    <Card className="gradient-primary text-primary-foreground">
+    <Card className="border-emerald-200/15 bg-emerald-300/10 text-foreground">
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-primary-foreground">
-          <Palette className="h-5 w-5" />
-          Tema Actual
+        <CardTitle className="flex items-center gap-2 text-foreground">
+          <Leaf className="h-5 w-5 text-emerald-100" />
+          Verde Veterinario
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
           <div>
-            <p className="font-semibold text-lg">{themeData.label}</p>
-            <p className="text-sm opacity-90">{themeData.description}</p>
+            <p className="text-lg font-semibold">Tema unico de VettiPets</p>
+            <p className="text-sm leading-6 text-muted-foreground">
+              Interfaz fija, sobria y de alto contraste para uso clinico diario.
+            </p>
           </div>
 
           <div className="flex items-center gap-2">
             <div className="flex gap-1">
-              <div
-                className="w-4 h-4 rounded-full border border-primary-foreground/20"
-                style={{ backgroundColor: themeData[mode].primary }}
-              />
-              <div
-                className="w-4 h-4 rounded-full border border-primary-foreground/20"
-                style={{ backgroundColor: themeData[mode].secondary }}
-              />
-              <div
-                className="w-4 h-4 rounded-full border border-primary-foreground/20"
-                style={{ backgroundColor: themeData[mode].accent }}
-              />
+              <div className="h-4 w-4 rounded-full border border-emerald-50/20 bg-emerald-500" />
+              <div className="h-4 w-4 rounded-full border border-emerald-50/20 bg-emerald-200" />
+              <div className="h-4 w-4 rounded-full border border-emerald-50/20 bg-slate-950" />
             </div>
-            <div className="flex items-center gap-1 text-sm">
-              {mode === 'light' ? (
-                <Sun className="h-4 w-4" />
-              ) : (
-                <Moon className="h-4 w-4" />
-              )}
-              {mode === 'light' ? 'Light' : 'Dark'}
+            <div className="flex items-center gap-1 text-sm font-semibold text-emerald-100">
+              <ShieldCheck className="h-4 w-4" />
+              Contraste bloqueado
             </div>
           </div>
-
-          <Link href="/theme">
-            <Button variant="secondary" size="sm" className="w-full">
-              <Palette className="h-4 w-4 mr-2" />
-              Personalizar Tema
-            </Button>
-          </Link>
         </div>
       </CardContent>
     </Card>

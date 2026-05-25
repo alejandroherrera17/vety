@@ -14,10 +14,10 @@ export default async function AiAssistantPage() {
       <AppShell>
         <div className="grid min-h-[calc(100dvh-8rem)] place-items-center">
           <Card className="max-w-2xl p-6 text-center shadow-2xl sm:p-8">
-            <span className="mx-auto grid h-16 w-16 place-items-center rounded-lg border border-cyan-200/25 bg-cyan-300/10 text-cyan-100">
+            <span className="mx-auto grid h-16 w-16 place-items-center rounded-lg border border-emerald-200/25 bg-emerald-300/10 text-emerald-100">
               <LockKeyhole className="h-7 w-7" />
             </span>
-            <p className="mt-5 text-sm font-semibold uppercase tracking-[0.18em] text-cyan-100/70">Premium</p>
+            <p className="mt-5 text-sm font-semibold uppercase tracking-[0.18em] text-emerald-100/70">Premium</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">
               VettiPets AI esta incluido en Premium
             </h1>
@@ -44,7 +44,7 @@ export default async function AiAssistantPage() {
         <div className="shrink-0 overflow-hidden rounded-lg border border-white/10 bg-white/[0.06] p-3 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-4">
           <div className="flex flex-col justify-between gap-3 lg:flex-row lg:items-center">
             <div>
-              <p className="flex items-center gap-2 text-sm font-semibold text-cyan-100">
+              <p className="flex items-center gap-2 text-sm font-semibold text-emerald-100">
                 <Sparkles className="h-4 w-4" />
                 VettiPets AI
               </p>
@@ -55,7 +55,7 @@ export default async function AiAssistantPage() {
                 Un copiloto clinico y operativo conectado a la informacion viva de tu workspace.
               </p>
             </div>
-            <div className="hidden w-fit items-center gap-3 rounded-lg border border-cyan-200/20 bg-cyan-300/10 px-4 py-3 text-sm font-semibold text-cyan-100 sm:flex">
+            <div className="hidden w-fit items-center gap-3 rounded-lg border border-emerald-200/20 bg-emerald-300/10 px-4 py-3 text-sm font-semibold text-emerald-100 sm:flex">
               <Bot className="h-4 w-4" />
               Gemini conectado
             </div>

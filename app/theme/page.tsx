@@ -1,5 +1,5 @@
-import { ThemeCustomizer } from '@/components/theme/ThemeCustomizer'
+import { redirect } from "next/navigation";
 
 export default function ThemePage() {
-  return <ThemeCustomizer />
+  redirect("/dashboard");
 }

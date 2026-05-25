@@ -49,7 +49,47 @@ export function ClientTable({ clients }: { clients: ClientRow[] }) {
           action={<ClientFormModal />}
         />
       ) : (
-        <div className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.06] shadow-2xl shadow-black/10 backdrop-blur-xl">
+        <>
+        <div className="grid gap-3 md:hidden">
+          {filtered.map((client) => (
+            <article
+              key={client.id}
+              className="rounded-lg border border-white/10 bg-card/82 p-4 shadow-xl shadow-black/10"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h2 className="truncate text-base font-bold text-foreground">{client.name}</h2>
+                  <p className="mt-1 text-sm text-muted-foreground">{client.phone}</p>
+                  <p className="mt-1 truncate text-sm text-muted-foreground">{client.email ?? "Sin email"}</p>
+                </div>
+                <span className="shrink-0 rounded-full border border-emerald-200/20 bg-emerald-300/10 px-2 py-1 text-xs font-bold text-emerald-100">
+                  {client.pets.length} mascotas
+                </span>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <ClientFormModal
+                  client={{
+                    id: client.id,
+                    name: client.name,
+                    document: client.document ?? "",
+                    phone: client.phone,
+                    email: client.email ?? "",
+                    address: client.address ?? "",
+                  }}
+                  trigger={
+                    <Button type="button" variant="secondary" size="sm" className="w-full">
+                      <Pencil className="h-4 w-4" />
+                      Editar
+                    </Button>
+                  }
+                />
+                <ConfirmButton id={client.id} action={deleteClient} label="Eliminar" className="w-full" />
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="hidden overflow-x-auto rounded-lg border border-white/10 bg-white/[0.06] shadow-2xl shadow-black/10 backdrop-blur-xl md:block">
           <table className="w-full min-w-[720px] text-left text-sm">
             <thead className="bg-white/[0.06] text-xs uppercase tracking-wide text-muted-foreground">
               <tr>
@@ -93,6 +133,7 @@ export function ClientTable({ clients }: { clients: ClientRow[] }) {
             </tbody>
           </table>
         </div>
+        </>
       )}
     </div>
   );
