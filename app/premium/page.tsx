@@ -48,10 +48,10 @@ export default async function PremiumPage() {
   return (
     <AppShell>
       <div className="grid gap-5">
-        <section className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.06] shadow-2xl shadow-black/10 backdrop-blur-xl">
+        <section className="overflow-hidden rounded-lg border border-border bg-white shadow-2xl shadow-black/10 backdrop-blur-xl">
           <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center">
             <div>
-              <Badge className="border-emerald-200/25 bg-emerald-300/10 text-emerald-100">
+              <Badge className="border-sky-200/25 bg-sky-300/10 text-[#147fba]">
                 <Crown className="h-3.5 w-3.5" />
                 Premium workspace
               </Badge>
@@ -74,10 +74,10 @@ export default async function PremiumPage() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-emerald-200/20 bg-slate-950/35 p-5 shadow-2xl shadow-emerald-950/20">
+            <div className="rounded-lg border border-sky-200/20 bg-slate-950/35 p-5 shadow-2xl shadow-sky-950/20">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-sm font-semibold text-emerald-100">Plan Premium</p>
+                  <p className="text-sm font-semibold text-[#147fba]">Plan Premium</p>
                   <p className="mt-2 text-4xl font-bold text-foreground">
                     {new Intl.NumberFormat("es-CO", {
                       style: "currency",
@@ -87,11 +87,11 @@ export default async function PremiumPage() {
                   </p>
                   <p className="mt-1 text-sm text-muted-foreground">por workspace / {PREMIUM_DAYS} dias</p>
                 </div>
-                <span className="grid h-12 w-12 place-items-center rounded-lg border border-emerald-200/25 bg-emerald-300/10 text-emerald-100">
+                <span className="grid h-12 w-12 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10 text-[#147fba]">
                   <Crown className="h-5 w-5" />
                 </span>
               </div>
-              <div className="mt-5 rounded-lg border border-white/10 bg-white/[0.045] p-4">
+              <div className="mt-5 rounded-lg border border-border bg-secondary p-4">
                 <p className="text-sm font-semibold text-foreground">
                   {premiumIsActive ? "Actualmente tienes Premium activo" : "Premium listo para activar"}
                 </p>
@@ -103,15 +103,15 @@ export default async function PremiumPage() {
               </div>
             </div>
           </div>
-          <div className="border-t border-white/10 p-5 sm:p-7">
+          <div className="border-t border-border p-5 sm:p-7">
             <PremiumTrustBadges />
           </div>
         </section>
 
         <section className="grid gap-4 lg:grid-cols-3">
           {benefits.map((benefit) => (
-            <Card key={benefit.title} className="p-5 transition hover:-translate-y-0.5 hover:border-emerald-200/25">
-              <span className="grid h-11 w-11 place-items-center rounded-lg border border-emerald-200/20 bg-emerald-300/10 text-emerald-100">
+            <Card key={benefit.title} className="p-5 transition hover:-translate-y-0.5 hover:border-sky-200/25">
+              <span className="grid h-11 w-11 place-items-center rounded-lg border border-sky-200/20 bg-sky-300/10 text-[#147fba]">
                 <benefit.icon className="h-5 w-5" />
               </span>
               <h2 className="mt-4 text-lg font-bold text-foreground">{benefit.title}</h2>
@@ -123,7 +123,7 @@ export default async function PremiumPage() {
         <section className="grid gap-4 lg:grid-cols-[1fr_360px]">
           <Card className="p-5">
             <h2 className="flex items-center gap-2 text-lg font-bold text-foreground">
-              <ShieldCheck className="h-5 w-5 text-emerald-100" />
+              <ShieldCheck className="h-5 w-5 text-[#147fba]" />
               Historial de pagos
             </h2>
             <div className="mt-4 grid gap-3">
@@ -131,7 +131,7 @@ export default async function PremiumPage() {
                 recentPayments.map((payment) => (
                   <div
                     key={payment.orderId}
-                    className="flex flex-col justify-between gap-3 rounded-lg border border-white/10 bg-white/[0.035] p-4 sm:flex-row sm:items-center"
+                    className="flex flex-col justify-between gap-3 rounded-lg border border-border bg-white p-4 sm:flex-row sm:items-center"
                   >
                     <div>
                       <p className="font-mono text-xs text-muted-foreground">{payment.orderId}</p>
@@ -159,7 +159,7 @@ export default async function PremiumPage() {
                   </div>
                 ))
               ) : (
-                <div className="rounded-lg border border-dashed border-white/15 bg-white/[0.035] p-6 text-sm text-muted-foreground">
+                <div className="rounded-lg border border-dashed border-border bg-white p-6 text-sm text-muted-foreground">
                   Aun no hay pagos registrados para este workspace.
                 </div>
               )}
@@ -168,7 +168,7 @@ export default async function PremiumPage() {
 
           <Card className="p-5">
             <h2 className="flex items-center gap-2 text-lg font-bold text-foreground">
-              <LockKeyhole className="h-5 w-5 text-emerald-100" />
+              <LockKeyhole className="h-5 w-5 text-[#147fba]" />
               Seguridad
             </h2>
             <div className="mt-4 grid gap-3 text-sm leading-6 text-muted-foreground">
@@ -184,7 +184,7 @@ export default async function PremiumPage() {
 }
 
 function statusClass(status: string) {
-  if (status === "approved") return "border-emerald-300/25 bg-emerald-300/10 text-emerald-100";
+  if (status === "approved") return "border-sky-300/25 bg-sky-300/10 text-[#147fba]";
   if (status === "rejected" || status === "failed") return "border-red-300/25 bg-red-300/10 text-red-100";
 
   return "border-amber-300/25 bg-amber-300/10 text-amber-100";

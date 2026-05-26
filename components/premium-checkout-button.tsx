@@ -73,7 +73,7 @@ export function PremiumCheckoutButton({ disabled }: { disabled?: boolean }) {
       type="button"
       onClick={handleCheckout}
       disabled={disabled || isLoading}
-      className="h-12 w-full bg-emerald-200 text-slate-950 shadow-lg shadow-emerald-950/20 hover:bg-emerald-100 sm:w-auto"
+      className="h-12 w-full bg-[#27ADF5] text-white shadow-lg shadow-sky-950/20 hover:bg-[#149fe8] sm:w-auto"
     >
       {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
       Activar Premium
@@ -93,9 +93,9 @@ export function PremiumTrustBadges() {
       {items.map((item) => (
         <div
           key={item.label}
-          className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.045] px-3 py-2 text-sm font-semibold text-muted-foreground"
+          className="flex items-center gap-2 rounded-lg border border-border bg-secondary px-3 py-2 text-sm font-semibold text-muted-foreground"
         >
-          <item.icon className="h-4 w-4 text-emerald-100" />
+          <item.icon className="h-4 w-4 text-[#147fba]" />
           {item.label}
         </div>
       ))}

@@ -79,17 +79,17 @@ export function PremiumResultPanel({ orderId }: { orderId?: string }) {
   const content = getResultContent(status, expiresAt, error);
 
   return (
-    <section className="mx-auto grid max-w-2xl gap-5 rounded-lg border border-white/10 bg-card/82 p-6 text-center shadow-2xl shadow-black/15 backdrop-blur-xl sm:p-8">
-      <div className="mx-auto grid h-16 w-16 place-items-center rounded-lg border border-white/10 bg-white/[0.055] text-emerald-100">
+    <section className="mx-auto grid max-w-2xl gap-5 rounded-lg border border-border bg-card/82 p-6 text-center shadow-2xl shadow-black/15 backdrop-blur-xl sm:p-8">
+      <div className="mx-auto grid h-16 w-16 place-items-center rounded-lg border border-border bg-secondary text-[#147fba]">
         <content.icon className={content.animate ? "h-8 w-8 animate-spin" : "h-8 w-8"} />
       </div>
       <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-100/75">Bold Checkout</p>
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#147fba]/75">Bold Checkout</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">{content.title}</h1>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground">{content.description}</p>
       </div>
       {orderId ? (
-        <div className="rounded-lg border border-white/10 bg-white/[0.045] px-4 py-3 font-mono text-xs text-muted-foreground">
+        <div className="rounded-lg border border-border bg-secondary px-4 py-3 font-mono text-xs text-muted-foreground">
           {orderId}
         </div>
       ) : null}

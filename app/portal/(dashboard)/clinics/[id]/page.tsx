@@ -40,14 +40,14 @@ export default async function ClinicDetailPage({ params }: { params: { id: strin
 
   return (
     <div className="p-6 md:p-8 max-w-5xl mx-auto space-y-6">
-      <Link href="/portal/clinics" className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-emerald-600 transition-colors">
+      <Link href="/portal/clinics" className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-sky-600 transition-colors">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Volver al directorio
       </Link>
 
       <div className="bg-white dark:bg-surface border border-slate-200 dark:border-border rounded-2xl overflow-hidden shadow-sm">
-        <div className="h-48 md:h-64 bg-emerald-100 dark:bg-emerald-900/30 relative">
-           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,theme(colors.emerald.500)_1px,transparent_1px)] opacity-10" style={{ backgroundSize: '16px 16px' }} />
+        <div className="h-48 md:h-64 bg-sky-100 dark:bg-sky-900/30 relative">
+           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#27ADF5_1px,transparent_1px)] opacity-10" style={{ backgroundSize: '16px 16px' }} />
         </div>
         
         <div className="px-6 md:px-10 pb-10 relative">
@@ -57,12 +57,12 @@ export default async function ClinicDetailPage({ params }: { params: { id: strin
                 {clinic.logoUrl ? (
                   <img src={clinic.logoUrl} alt={clinic.name} className="w-full h-full object-cover" />
                 ) : (
-                  <Building2 className="h-16 w-16 text-emerald-600 dark:text-emerald-400" />
+                  <Building2 className="h-16 w-16 text-sky-600 dark:text-sky-400" />
                 )}
               </div>
               <div className="pb-2">
-                <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">{clinic.name}</h1>
-                <p className="text-lg text-emerald-600 dark:text-emerald-400 font-medium flex items-center mt-1">
+                <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-foreground">{clinic.name}</h1>
+                <p className="text-lg text-sky-600 dark:text-sky-400 font-medium flex items-center mt-1">
                   <MapPin className="h-5 w-5 mr-1" />
                   {clinic.city || "Ciudad no especificada"}
                 </p>
@@ -82,7 +82,7 @@ export default async function ClinicDetailPage({ params }: { params: { id: strin
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-2 space-y-8">
               <section>
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Sobre la Clínica</h2>
+                <h2 className="text-xl font-bold text-slate-900 dark:text-foreground mb-4">Sobre la Clínica</h2>
                 <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
                   <p>
                     {clinic.name} es una clínica veterinaria comprometida con el bienestar de tus mascotas. 
@@ -92,10 +92,10 @@ export default async function ClinicDetailPage({ params }: { params: { id: strin
               </section>
 
               <section>
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Especialidades</h2>
+                <h2 className="text-xl font-bold text-slate-900 dark:text-foreground mb-4">Especialidades</h2>
                 <div className="flex flex-wrap gap-2">
                   {(clinic.specialties.length > 0 ? clinic.specialties : ["Medicina General", "Vacunación", "Cirugía"]).map((spec, i) => (
-                    <span key={i} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/20">
+                    <span key={i} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-100 dark:border-sky-500/20">
                       {spec}
                     </span>
                   ))}
@@ -103,16 +103,16 @@ export default async function ClinicDetailPage({ params }: { params: { id: strin
               </section>
               
               <section>
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Equipo Médico</h2>
+                <h2 className="text-xl font-bold text-slate-900 dark:text-foreground mb-4">Equipo Médico</h2>
                 {veterinarians.length > 0 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {veterinarians.map(vet => (
                       <div key={vet.id} className="flex items-center gap-3 p-3 rounded-lg border border-slate-100 dark:border-border bg-slate-50 dark:bg-surface-hover">
-                        <div className="h-10 w-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0">
-                          <Stethoscope className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                        <div className="h-10 w-10 rounded-full bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center shrink-0">
+                          <Stethoscope className="h-5 w-5 text-sky-600 dark:text-sky-400" />
                         </div>
                         <div>
-                          <p className="font-medium text-slate-900 dark:text-white">{vet.name}</p>
+                          <p className="font-medium text-slate-900 dark:text-foreground">{vet.name}</p>
                           <p className="text-xs text-slate-500">Veterinario</p>
                         </div>
                       </div>
@@ -126,8 +126,8 @@ export default async function ClinicDetailPage({ params }: { params: { id: strin
 
             <div className="space-y-6">
               <div className="bg-slate-50 dark:bg-surface-hover rounded-xl p-6 border border-slate-100 dark:border-border">
-                <h3 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center">
-                  <MapPin className="h-5 w-5 mr-2 text-emerald-500" />
+                <h3 className="font-semibold text-slate-900 dark:text-foreground mb-4 flex items-center">
+                  <MapPin className="h-5 w-5 mr-2 text-sky-500" />
                   Ubicación
                 </h3>
                 <p className="text-slate-600 dark:text-slate-300 text-sm">
@@ -139,8 +139,8 @@ export default async function ClinicDetailPage({ params }: { params: { id: strin
               </div>
 
               <div className="bg-slate-50 dark:bg-surface-hover rounded-xl p-6 border border-slate-100 dark:border-border">
-                <h3 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center">
-                  <Phone className="h-5 w-5 mr-2 text-emerald-500" />
+                <h3 className="font-semibold text-slate-900 dark:text-foreground mb-4 flex items-center">
+                  <Phone className="h-5 w-5 mr-2 text-sky-500" />
                   Contacto
                 </h3>
                 <p className="text-slate-600 dark:text-slate-300 text-sm">
@@ -149,8 +149,8 @@ export default async function ClinicDetailPage({ params }: { params: { id: strin
               </div>
 
               <div className="bg-slate-50 dark:bg-surface-hover rounded-xl p-6 border border-slate-100 dark:border-border">
-                <h3 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center">
-                  <Clock className="h-5 w-5 mr-2 text-emerald-500" />
+                <h3 className="font-semibold text-slate-900 dark:text-foreground mb-4 flex items-center">
+                  <Clock className="h-5 w-5 mr-2 text-sky-500" />
                   Horarios
                 </h3>
                 <div className="space-y-2 text-sm text-slate-600 dark:text-slate-300">

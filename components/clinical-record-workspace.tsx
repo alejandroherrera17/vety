@@ -199,7 +199,7 @@ export function ClinicalRecordWorkspace({ data }: { data: ClinicalRecordData }) 
 
   return (
     <div className="text-foreground">
-      <section className="relative overflow-hidden rounded-lg border border-white/10 bg-white/[0.06] text-white shadow-2xl shadow-black/20 backdrop-blur-xl">
+      <section className="relative overflow-hidden rounded-lg border border-border bg-white text-foreground shadow-2xl shadow-black/20 backdrop-blur-xl">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(20,184,166,0.22),transparent_34%),radial-gradient(circle_at_80%_10%,rgba(56,189,248,0.16),transparent_30%)]" />
         <div className="relative grid gap-6 p-5 md:p-7 lg:grid-cols-[1fr_auto] lg:items-end">
           <div className="flex flex-col gap-5 sm:flex-row">
@@ -213,13 +213,13 @@ export function ClinicalRecordWorkspace({ data }: { data: ClinicalRecordData }) 
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold ring-1 ring-white/15">{data.pet.species}</span>
-                <span className="rounded-full bg-teal-300/15 px-3 py-1 text-xs font-semibold text-teal-100 ring-1 ring-teal-200/20">Expediente activo</span>
+                <span className="rounded-full bg-sky-300/15 px-3 py-1 text-xs font-semibold text-[#147fba] ring-1 ring-sky-200/20">Expediente activo</span>
               </div>
               <h1 className="mt-3 text-3xl font-bold tracking-tight md:text-5xl">{data.pet.name}</h1>
-              <p className="mt-2 max-w-3xl text-sm leading-6 text-white/70">
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
                 {data.pet.breed || "Sin raza"} · {data.pet.sex} · {data.pet.age} · {data.pet.weight ? `${data.pet.weight} kg` : "Peso no registrado"}
               </p>
-              <div className="mt-4 flex flex-wrap gap-2 text-xs font-medium text-white/75">
+              <div className="mt-4 flex flex-wrap gap-2 text-xs font-medium text-muted-foreground">
                 <span className="rounded-full bg-white/10 px-3 py-1">Microchip: {data.pet.microchip || "No registrado"}</span>
                 <span className="rounded-full bg-white/10 px-3 py-1">Reproductivo: {data.pet.reproductiveStatus || "Sin dato"}</span>
                 <span className="rounded-full bg-white/10 px-3 py-1">Color: {data.pet.color || "Sin dato"}</span>
@@ -228,13 +228,13 @@ export function ClinicalRecordWorkspace({ data }: { data: ClinicalRecordData }) 
           </div>
           <div className="flex flex-wrap gap-2 lg:justify-end">
             <a href={`${data.pdfUrl}?type=summary`} target="_blank">
-              <Button type="button" variant="secondary" className="border-white/20 bg-white/10 text-white hover:bg-white/20">
+              <Button type="button" variant="secondary" className="border-white/20 bg-white/10 text-foreground hover:bg-white/20">
                 <FileText className="h-4 w-4" />
                 Resumen
               </Button>
             </a>
             <a href={`${data.pdfUrl}?type=vaccines`} target="_blank">
-              <Button type="button" variant="secondary" className="border-white/20 bg-white/10 text-white hover:bg-white/20">
+              <Button type="button" variant="secondary" className="border-white/20 bg-white/10 text-foreground hover:bg-white/20">
                 <QrCode className="h-4 w-4" />
                 Carnet
               </Button>
@@ -254,7 +254,7 @@ export function ClinicalRecordWorkspace({ data }: { data: ClinicalRecordData }) 
           <Panel className="p-4">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">Propietario</p>
             <div className="mt-4 flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-zinc-950 text-sm font-bold text-white">{initials(data.owner.name)}</span>
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-zinc-950 text-sm font-bold text-foreground">{initials(data.owner.name)}</span>
               <div className="min-w-0">
                 <p className="truncate font-semibold">{data.owner.name}</p>
                 <p className="text-sm text-zinc-500">{data.owner.document || "Sin documento"}</p>
@@ -280,7 +280,7 @@ export function ClinicalRecordWorkspace({ data }: { data: ClinicalRecordData }) 
                 onClick={() => setActiveTab(id)}
                 className={cn(
                   "flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold transition",
-                  activeTab === id ? "bg-zinc-950 text-white shadow-sm" : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950",
+                  activeTab === id ? "bg-zinc-950 text-foreground shadow-sm" : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950",
                 )}
               >
                 {label}
@@ -404,7 +404,7 @@ function Panel({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
-        "rounded-lg border border-white/10 bg-card/82 shadow-xl shadow-black/10 backdrop-blur-xl ring-1 ring-white/[0.035]",
+        "rounded-lg border border-border bg-card/82 shadow-xl shadow-black/10 backdrop-blur-xl ring-1 ring-white/[0.035]",
         className,
       )}
       {...props}
@@ -424,7 +424,7 @@ function InfoLine({ icon: Icon, value }: { icon: typeof Phone; value: string }) 
 function SectionTitle({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) {
   return (
     <div>
-      <p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-600">{eyebrow}</p>
+      <p className="text-xs font-bold uppercase tracking-[0.16em] text-sky-600">{eyebrow}</p>
       <h2 className="mt-1 text-xl font-bold tracking-tight text-zinc-950">{title}</h2>
       <p className="mt-1 max-w-2xl text-sm leading-6 text-zinc-500">{description}</p>
     </div>
@@ -490,7 +490,7 @@ function DashboardSection({
             <p className="text-sm font-bold">Proximas vacunas</p>
             <div className="mt-3 grid gap-2">
               {upcomingVaccines.length ? upcomingVaccines.map((item) => (
-                <div key={item.id} className="rounded-xl bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
+                <div key={item.id} className="rounded-xl bg-sky-50 px-3 py-2 text-sm text-sky-800">
                   <strong>{item.vaccine}</strong> · {formatDate(item.nextDose)}
                 </div>
               )) : <p className="text-sm text-zinc-500">Sin alertas de vacunacion.</p>}

@@ -46,24 +46,24 @@ export function PortalLoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium text-emerald-100">Correo Electrónico</label>
+        <label className="text-sm font-medium text-[#147fba]">Correo Electrónico</label>
         <Input 
           {...register("email")}
           type="email" 
           placeholder="tu@correo.com" 
-          className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-emerald-500" 
+          className="bg-white border-border text-foreground placeholder:text-slate-500 focus-visible:ring-sky-500" 
         />
         {errors.email && <p className="text-xs text-red-400">{errors.email.message}</p>}
       </div>
 
       <div className="space-y-2">
         <div className="flex justify-between items-center">
-          <label className="text-sm font-medium text-emerald-100">Contraseña</label>
+          <label className="text-sm font-medium text-[#147fba]">Contraseña</label>
         </div>
         <Input 
           {...register("password")}
           type="password" 
-          className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-emerald-500" 
+          className="bg-white border-border text-foreground placeholder:text-slate-500 focus-visible:ring-sky-500" 
         />
         {errors.password && <p className="text-xs text-red-400">{errors.password.message}</p>}
       </div>
@@ -71,14 +71,14 @@ export function PortalLoginForm() {
       <Button 
         type="submit" 
         disabled={isLoading}
-        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white border-none"
+        className="w-full bg-sky-600 hover:bg-sky-700 text-white border-none"
       >
         {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
         Iniciar Sesión
       </Button>
 
-      <p className="text-center text-sm text-slate-400 pt-4">
-        ¿No tienes cuenta? <Link href="/portal/register" className="text-emerald-400 hover:text-emerald-300 hover:underline">Regístrate</Link>
+      <p className="text-center text-sm text-muted-foreground pt-4">
+        ¿No tienes cuenta? <Link href="/portal/register" className="text-sky-400 hover:text-[#27ADF5] hover:underline">Regístrate</Link>
       </p>
     </form>
   );
@@ -135,54 +135,54 @@ export function PortalRegisterForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium text-emerald-100">Nombre Completo</label>
+        <label className="text-sm font-medium text-[#147fba]">Nombre Completo</label>
         <Input 
           {...register("name")}
           type="text" 
           placeholder="Juan Pérez" 
-          className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-emerald-500" 
+          className="bg-white border-border text-foreground placeholder:text-slate-500 focus-visible:ring-sky-500" 
         />
         {errors.name && <p className="text-xs text-red-400">{errors.name.message}</p>}
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-emerald-100">Correo Electrónico</label>
+          <label className="text-sm font-medium text-[#147fba]">Correo Electrónico</label>
           <Input 
             {...register("email")}
             type="email" 
             placeholder="tu@correo.com" 
-            className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-emerald-500" 
+            className="bg-white border-border text-foreground placeholder:text-slate-500 focus-visible:ring-sky-500" 
           />
           {errors.email && <p className="text-xs text-red-400">{errors.email.message}</p>}
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium text-emerald-100">Teléfono</label>
+          <label className="text-sm font-medium text-[#147fba]">Teléfono</label>
           <Input 
             {...register("phone")}
             type="tel" 
             placeholder="300 000 0000" 
-            className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-emerald-500" 
+            className="bg-white border-border text-foreground placeholder:text-slate-500 focus-visible:ring-sky-500" 
           />
           {errors.phone && <p className="text-xs text-red-400">{errors.phone.message}</p>}
         </div>
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-emerald-100">Documento (Opcional)</label>
+        <label className="text-sm font-medium text-[#147fba]">Documento (Opcional)</label>
         <Input 
           {...register("document")}
           type="text" 
-          className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-emerald-500" 
+          className="bg-white border-border text-foreground placeholder:text-slate-500 focus-visible:ring-sky-500" 
         />
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-emerald-100">Contraseña</label>
+        <label className="text-sm font-medium text-[#147fba]">Contraseña</label>
         <Input 
           {...register("password")}
           type="password" 
-          className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-emerald-500" 
+          className="bg-white border-border text-foreground placeholder:text-slate-500 focus-visible:ring-sky-500" 
         />
         {errors.password && <p className="text-xs text-red-400">{errors.password.message}</p>}
       </div>
@@ -190,14 +190,14 @@ export function PortalRegisterForm() {
       <Button 
         type="submit" 
         disabled={isLoading}
-        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white border-none mt-2"
+        className="w-full bg-sky-600 hover:bg-sky-700 text-white border-none mt-2"
       >
         {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
         Crear Cuenta
       </Button>
 
-      <p className="text-center text-sm text-slate-400 pt-4">
-        ¿Ya tienes cuenta? <Link href="/portal/login" className="text-emerald-400 hover:text-emerald-300 hover:underline">Inicia Sesión</Link>
+      <p className="text-center text-sm text-muted-foreground pt-4">
+        ¿Ya tienes cuenta? <Link href="/portal/login" className="text-sky-400 hover:text-[#27ADF5] hover:underline">Inicia Sesión</Link>
       </p>
     </form>
   );

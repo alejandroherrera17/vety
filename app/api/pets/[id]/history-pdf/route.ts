@@ -1,5 +1,5 @@
 import React from "react";
-import { Document, Page, Text, View, renderToStream } from "@react-pdf/renderer";
+import { Document, Image, Page, Text, View, renderToStream } from "@react-pdf/renderer";
 import { calculateAge } from "@/lib/clinical";
 import { prisma } from "@/lib/prisma";
 import { getCurrentWorkspace } from "@/lib/session";
@@ -15,18 +15,30 @@ function field(label: string, value?: string | number | null) {
   return h(View, null, h(Text, { style: { color: "#64748b", fontSize: 7, textTransform: "uppercase", marginBottom: 2 } }, label), h(Text, { style: { fontSize: 9, lineHeight: 1.4, marginBottom: 7 } }, value || "No registrado"));
 }
 
-function header(type: PdfType, styles: ReturnType<typeof createPdfStyles>) {
+function header(
+  type: PdfType,
+  styles: ReturnType<typeof createPdfStyles>,
+  workspace: { organizationName: string; organizationLogoUrl: string | null },
+) {
   const title = type === "vaccines" ? "Carnet de vacunacion" : type === "summary" ? "Resumen clinico" : "Historia clinica integral";
+  const initials = workspace.organizationName
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
   return h(View, { style: styles.header, fixed: true },
     h(View, { style: { flexDirection: "row", justifyContent: "space-between", gap: 16 } },
       h(View, { style: { flexDirection: "row", gap: 12 } },
-        h(Text, { style: { width: 42, height: 42, borderRadius: 12, backgroundColor: "#5eead4", color: "#0f172a", fontSize: 18, fontWeight: 700, textAlign: "center", paddingTop: 11 } }, "VC"),
+        workspace.organizationLogoUrl
+          ? h(Image, { src: workspace.organizationLogoUrl, style: { width: 42, height: 42, borderRadius: 12, objectFit: "cover" } })
+          : h(Text, { style: { width: 42, height: 42, borderRadius: 12, backgroundColor: "#ffffff", color: "#27ADF5", fontSize: 18, fontWeight: 700, textAlign: "center", paddingTop: 11 } }, initials),
         h(View, null,
-          h(Text, { style: { fontSize: 18, fontWeight: 700, marginBottom: 4 } }, `VetyCare · ${title}`),
-          h(Text, { style: { color: "#cbd5e1", lineHeight: 1.5 } }, "Clinica veterinaria moderna · contacto@vetycare.com · +57 300 000 0000"),
+          h(Text, { style: { fontSize: 18, fontWeight: 700, marginBottom: 4 } }, `${workspace.organizationName} - ${title}`),
+          h(Text, { style: { color: "#ffffff", lineHeight: 1.5 } }, "Documento clinico generado por VettiPets"),
         ),
       ),
-      h(Text, { style: { color: "#cbd5e1" } }, `Generado ${formatDate(new Date())}`),
+      h(Text, { style: { color: "#ffffff" } }, `Generado ${formatDate(new Date())}`),
     ),
   );
 }
@@ -70,7 +82,7 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
 
   const doc = h(Document, { title: `${pet.name} - Historia clinica` },
     h(Page, { size: "A4", style: styles.page, wrap: true },
-      header(type, styles),
+      header(type, styles, workspace),
       h(View, { style: styles.section },
         h(View, { style: styles.headerRow },
           h(View, { style: { flex: 1 } },
@@ -138,7 +150,7 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
         )) : [h(Text, { key: "empty", style: styles.value }, "Sin archivos adjuntos.")]),
       ) : null,
       h(View, { style: styles.footer, fixed: true },
-        h(Text, null, "VetyCare · Expediente medico veterinario"),
+        h(Text, null, `${workspace.organizationName} - Expediente medico veterinario`),
         h(Text, { render: ({ pageNumber, totalPages }: { pageNumber: number; totalPages: number }) => `Pagina ${pageNumber} de ${totalPages}` }),
       ),
     ),

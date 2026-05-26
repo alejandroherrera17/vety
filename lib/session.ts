@@ -11,6 +11,7 @@ export type WorkspaceSession = {
   veterinarianId: string;
   organizationId: string;
   organizationName: string;
+  organizationLogoUrl: string | null;
   isPremium: boolean;
   premiumExpiresAt: Date | null;
   role: OrganizationRole;
@@ -28,7 +29,7 @@ export async function getCurrentWorkspace(): Promise<WorkspaceSession | null> {
   const veterinarian = await prisma.veterinarian.findUnique({
     where: { id: session.user.id },
     include: {
-      organization: { select: { id: true, name: true, isPremium: true, premiumExpiresAt: true } },
+      organization: { select: { id: true, name: true, logoUrl: true, isPremium: true, premiumExpiresAt: true } },
       organizationUsers: {
         where: { status: "active" },
         orderBy: { createdAt: "asc" },
@@ -52,6 +53,7 @@ export async function getCurrentWorkspace(): Promise<WorkspaceSession | null> {
     veterinarianId: veterinarian.id,
     organizationId: membership?.organizationId ?? veterinarian.organizationId,
     organizationName: veterinarian.organization.name,
+    organizationLogoUrl: veterinarian.organization.logoUrl,
     isPremium: premiumIsActive,
     premiumExpiresAt: veterinarian.organization.premiumExpiresAt,
     role: (membership?.role ?? "admin") as OrganizationRole,

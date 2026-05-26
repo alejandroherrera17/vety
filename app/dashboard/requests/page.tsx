@@ -55,7 +55,7 @@ export default async function DashboardRequestsPage() {
   return (
     <AppShell>
     <div className="flex flex-col">
-      <header className="flex shrink-0 items-center justify-between rounded-lg border border-white/10 bg-white/[0.06] px-5 py-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:px-6">
+      <header className="flex shrink-0 items-center justify-between rounded-lg border border-border bg-white px-5 py-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:px-6">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">Bandeja de Solicitudes</h1>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -67,9 +67,9 @@ export default async function DashboardRequestsPage() {
       <main className="mt-6 flex-1">
         <div className="mx-auto max-w-6xl space-y-6">
           <div className="grid gap-4 md:grid-cols-3">
-            <div className="rounded-lg border border-white/10 bg-card/82 p-4 shadow-xl shadow-black/10 backdrop-blur-xl">
+            <div className="rounded-lg border border-border bg-card/82 p-4 shadow-xl shadow-black/10 backdrop-blur-xl">
               <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-emerald-500/10 p-2 text-emerald-500">
+                <div className="rounded-lg bg-sky-500/10 p-2 text-sky-500">
                   <Calendar className="h-5 w-5" />
                 </div>
                 <div>
@@ -78,9 +78,9 @@ export default async function DashboardRequestsPage() {
                 </div>
               </div>
             </div>
-            <div className="rounded-lg border border-white/10 bg-card/82 p-4 shadow-xl shadow-black/10 backdrop-blur-xl md:col-span-2">
+            <div className="rounded-lg border border-border bg-card/82 p-4 shadow-xl shadow-black/10 backdrop-blur-xl md:col-span-2">
               <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-emerald-500/10 p-2 text-emerald-500">
+                <div className="rounded-lg bg-sky-500/10 p-2 text-sky-500">
                   <CheckCircle2 className="h-5 w-5" />
                 </div>
                 <div>
@@ -93,7 +93,7 @@ export default async function DashboardRequestsPage() {
             </div>
           </div>
 
-          <div className="rounded-lg border border-white/10 bg-card/82 shadow-xl shadow-black/10 backdrop-blur-xl">
+          <div className="rounded-lg border border-border bg-card/82 shadow-xl shadow-black/10 backdrop-blur-xl">
             <div className="p-4 md:p-6">
               <AppointmentRequestPanel 
                 requests={serializedRequests} 

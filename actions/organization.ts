@@ -39,6 +39,6 @@ export async function updateOrganizationProfile(input: unknown): Promise<ActionR
   });
 
   revalidatePath("/clinic");
-  revalidatePath("/dashboard");
+  revalidatePath("/dashboard", "layout");
   return { ok: true };
 }

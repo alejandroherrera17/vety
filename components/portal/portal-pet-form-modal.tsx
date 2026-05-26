@@ -50,7 +50,7 @@ export function PortalPetFormModal({
     <>
       <span onClick={() => setOpen(true)}>
         {trigger ?? (
-          <Button type="button" className="bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button type="button" className="bg-sky-600 hover:bg-sky-700 text-foreground">
             <Plus className="h-4 w-4 mr-2" />
             Añadir mascota
           </Button>
@@ -60,7 +60,7 @@ export function PortalPetFormModal({
         <FormModalShell
           title="Añadir Mascota"
           description="Agrega los detalles de tu peludo para solicitar citas."
-          icon={<PawPrint className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />}
+          icon={<PawPrint className="h-5 w-5 text-sky-600 dark:text-sky-400" />}
           onClose={() => setOpen(false)}
         >
           <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 sm:grid-cols-2">
@@ -93,7 +93,7 @@ export function PortalPetFormModal({
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Cancelar
               </Button>
-              <Button type="submit" disabled={pending} className="bg-emerald-600 hover:bg-emerald-700 text-white border-none">
+              <Button type="submit" disabled={pending} className="bg-sky-600 hover:bg-sky-700 text-foreground border-none">
                 {pending ? "Guardando..." : "Guardar mascota"}
               </Button>
             </div>

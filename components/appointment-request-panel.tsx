@@ -78,7 +78,7 @@ export function AppointmentRequestPanel({
 
   if (!requests.length) {
     return (
-      <div className="rounded-lg border border-dashed border-white/15 bg-white/[0.04] p-5 text-sm text-muted-foreground">
+      <div className="rounded-lg border border-dashed border-border bg-secondary p-5 text-sm text-muted-foreground">
         No hay solicitudes pendientes. Cuando un propietario solicite cita desde el portal, aparecera aqui para aprobarla.
       </div>
     );
@@ -92,7 +92,7 @@ export function AppointmentRequestPanel({
             key={request.id}
             type="button"
             onClick={() => setActiveId(request.id)}
-            className="rounded-lg border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-emerald-200/35 hover:bg-white/[0.07]"
+            className="rounded-lg border border-border bg-secondary p-4 text-left transition hover:border-sky-200/35 hover:bg-[#edf8ff]"
           >
             <div className="flex items-start justify-between gap-3">
               <div>
@@ -116,7 +116,7 @@ export function AppointmentRequestPanel({
         ))}
       </div>
 
-      <div className="rounded-lg border border-white/10 bg-card/80 p-4">
+      <div className="rounded-lg border border-border bg-card/80 p-4">
         <h3 className="text-base font-bold text-foreground">Decision de la clinica</h3>
         {activeRequest ? (
           <div className="mt-4 grid gap-4">

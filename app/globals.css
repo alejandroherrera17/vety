@@ -4,39 +4,39 @@
 
 :root {
   /* Theme variables will be set dynamically by ThemeProvider */
-  --background: hsl(152, 38%, 6%);
-  --foreground: hsl(145, 35%, 96%);
-  --card: hsl(151, 34%, 10%);
-  --card-foreground: hsl(145, 35%, 96%);
-  --popover: hsl(151, 34%, 10%);
-  --popover-foreground: hsl(145, 35%, 96%);
-  --primary: hsl(151, 72%, 28%);
-  --primary-foreground: hsl(145, 35%, 98%);
-  --secondary: hsl(150, 26%, 15%);
-  --secondary-foreground: hsl(145, 35%, 96%);
-  --muted: hsl(150, 24%, 15%);
-  --muted-foreground: hsl(145, 24%, 76%);
-  --accent: hsl(150, 28%, 18%);
-  --accent-foreground: hsl(145, 35%, 96%);
-  --destructive: hsl(0, 84%, 60%);
-  --destructive-foreground: hsl(210, 40%, 98%);
-  --border: hsl(150, 24%, 20%);
-  --input: hsl(150, 24%, 15%);
-  --ring: hsl(151, 72%, 34%);
-  --sidebar: hsl(154, 40%, 5%);
-  --sidebar-foreground: hsl(145, 35%, 96%);
-  --navbar: hsl(152, 38%, 6%);
-  --navbar-foreground: hsl(145, 35%, 96%);
-  --success: hsl(142, 76%, 36%);
-  --success-foreground: hsl(355, 100%, 97%);
+  --background: #ffffff;
+  --foreground: #0b1724;
+  --card: #ffffff;
+  --card-foreground: #0b1724;
+  --popover: #ffffff;
+  --popover-foreground: #0b1724;
+  --primary: #27adf5;
+  --primary-foreground: #ffffff;
+  --secondary: #f4faff;
+  --secondary-foreground: #0b1724;
+  --muted: #edf8ff;
+  --muted-foreground: #45677b;
+  --accent: #dff2ff;
+  --accent-foreground: #0b1724;
+  --destructive: #f52727;
+  --destructive-foreground: #ffffff;
+  --border: #d6ecfa;
+  --input: #f4faff;
+  --ring: #27adf5;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0b1724;
+  --navbar: #ffffff;
+  --navbar-foreground: #0b1724;
+  --success: #27adf5;
+  --success-foreground: #ffffff;
   --warning: hsl(38, 92%, 50%);
   --warning-foreground: hsl(20, 14%, 4%);
-  --info: hsl(199, 89%, 48%);
-  --info-foreground: hsl(210, 40%, 98%);
-  --gradient-primary: linear-gradient(135deg, hsl(151, 72%, 28%) 0%, hsl(160, 84%, 30%) 100%);
-  --gradient-secondary: linear-gradient(135deg, hsl(150, 26%, 15%) 0%, hsl(151, 34%, 10%) 100%);
-  --shadow: hsl(152, 38%, 6%);
-  --glow: hsl(151, 72%, 34%);
+  --info: #27adf5;
+  --info-foreground: #ffffff;
+  --gradient-primary: linear-gradient(135deg, #27adf5 0%, #8edcff 100%);
+  --gradient-secondary: linear-gradient(135deg, #ffffff 0%, #f4faff 100%);
+  --shadow: #d6ecfa;
+  --glow: #27adf5;
 }
 
 @theme inline {
@@ -154,8 +154,8 @@ a {
 .appointment-calendar .fc .fc-button-primary:not(:disabled).fc-button-active,
 .appointment-calendar .fc .fc-button-primary:not(:disabled):active,
 .appointment-calendar .fc .fc-button:hover {
-  border-color: rgb(103 232 249 / 0.45);
-  background: rgb(103 232 249 / 0.18);
+  border-color: rgb(39 173 245 / 0.45);
+  background: rgb(39 173 245 / 0.18);
   color: var(--foreground);
 }
 

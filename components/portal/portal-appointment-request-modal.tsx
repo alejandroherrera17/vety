@@ -67,7 +67,7 @@ export function PortalAppointmentRequestModal({
     <>
       <Button 
         onClick={() => setOpen(true)}
-        className="w-full md:w-auto bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/20 px-8 py-6 text-lg"
+        className="w-full md:w-auto bg-sky-600 hover:bg-sky-700 text-foreground shadow-lg shadow-sky-600/20 px-8 py-6 text-lg"
       >
         <CalendarIcon className="mr-2 h-5 w-5" />
         Solicitar Cita
@@ -77,15 +77,15 @@ export function PortalAppointmentRequestModal({
         <FormModalShell
           title={`Solicitar cita en ${clinicName}`}
           description="Tu solicitud será enviada a la clínica para ser confirmada."
-          icon={<CalendarIcon className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />}
+          icon={<CalendarIcon className="h-5 w-5 text-sky-600 dark:text-sky-400" />}
           onClose={() => setOpen(false)}
         >
           {pets.length === 0 ? (
             <div className="py-8 text-center space-y-4">
               <PawPrint className="mx-auto h-12 w-12 text-slate-300 dark:text-slate-600" />
-              <p className="text-slate-900 dark:text-white font-medium">No tienes mascotas registradas</p>
+              <p className="text-slate-900 dark:text-foreground font-medium">No tienes mascotas registradas</p>
               <p className="text-sm text-slate-500">Debes registrar al menos una mascota en tu perfil para poder agendar una cita.</p>
-              <Button onClick={() => setOpen(false)} className="mt-4 bg-emerald-600 hover:bg-emerald-700">Entendido</Button>
+              <Button onClick={() => setOpen(false)} className="mt-4 bg-sky-600 hover:bg-sky-700">Entendido</Button>
             </div>
           ) : (
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
@@ -145,7 +145,7 @@ export function PortalAppointmentRequestModal({
                 <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                   Cancelar
                 </Button>
-                <Button type="submit" disabled={pending} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                <Button type="submit" disabled={pending} className="bg-sky-600 hover:bg-sky-700 text-foreground">
                   {pending ? "Enviando..." : "Enviar Solicitud"}
                 </Button>
               </div>

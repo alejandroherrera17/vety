@@ -6,7 +6,7 @@ export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
     <input
       {...props}
       className={cn(
-        "h-11 w-full rounded-lg border border-border/80 bg-card/80 px-3 text-sm text-foreground shadow-sm shadow-black/5 outline-none transition-all placeholder:text-muted-foreground/70 hover:border-primary/45 focus:border-primary/70 focus:ring-4 focus:ring-primary/15",
+        "h-11 w-full rounded-lg border border-border/80 bg-white px-3 text-sm text-foreground shadow-sm shadow-sky-950/5 outline-none transition-all placeholder:text-muted-foreground/70 hover:border-primary/45 focus:border-primary/70 focus:ring-4 focus:ring-primary/15",
         props.className,
       )}
     />
@@ -18,7 +18,7 @@ export function Textarea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement
     <textarea
       {...props}
       className={cn(
-        "min-h-32 w-full rounded-lg border border-border/80 bg-card/80 px-3 py-3 text-sm text-foreground shadow-sm shadow-black/5 outline-none transition-all placeholder:text-muted-foreground/70 hover:border-primary/45 focus:border-primary/70 focus:ring-4 focus:ring-primary/15",
+        "min-h-32 w-full rounded-lg border border-border/80 bg-white px-3 py-3 text-sm text-foreground shadow-sm shadow-sky-950/5 outline-none transition-all placeholder:text-muted-foreground/70 hover:border-primary/45 focus:border-primary/70 focus:ring-4 focus:ring-primary/15",
         props.className,
       )}
     />
@@ -30,7 +30,7 @@ export function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
     <select
       {...props}
       className={cn(
-        "h-11 w-full rounded-lg border border-border/80 bg-card/80 px-3 text-sm text-foreground shadow-sm shadow-black/5 outline-none transition-all hover:border-primary/45 focus:border-primary/70 focus:ring-4 focus:ring-primary/15",
+        "h-11 w-full rounded-lg border border-border/80 bg-white px-3 text-sm text-foreground shadow-sm shadow-sky-950/5 outline-none transition-all hover:border-primary/45 focus:border-primary/70 focus:ring-4 focus:ring-primary/15",
         props.className,
       )}
     />

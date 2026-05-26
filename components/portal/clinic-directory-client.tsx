@@ -43,14 +43,14 @@ export function ClinicDirectoryClient({ clinics }: { clinics: Clinic[] }) {
             placeholder="Buscar por nombre o especialidad..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 bg-white dark:bg-surface border border-slate-200 dark:border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-shadow shadow-sm"
+            className="w-full pl-10 pr-4 py-3 bg-white dark:bg-surface border border-slate-200 dark:border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 transition-shadow shadow-sm"
           />
         </div>
         <div>
           <select
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
-            className="w-full px-4 py-3 bg-white dark:bg-surface border border-slate-200 dark:border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm appearance-none cursor-pointer"
+            className="w-full px-4 py-3 bg-white dark:bg-surface border border-slate-200 dark:border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm appearance-none cursor-pointer"
           >
             <option value="all">Todas las ciudades</option>
             {cities.map(city => (
@@ -63,24 +63,24 @@ export function ClinicDirectoryClient({ clinics }: { clinics: Clinic[] }) {
       {filteredClinics.length === 0 ? (
         <div className="bg-white dark:bg-surface border border-slate-200 dark:border-border rounded-xl p-12 text-center shadow-sm">
           <Building2 className="mx-auto h-12 w-12 text-slate-300 dark:text-slate-600 mb-4" />
-          <h3 className="text-lg font-medium text-slate-900 dark:text-white">No se encontraron clínicas</h3>
+          <h3 className="text-lg font-medium text-slate-900 dark:text-foreground">No se encontraron clínicas</h3>
           <p className="mt-2 text-slate-500">Prueba ajustando tus filtros de búsqueda.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredClinics.map((clinic) => (
             <Link key={clinic.id} href={`/portal/clinics/${clinic.id}`} className="group block">
-              <div className="bg-white dark:bg-surface border border-slate-200 dark:border-border rounded-xl p-5 shadow-sm hover:shadow-md hover:border-emerald-500/50 transition-all h-full flex flex-col">
+              <div className="bg-white dark:bg-surface border border-slate-200 dark:border-border rounded-xl p-5 shadow-sm hover:shadow-md hover:border-sky-500/50 transition-all h-full flex flex-col">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="h-12 w-12 rounded-lg bg-emerald-100 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center shrink-0 overflow-hidden">
+                  <div className="h-12 w-12 rounded-lg bg-sky-100 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800 flex items-center justify-center shrink-0 overflow-hidden">
                     {clinic.logoUrl ? (
                       <img src={clinic.logoUrl} alt={clinic.name} className="w-full h-full object-cover" />
                     ) : (
-                      <Building2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                      <Building2 className="h-6 w-6 text-sky-600 dark:text-sky-400" />
                     )}
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors line-clamp-1">{clinic.name}</h3>
+                    <h3 className="font-bold text-slate-900 dark:text-foreground group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1">{clinic.name}</h3>
                     <div className="flex items-center text-sm text-slate-500 mt-1">
                       <MapPin className="h-3.5 w-3.5 mr-1" />
                       <span className="line-clamp-1">{clinic.city || "Ciudad no especificada"}</span>
@@ -105,10 +105,10 @@ export function ClinicDirectoryClient({ clinics }: { clinics: Clinic[] }) {
 
                 <div className="pt-4 border-t border-slate-100 dark:border-border flex items-center justify-between mt-auto">
                   <div className="flex items-center text-sm text-slate-500">
-                    <Stethoscope className="h-4 w-4 mr-1.5 text-emerald-500" />
+                    <Stethoscope className="h-4 w-4 mr-1.5 text-sky-500" />
                     {clinic.veterinarians.length} profesionales
                   </div>
-                  <div className="flex items-center text-sm font-medium text-emerald-600 dark:text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0">
+                  <div className="flex items-center text-sm font-medium text-sky-600 dark:text-sky-400 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0">
                     Ver detalles <ChevronRight className="h-4 w-4 ml-0.5" />
                   </div>
                 </div>

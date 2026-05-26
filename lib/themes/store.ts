@@ -3,7 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 import { ThemeName, ThemeMode, themes, defaultTheme } from './themes'
 
 export const lockedTheme: ThemeName = 'emerald_care'
-export const lockedMode: ThemeMode = 'dark'
+export const lockedMode: ThemeMode = 'light'
 
 interface ThemeState {
   theme: ThemeName

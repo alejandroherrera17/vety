@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VetyCare",
+  title: "VettiPets",
   description: "SaaS de gestión veterinaria para clínicas modernas",
 };
 

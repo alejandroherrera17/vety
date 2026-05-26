@@ -37,7 +37,7 @@ export type ClinicalStatus = "open" | "stable" | "critical" | "closed" | "schedu
 
 export const eventMeta: Record<ClinicalEventType, { label: string; icon: typeof Stethoscope; tone: string }> = {
   consulta: { label: "Consulta", icon: Stethoscope, tone: "bg-sky-50 text-sky-700 ring-sky-200" },
-  vacunacion: { label: "Vacunacion", icon: Syringe, tone: "bg-emerald-50 text-emerald-700 ring-emerald-200" },
+  vacunacion: { label: "Vacunacion", icon: Syringe, tone: "bg-sky-50 text-sky-700 ring-sky-200" },
   cirugia: { label: "Cirugia", icon: Activity, tone: "bg-rose-50 text-rose-700 ring-rose-200" },
   hospitalizacion: { label: "Hospitalizacion", icon: Hotel, tone: "bg-violet-50 text-violet-700 ring-violet-200" },
   examen: { label: "Examen", icon: Beaker, tone: "bg-amber-50 text-amber-700 ring-amber-200" },
@@ -46,13 +46,13 @@ export const eventMeta: Record<ClinicalEventType, { label: string; icon: typeof 
   bano: { label: "Bano", icon: Bath, tone: "bg-cyan-50 text-cyan-700 ring-cyan-200" },
   receta: { label: "Receta", icon: Pill, tone: "bg-indigo-50 text-indigo-700 ring-indigo-200" },
   laboratorio: { label: "Laboratorio", icon: FileText, tone: "bg-orange-50 text-orange-700 ring-orange-200" },
-  imagenes: { label: "Imagenes", icon: FileImage, tone: "bg-teal-50 text-teal-700 ring-teal-200" },
+  imagenes: { label: "Imagenes", icon: FileImage, tone: "bg-sky-50 text-sky-700 ring-sky-200" },
   emergencia: { label: "Emergencia", icon: AlertTriangle, tone: "bg-red-50 text-red-700 ring-red-200" },
 };
 
 export const statusMeta: Record<ClinicalStatus, { label: string; className: string }> = {
   open: { label: "Abierto", className: "bg-sky-50 text-sky-700 ring-sky-200" },
-  stable: { label: "Estable", className: "bg-emerald-50 text-emerald-700 ring-emerald-200" },
+  stable: { label: "Estable", className: "bg-sky-50 text-sky-700 ring-sky-200" },
   critical: { label: "Critico", className: "bg-red-50 text-red-700 ring-red-200" },
   closed: { label: "Cerrado", className: "bg-zinc-100 text-zinc-700 ring-zinc-200" },
   scheduled: { label: "Programado", className: "bg-amber-50 text-amber-700 ring-amber-200" },

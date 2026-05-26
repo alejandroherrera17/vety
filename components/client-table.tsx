@@ -54,7 +54,7 @@ export function ClientTable({ clients }: { clients: ClientRow[] }) {
           {filtered.map((client) => (
             <article
               key={client.id}
-              className="rounded-lg border border-white/10 bg-card/82 p-4 shadow-xl shadow-black/10"
+              className="rounded-lg border border-border bg-card/82 p-4 shadow-xl shadow-black/10"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
@@ -62,7 +62,7 @@ export function ClientTable({ clients }: { clients: ClientRow[] }) {
                   <p className="mt-1 text-sm text-muted-foreground">{client.phone}</p>
                   <p className="mt-1 truncate text-sm text-muted-foreground">{client.email ?? "Sin email"}</p>
                 </div>
-                <span className="shrink-0 rounded-full border border-emerald-200/20 bg-emerald-300/10 px-2 py-1 text-xs font-bold text-emerald-100">
+                <span className="shrink-0 rounded-full border border-sky-200/20 bg-sky-300/10 px-2 py-1 text-xs font-bold text-[#147fba]">
                   {client.pets.length} mascotas
                 </span>
               </div>
@@ -89,9 +89,9 @@ export function ClientTable({ clients }: { clients: ClientRow[] }) {
           ))}
         </div>
 
-        <div className="hidden overflow-x-auto rounded-lg border border-white/10 bg-white/[0.06] shadow-2xl shadow-black/10 backdrop-blur-xl md:block">
+        <div className="hidden overflow-x-auto rounded-lg border border-border bg-white shadow-2xl shadow-black/10 backdrop-blur-xl md:block">
           <table className="w-full min-w-[720px] text-left text-sm">
-            <thead className="bg-white/[0.06] text-xs uppercase tracking-wide text-muted-foreground">
+            <thead className="bg-white text-xs uppercase tracking-wide text-muted-foreground">
               <tr>
                 <th className="px-4 py-3">Nombre</th>
                 <th className="px-4 py-3">Teléfono</th>
@@ -102,7 +102,7 @@ export function ClientTable({ clients }: { clients: ClientRow[] }) {
             </thead>
             <tbody className="divide-y divide-white/10">
               {filtered.map((client) => (
-                <tr key={client.id} className="transition hover:bg-white/[0.05]">
+                <tr key={client.id} className="transition hover:bg-[#edf8ff]">
                   <td className="px-4 py-3 font-semibold text-foreground">{client.name}</td>
                   <td className="px-4 py-3 text-muted-foreground">{client.phone}</td>
                   <td className="px-4 py-3 text-muted-foreground">{client.pets.length}</td>

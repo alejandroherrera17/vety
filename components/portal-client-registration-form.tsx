@@ -65,7 +65,7 @@ export function PortalClientRegistrationForm({
   return (
     <Card className="p-6">
       <div className="mb-5">
-        <p className="text-sm font-semibold text-emerald-100">Registro de propietario</p>
+        <p className="text-sm font-semibold text-[#147fba]">Registro de propietario</p>
         <h2 className="mt-1 text-2xl font-bold text-foreground">Crea tu acceso en una clinica</h2>
         <p className="mt-2 text-sm text-muted-foreground">
           Registra tus datos y tu primera mascota. Luego podras consultar historia clinica y solicitar citas con tu documento.
@@ -101,8 +101,8 @@ export function PortalClientRegistrationForm({
             <Input value={address} onChange={(event) => setAddress(event.target.value)} />
           </Field>
         </div>
-        <div className="md:col-span-2 border-t border-white/10 pt-3">
-          <p className="text-sm font-semibold text-emerald-100">Primera mascota</p>
+        <div className="md:col-span-2 border-t border-border pt-3">
+          <p className="text-sm font-semibold text-[#147fba]">Primera mascota</p>
         </div>
         <Field label="Nombre de mascota">
           <Input value={petName} onChange={(event) => setPetName(event.target.value)} />

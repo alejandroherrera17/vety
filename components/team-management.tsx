@@ -70,7 +70,7 @@ export function TeamManagement({ members }: { members: TeamMember[] }) {
     <div className="grid gap-5 lg:grid-cols-[420px_1fr]">
       <Card className="p-5">
         <div className="mb-5 flex items-start gap-3">
-          <span className="grid h-11 w-11 place-items-center rounded-lg border border-white/10 bg-white/[0.06] text-emerald-100">
+          <span className="grid h-11 w-11 place-items-center rounded-lg border border-border bg-white text-[#147fba]">
             <UserPlus className="h-5 w-5" />
           </span>
           <div>
@@ -107,7 +107,7 @@ export function TeamManagement({ members }: { members: TeamMember[] }) {
       </Card>
 
       <Card className="overflow-hidden">
-        <div className="border-b border-white/10 p-5">
+        <div className="border-b border-border p-5">
           <h2 className="text-lg font-bold text-foreground">Equipo activo</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Roles, estado y acceso de quienes operan la clinica.
@@ -120,8 +120,8 @@ export function TeamManagement({ members }: { members: TeamMember[] }) {
                 <p className="truncate font-semibold text-foreground">{member.name}</p>
                 <p className="truncate text-sm text-muted-foreground">{member.email}</p>
               </div>
-              <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-xs font-bold text-muted-foreground">
-                <ShieldCheck className="h-3.5 w-3.5 text-emerald-100" />
+              <span className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-secondary px-3 py-1 text-xs font-bold text-muted-foreground">
+                <ShieldCheck className="h-3.5 w-3.5 text-[#147fba]" />
                 {roleLabels[member.role]}
               </span>
               <span className="text-sm font-semibold text-muted-foreground">{member.status}</span>

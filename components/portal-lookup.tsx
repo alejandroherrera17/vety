@@ -96,15 +96,15 @@ export function PortalLookup({
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#030711] text-white">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(14,165,233,0.22),transparent_30%),radial-gradient(circle_at_84%_8%,rgba(16,185,129,0.18),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.05),transparent_38%)]" />
+    <div className="relative min-h-screen overflow-hidden bg-white text-foreground">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(14,165,233,0.22),transparent_30%),radial-gradient(circle_at_84%_8%,rgba(39,173,245,0.18),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.05),transparent_38%)]" />
       <div className="relative mx-auto grid w-full max-w-5xl gap-6 px-4 py-8">
-      <div className="rounded-lg border border-white/10 bg-white/[0.06] p-6 text-center shadow-2xl shadow-black/20 backdrop-blur-xl">
-        <div className="mx-auto grid h-12 w-12 place-items-center rounded-lg border border-emerald-200/25 bg-emerald-300/10 text-emerald-100 shadow-[0_0_42px_rgba(52,211,153,0.16)]">
+      <div className="rounded-lg border border-border bg-white p-6 text-center shadow-2xl shadow-black/20 backdrop-blur-xl">
+        <div className="mx-auto grid h-12 w-12 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10 text-[#147fba] shadow-[0_0_42px_rgba(39,173,245,0.16)]">
           <Stethoscope className="h-5 w-5" />
         </div>
-        <p className="mt-4 text-sm font-bold text-emerald-100">VetyCare Portal</p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white">Portal de propietario</h1>
+        <p className="mt-4 text-sm font-bold text-[#147fba]">VettiPets Portal</p>
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">Portal de propietario</h1>
           <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-300">
           Registrate como propietario, consulta tus mascotas y solicita citas que la clinica aprueba antes de agendar.
         </p>
@@ -113,7 +113,7 @@ export function PortalLookup({
       <section className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
         <Card className="p-6">
           <div className="mb-4">
-            <p className="text-sm font-semibold text-emerald-100">Mis mascotas</p>
+            <p className="text-sm font-semibold text-[#147fba]">Mis mascotas</p>
             <h2 className="mt-1 text-2xl font-bold text-foreground">Consultar historia clinica</h2>
           </div>
           <form onSubmit={onSubmit} className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
@@ -146,7 +146,7 @@ export function PortalLookup({
         <Card className="p-6">
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
             <div>
-              <p className="text-sm font-semibold text-emerald-100">Clinicas disponibles</p>
+              <p className="text-sm font-semibold text-[#147fba]">Clinicas disponibles</p>
               <h2 className="mt-1 text-2xl font-bold text-foreground">Directorio por ciudad</h2>
             </div>
             <div className="min-w-52">
@@ -164,7 +164,7 @@ export function PortalLookup({
           </div>
           <div className="mt-4 grid gap-3">
             {visibleClinics.length ? visibleClinics.map((clinic) => (
-              <div key={clinic.id} className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
+              <div key={clinic.id} className="rounded-lg border border-border bg-secondary p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="font-semibold text-foreground">{clinic.name}</p>
@@ -172,20 +172,20 @@ export function PortalLookup({
                       {[clinic.city, clinic.address].filter(Boolean).join(" - ") || "Ubicacion por confirmar"}
                     </p>
                   </div>
-                  <span className="rounded-full border border-emerald-200/20 bg-emerald-300/10 px-2 py-1 text-xs font-bold text-emerald-100">
+                  <span className="rounded-full border border-sky-200/20 bg-sky-300/10 px-2 py-1 text-xs font-bold text-[#147fba]">
                     {clinic.veterinarians.length} vets
                   </span>
                 </div>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {(clinic.specialties.length ? clinic.specialties : ["Medicina general"]).map((specialty) => (
-                    <span key={specialty} className="rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-xs text-muted-foreground">
+                    <span key={specialty} className="rounded-full border border-border bg-secondary px-2 py-1 text-xs text-muted-foreground">
                       {specialty}
                     </span>
                   ))}
                 </div>
               </div>
             )) : (
-              <div className="rounded-lg border border-dashed border-white/15 bg-white/[0.04] p-5 text-sm text-muted-foreground">
+              <div className="rounded-lg border border-dashed border-border bg-secondary p-5 text-sm text-muted-foreground">
                 No hay clinicas registradas en esa ciudad.
               </div>
             )}
@@ -216,7 +216,7 @@ export function PortalLookup({
                   <PortalSection title="Proximas citas">
                     {pet.appointments.length ? (
                       pet.appointments.map((appointment) => (
-                        <div key={appointment.id} className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
+                        <div key={appointment.id} className="rounded-lg border border-border bg-secondary p-3">
                           <p className="font-semibold">{appointment.title}</p>
                           <p className="text-sm text-muted-foreground">{formatDateTime(appointment.startDate)}</p>
                           <p className="mt-1 text-xs font-bold uppercase text-muted-foreground">{appointment.status}</p>
@@ -229,13 +229,13 @@ export function PortalLookup({
                   <PortalSection title="Solicitudes de cita">
                     {pet.appointmentRequests.length ? (
                       pet.appointmentRequests.map((request) => (
-                        <div key={request.id} className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
+                        <div key={request.id} className="rounded-lg border border-border bg-secondary p-3">
                           <div className="flex items-start justify-between gap-3">
                             <div>
                               <p className="font-semibold">{request.service}</p>
                               <p className="text-sm text-muted-foreground">{request.clinicName}</p>
                             </div>
-                            <span className="rounded-full border border-white/10 bg-white/[0.05] px-2 py-1 text-xs font-bold uppercase text-muted-foreground">
+                            <span className="rounded-full border border-border bg-secondary px-2 py-1 text-xs font-bold uppercase text-muted-foreground">
                               {request.status}
                             </span>
                           </div>
@@ -257,7 +257,7 @@ export function PortalLookup({
                   <PortalSection title="Vacunas">
                     {pet.vaccinations.length ? (
                       pet.vaccinations.map((vaccine) => (
-                        <div key={vaccine.id} className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
+                        <div key={vaccine.id} className="rounded-lg border border-border bg-secondary p-3">
                           <p className="font-semibold">{vaccine.vaccine}</p>
                           <p className="text-sm text-muted-foreground">
                             Aplicada: {formatDate(vaccine.date)}. Proxima: {formatDate(vaccine.nextDose)}
@@ -273,7 +273,7 @@ export function PortalLookup({
                 <PortalSection title="Consultas y formulas" className="mt-4">
                   {pet.consultations.length ? (
                     pet.consultations.map((consultation) => (
-                      <div key={consultation.id} className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
+                      <div key={consultation.id} className="rounded-lg border border-border bg-secondary p-3">
                         <p className="font-semibold">{formatDate(consultation.date)}</p>
                         <p className="mt-2 text-sm text-muted-foreground">Diagnostico</p>
                         <p className="text-sm">{consultation.diagnosis}</p>
@@ -282,7 +282,7 @@ export function PortalLookup({
                         {consultation.prescriptions.length ? (
                           <div className="mt-3 grid gap-2">
                             {consultation.prescriptions.map((prescription) => (
-                              <div key={prescription.id} className="rounded-lg bg-white/[0.05] p-3 text-sm">
+                              <div key={prescription.id} className="rounded-lg bg-secondary p-3 text-sm">
                                 <p className="font-semibold">{prescription.medication}</p>
                                 <p className="text-muted-foreground">{prescription.dosage} - {prescription.duration}</p>
                                 {prescription.instructions ? <p className="mt-1">{prescription.instructions}</p> : null}
@@ -307,9 +307,9 @@ export function PortalLookup({
         )
       ) : null}
       <div className="mx-auto flex items-center gap-2 text-xs text-slate-400">
-        <Building2 className="h-4 w-4 text-emerald-100" />
+        <Building2 className="h-4 w-4 text-[#147fba]" />
         Cada solicitud llega a la bandeja de la clinica y solo se agenda cuando es aprobada.
-        <ShieldCheck className="h-4 w-4 text-emerald-300" />
+        <ShieldCheck className="h-4 w-4 text-[#27ADF5]" />
       </div>
       </div>
     </div>
@@ -327,7 +327,7 @@ function PortalSection({
 }) {
   return (
     <section className={className}>
-      <h3 className="mb-3 text-sm font-bold uppercase tracking-normal text-emerald-100/80">{title}</h3>
+      <h3 className="mb-3 text-sm font-bold uppercase tracking-normal text-[#147fba]/80">{title}</h3>
       <div className="grid gap-2">{children}</div>
     </section>
   );

@@ -52,13 +52,13 @@ function PremiumField({
   children: React.ReactNode;
 }) {
   return (
-    <label className="group grid gap-2 text-sm font-medium text-white/86">
+    <label className="group grid gap-2 text-sm font-medium text-foreground">
       <span className="flex items-center justify-between">
         {label}
-        {error ? <span className="text-xs text-emerald-200">{error}</span> : null}
+        {error ? <span className="text-xs text-[#147fba]">{error}</span> : null}
       </span>
       <div className="relative">
-        <span className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-white/38 transition group-focus-within:text-emerald-200">
+        <span className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted-foreground transition group-focus-within:text-[#147fba]">
           {icon}
         </span>
         {children}
@@ -96,7 +96,7 @@ export function LoginForm() {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
       {search.get("registered") ? (
-        <div className="rounded-lg border border-emerald-300/35 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-50">
+        <div className="rounded-lg border border-sky-300/35 bg-sky-400/10 px-4 py-3 text-sm font-medium text-sky-50">
           Cuenta creada. Ya puedes iniciar sesion.
         </div>
       ) : null}
@@ -108,7 +108,7 @@ export function LoginForm() {
         <Input
           autoFocus
           type="email"
-          className="h-12 rounded-lg border-white/10 bg-white/[0.06] pl-11 pr-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-white/30 hover:border-emerald-200/30 focus:border-emerald-200/60 focus:ring-emerald-300/15"
+          className="h-12 rounded-lg border-border bg-white pl-11 pr-4 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-muted-foreground/70 hover:border-sky-200/30 focus:border-sky-200/60 focus:ring-sky-300/15"
           {...form.register("email")}
         />
       </PremiumField>
@@ -119,16 +119,16 @@ export function LoginForm() {
       >
         <Input
           type="password"
-          className="h-12 rounded-lg border-white/10 bg-white/[0.06] pl-11 pr-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-white/30 hover:border-emerald-200/30 focus:border-emerald-200/60 focus:ring-emerald-300/15"
+          className="h-12 rounded-lg border-border bg-white pl-11 pr-4 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-muted-foreground/70 hover:border-sky-200/30 focus:border-sky-200/60 focus:ring-sky-300/15"
           {...form.register("password")}
         />
       </PremiumField>
       <Button type="submit" disabled={pending}>
         {pending ? "Iniciando sesion..." : "Iniciar sesion"}
       </Button>
-      <p className="text-center text-sm text-slate-400">
+      <p className="text-center text-sm text-muted-foreground">
         Nueva clinica?{" "}
-        <Link href="/register" className="font-semibold text-emerald-100 transition hover:text-white">
+        <Link href="/register" className="font-semibold text-[#147fba] transition hover:text-foreground">
           Crear cuenta
         </Link>
       </p>
@@ -164,25 +164,25 @@ export function RegisterForm() {
       className="grid gap-5"
     >
       <div className="grid gap-2">
-        <div className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs font-semibold text-emerald-100 shadow-[0_0_28px_rgba(52,211,153,0.12)]">
+        <div className="inline-flex w-fit items-center gap-2 rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1 text-xs font-semibold text-[#147fba] shadow-[0_0_28px_rgba(39,173,245,0.12)]">
           <Sparkles className="h-3.5 w-3.5" />
           Onboarding seguro para clinicas
         </div>
-        <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
           Crea tu workspace veterinario
         </h1>
-        <p className="max-w-md text-sm leading-6 text-slate-300">
-          Configura VetyCare para agenda, historia clinica, clientes y pacientes
+        <p className="max-w-md text-sm leading-6 text-muted-foreground">
+          Configura VettiPets para agenda, historia clinica, clientes y pacientes
           con una experiencia moderna desde el primer dia.
         </p>
       </div>
 
       <div className="grid gap-4">
         <div className="grid gap-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-100/70">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#147fba]/70">
             Workspace
           </p>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-muted-foreground">
             Estos datos crean la clinica y el primer usuario administrador.
           </p>
         </div>
@@ -196,7 +196,7 @@ export function RegisterForm() {
             autoFocus
             placeholder="Clinica Veterinaria Aurora"
             autoComplete="organization"
-            className="h-12 rounded-lg border-white/10 bg-white/[0.06] pl-11 pr-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-white/30 hover:border-emerald-200/30 focus:border-emerald-200/60 focus:ring-emerald-300/15"
+            className="h-12 rounded-lg border-border bg-white pl-11 pr-4 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-muted-foreground/70 hover:border-sky-200/30 focus:border-sky-200/60 focus:ring-sky-300/15"
             {...form.register("clinicName")}
           />
         </PremiumField>
@@ -209,7 +209,7 @@ export function RegisterForm() {
           <Input
             placeholder="Dra. Laura Perez"
             autoComplete="name"
-            className="h-12 rounded-lg border-white/10 bg-white/[0.06] pl-11 pr-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-white/30 hover:border-emerald-200/30 focus:border-emerald-200/60 focus:ring-emerald-300/15"
+            className="h-12 rounded-lg border-border bg-white pl-11 pr-4 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-muted-foreground/70 hover:border-sky-200/30 focus:border-sky-200/60 focus:ring-sky-300/15"
             {...form.register("adminName")}
           />
         </PremiumField>
@@ -223,7 +223,7 @@ export function RegisterForm() {
             type="email"
             placeholder="admin@clinica.com"
             autoComplete="email"
-            className="h-12 rounded-lg border-white/10 bg-white/[0.06] pl-11 pr-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-white/30 hover:border-emerald-200/30 focus:border-emerald-200/60 focus:ring-emerald-300/15"
+            className="h-12 rounded-lg border-border bg-white pl-11 pr-4 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-muted-foreground/70 hover:border-sky-200/30 focus:border-sky-200/60 focus:ring-sky-300/15"
             {...form.register("email")}
           />
         </PremiumField>
@@ -236,7 +236,7 @@ export function RegisterForm() {
           <Input
             placeholder="+57 300 000 0000"
             autoComplete="tel"
-            className="h-12 rounded-lg border-white/10 bg-white/[0.06] pl-11 pr-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-white/30 hover:border-emerald-200/30 focus:border-emerald-200/60 focus:ring-emerald-300/15"
+            className="h-12 rounded-lg border-border bg-white pl-11 pr-4 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-muted-foreground/70 hover:border-sky-200/30 focus:border-sky-200/60 focus:ring-sky-300/15"
             {...form.register("phone")}
           />
         </PremiumField>
@@ -250,14 +250,14 @@ export function RegisterForm() {
             type={showPassword ? "text" : "password"}
             placeholder="Minimo 8 caracteres"
             autoComplete="new-password"
-            className="h-12 rounded-lg border-white/10 bg-white/[0.06] pl-11 pr-12 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-white/30 hover:border-emerald-200/30 focus:border-emerald-200/60 focus:ring-emerald-300/15"
+            className="h-12 rounded-lg border-border bg-white pl-11 pr-12 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] placeholder:text-muted-foreground/70 hover:border-sky-200/30 focus:border-sky-200/60 focus:ring-sky-300/15"
             {...form.register("password")}
           />
           <button
             type="button"
             aria-label={showPassword ? "Ocultar contrasena" : "Mostrar contrasena"}
             onClick={() => setShowPassword((value) => !value)}
-            className="absolute right-3 top-1/2 z-10 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-lg text-white/45 transition hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-200"
+            className="absolute right-3 top-1/2 z-10 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-lg text-muted-foreground transition hover:bg-[#edf8ff] hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-200"
           >
             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
@@ -271,13 +271,13 @@ export function RegisterForm() {
                 className={cn(
                   "h-1.5 rounded-full bg-white/10 transition-colors",
                   strength >= level &&
-                    (strength < 3 ? "bg-emerald-300/65" : "bg-emerald-300/80"),
+                    (strength < 3 ? "bg-sky-300/65" : "bg-sky-300/80"),
                 )}
               />
             ))}
           </div>
-          <p className="flex items-center gap-2 text-xs text-slate-400">
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-300" />
+          <p className="flex items-center gap-2 text-xs text-muted-foreground">
+            <ShieldCheck className="h-3.5 w-3.5 text-[#27ADF5]" />
             Fortaleza: {strengthLabels[Math.max(strength - 1, 0)]}
           </p>
         </div>
@@ -288,18 +288,18 @@ export function RegisterForm() {
         whileTap={{ scale: 0.99 }}
         type="submit"
         disabled={pending}
-        className="group mt-1 inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-emerald-300 via-teal-400 to-emerald-300 px-5 text-sm font-bold text-slate-950 shadow-[0_18px_55px_rgba(52,211,153,0.22)] transition disabled:pointer-events-none disabled:opacity-70"
+        className="group mt-1 inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-300 via-sky-400 to-sky-300 px-5 text-sm font-bold text-white shadow-[0_18px_55px_rgba(39,173,245,0.22)] transition disabled:pointer-events-none disabled:opacity-70"
       >
         {pending ? "Creando workspace..." : "Crear cuenta"}
         <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
       </motion.button>
 
-      <div className="flex flex-col gap-3 border-t border-white/10 pt-5 text-sm text-slate-300 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 border-t border-border pt-5 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
         <span className="inline-flex items-center gap-2">
-          <Check className="h-4 w-4 text-emerald-300" />
+          <Check className="h-4 w-4 text-[#27ADF5]" />
           Datos protegidos y acceso privado
         </span>
-        <Link href="/login" className="font-semibold text-emerald-100 transition hover:text-white">
+        <Link href="/login" className="font-semibold text-[#147fba] transition hover:text-foreground">
           Ya tengo cuenta
         </Link>
       </div>

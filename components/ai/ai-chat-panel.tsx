@@ -28,19 +28,19 @@ export function AiChatPanel() {
   }
 
   return (
-    <section className="grid h-full min-h-0 overflow-hidden rounded-lg border border-white/10 bg-card/82 shadow-2xl shadow-black/15 backdrop-blur-xl ring-1 ring-white/[0.035] lg:grid-cols-[280px_minmax(0,1fr)]">
-      <aside className="hidden min-h-0 overflow-y-auto border-r border-white/10 bg-white/[0.035] p-4 lg:block">
+    <section className="grid h-full min-h-0 overflow-hidden rounded-lg border border-border bg-card/82 shadow-2xl shadow-black/15 backdrop-blur-xl ring-1 ring-white/[0.035] lg:grid-cols-[280px_minmax(0,1fr)]">
+      <aside className="hidden min-h-0 overflow-y-auto border-r border-border bg-white p-4 lg:block">
         <div className="flex items-center gap-3">
-          <span className="grid h-12 w-12 place-items-center rounded-lg border border-emerald-200/25 bg-emerald-300/10 text-emerald-100 shadow-[0_0_38px_rgba(52,211,153,0.14)]">
+          <span className="grid h-12 w-12 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10 text-[#147fba] shadow-[0_0_38px_rgba(39,173,245,0.14)]">
             <Bot className="h-5 w-5" />
           </span>
           <div>
             <p className="text-lg font-bold tracking-tight text-foreground">VettiPets AI</p>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100/70">Clinic copilot</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#147fba]/70">Clinic copilot</p>
           </div>
         </div>
 
-        <div className="mt-5 rounded-lg border border-white/10 bg-background/35 p-4">
+        <div className="mt-5 rounded-lg border border-border bg-background/35 p-4">
           <p className="text-sm font-semibold text-foreground">Contexto activo</p>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
             Responde con datos de mascotas, propietarios, citas, vacunas, equipo y notas clinicas del workspace actual.
@@ -54,9 +54,9 @@ export function AiChatPanel() {
               type="button"
               onClick={() => void sendMessage(suggestion.label)}
               disabled={isLoading}
-              className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-3 text-left text-sm font-semibold text-muted-foreground transition hover:-translate-y-0.5 hover:border-emerald-200/30 hover:bg-white/[0.07] hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
+              className="group flex items-center gap-3 rounded-lg border border-border bg-white px-3 py-3 text-left text-sm font-semibold text-muted-foreground transition hover:-translate-y-0.5 hover:border-sky-200/30 hover:bg-[#edf8ff] hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
             >
-              <suggestion.icon className="h-4 w-4 text-emerald-100/75 transition group-hover:text-emerald-100" />
+              <suggestion.icon className="h-4 w-4 text-[#147fba]/75 transition group-hover:text-[#147fba]" />
               <span>{suggestion.label}</span>
             </button>
           ))}
@@ -69,7 +69,7 @@ export function AiChatPanel() {
       </aside>
 
       <div className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)_auto]">
-        <div className="flex min-h-0 items-center justify-between border-b border-white/10 px-4 py-3 sm:px-5">
+        <div className="flex min-h-0 items-center justify-between border-b border-border px-4 py-3 sm:px-5">
           <div>
             <h2 className="text-base font-bold text-foreground">Asistente clinico</h2>
             <p className="hidden text-sm text-muted-foreground sm:block">Consultas operativas y resumenes con contexto de base de datos.</p>
@@ -91,13 +91,13 @@ export function AiChatPanel() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="z-10 border-t border-white/10 bg-background/95 p-3 backdrop-blur-xl sm:p-4">
+        <form onSubmit={handleSubmit} className="z-10 border-t border-border bg-background/95 p-3 backdrop-blur-xl sm:p-4">
           {error ? (
             <div className="mb-3 rounded-lg border border-red-300/20 bg-red-400/10 px-3 py-2 text-sm text-red-100">
               {error}
             </div>
           ) : null}
-          <div className="mx-auto flex max-w-3xl items-end gap-3 rounded-lg border border-white/10 bg-white/[0.055] p-2 shadow-inner">
+          <div className="mx-auto flex max-w-3xl items-end gap-3 rounded-lg border border-border bg-secondary p-2 shadow-inner">
             <textarea
               value={input}
               onChange={(event) => setInput(event.target.value)}
@@ -127,7 +127,7 @@ function MessageBubble({ message, isLoading }: { message: AiChatMessage; isLoadi
   return (
     <article className={cn("flex gap-3", isUser && "justify-end")}>
       {!isUser ? (
-        <span className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-emerald-200/25 bg-emerald-300/10 text-emerald-100">
+        <span className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10 text-[#147fba]">
           <Bot className="h-4 w-4" />
         </span>
       ) : null}
@@ -135,15 +135,15 @@ function MessageBubble({ message, isLoading }: { message: AiChatMessage; isLoadi
         className={cn(
           "max-w-[86%] rounded-lg border px-4 py-3 text-sm leading-6 shadow-lg",
           isUser
-            ? "border-emerald-200/25 bg-primary text-primary-foreground shadow-emerald-950/10"
-            : "border-white/10 bg-white/[0.055] text-foreground shadow-black/10",
+            ? "border-sky-200/25 bg-primary text-primary-foreground shadow-sky-950/10"
+            : "border-border bg-secondary text-foreground shadow-black/10",
         )}
       >
         {isLoading ? (
           <div className="flex items-center gap-2 text-muted-foreground">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-200" />
-            <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-200 [animation-delay:120ms]" />
-            <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-200 [animation-delay:240ms]" />
+            <span className="h-2 w-2 animate-pulse rounded-full bg-[#27ADF5]" />
+            <span className="h-2 w-2 animate-pulse rounded-full bg-[#27ADF5] [animation-delay:120ms]" />
+            <span className="h-2 w-2 animate-pulse rounded-full bg-[#27ADF5] [animation-delay:240ms]" />
           </div>
         ) : (
           <MarkdownText content={message.content} />

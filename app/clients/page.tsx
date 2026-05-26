@@ -14,10 +14,10 @@ export default async function ClientsPage() {
 
   return (
     <AppShell>
-      <div className="mb-6 rounded-lg border border-white/10 bg-white/[0.06] p-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-6">
+      <div className="mb-6 rounded-lg border border-border bg-white p-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-6">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <p className="text-sm font-semibold text-emerald-100">Propietarios</p>
+          <p className="text-sm font-semibold text-[#147fba]">Propietarios</p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">Clientes</h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
             Gestiona relaciones, datos de contacto y el historial de cada familia.

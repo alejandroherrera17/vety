@@ -60,10 +60,10 @@ export default async function AppointmentsPage() {
 
   return (
     <AppShell>
-      <div className="mb-6 rounded-lg border border-white/10 bg-white/[0.06] p-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-6">
+      <div className="mb-6 rounded-lg border border-border bg-white p-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-6">
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
         <div>
-          <p className="text-sm font-semibold text-emerald-100">Agenda clinica</p>
+          <p className="text-sm font-semibold text-[#147fba]">Agenda clinica</p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">Calendario de citas</h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
             Vista diaria, semanal y mensual con filtros, reasignacion, solicitudes y validacion de conflictos.
@@ -96,9 +96,9 @@ export default async function AppointmentsPage() {
         </div>
         </div>
       </div>
-      <section className="mb-5 rounded-lg border border-white/10 bg-white/[0.06] p-5 shadow-2xl shadow-black/10 backdrop-blur-xl">
+      <section className="mb-5 rounded-lg border border-border bg-white p-5 shadow-2xl shadow-black/10 backdrop-blur-xl">
         <div className="mb-4">
-          <p className="text-sm font-semibold text-emerald-100">Solicitudes de propietarios</p>
+          <p className="text-sm font-semibold text-[#147fba]">Solicitudes de propietarios</p>
           <h2 className="mt-1 text-xl font-bold text-foreground">Bandeja de aprobacion</h2>
         </div>
         <AppointmentRequestPanel

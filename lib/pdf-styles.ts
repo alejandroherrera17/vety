@@ -1,6 +1,30 @@
 import { StyleSheet } from '@react-pdf/renderer'
 import { ThemeName, themes } from './themes/themes'
 
+const brandPdfTheme = {
+  background: '#ffffff',
+  foreground: '#0b1724',
+  card: '#f4faff',
+  cardForeground: '#0b1724',
+  primary: '#27ADF5',
+  primaryForeground: '#ffffff',
+  secondary: '#eaf7ff',
+  secondaryForeground: '#0b1724',
+  muted: '#dff2ff',
+  mutedForeground: '#24546f',
+  accent: '#d7efff',
+  accentForeground: '#0b1724',
+  destructive: '#F52727',
+  destructiveForeground: '#ffffff',
+  border: '#b8e2fb',
+  success: '#27ADF5',
+  successForeground: '#ffffff',
+  warning: '#f59e0b',
+  warningForeground: '#0b1724',
+  info: '#27ADF5',
+  infoForeground: '#ffffff',
+}
+
 // Convert HSL to RGB for PDF (simplified conversion)
 function hslToRgb(h: number, s: number, l: number): string {
   s /= 100
@@ -44,7 +68,7 @@ function parseHsl(hslString: string): string {
 }
 
 export function createPdfStyles(themeName: ThemeName, mode: 'light' | 'dark' = 'light') {
-  const theme = themes[themeName][mode]
+  const theme = { ...themes[themeName][mode], ...brandPdfTheme }
 
   return StyleSheet.create({
     page: {
@@ -201,11 +225,11 @@ export const defaultPdfStyles = StyleSheet.create({
   page: {
     padding: 40,
     backgroundColor: '#ffffff',
-    color: '#000000',
+    color: '#0b1724',
     fontFamily: 'Helvetica',
   },
   header: {
-    backgroundColor: '#0d3b66',
+    backgroundColor: '#27ADF5',
     color: '#ffffff',
     padding: 20,
     marginBottom: 20,
@@ -228,9 +252,9 @@ export const defaultPdfStyles = StyleSheet.create({
   section: {
     marginBottom: 20,
     padding: 15,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#f4faff',
     borderRadius: 6,
-    border: '1px solid #dee2e6',
+    border: '1px solid #b8e2fb',
   },
   grid: {
     flexDirection: 'row',
@@ -243,7 +267,7 @@ export const defaultPdfStyles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
-    borderBottom: '2px solid #0d3b66',
+    borderBottom: '2px solid #27ADF5',
     paddingBottom: 5,
   },
   table: {
@@ -251,28 +275,28 @@ export const defaultPdfStyles = StyleSheet.create({
   },
   tableHeader: {
     flexDirection: 'row',
-    backgroundColor: '#e9ecef',
+    backgroundColor: '#dff2ff',
     padding: 8,
     fontWeight: 'bold',
     fontSize: 10,
-    borderBottom: '1px solid #dee2e6',
+    borderBottom: '1px solid #b8e2fb',
   },
   tableRow: {
     flexDirection: 'row',
     padding: 6,
-    borderBottom: '1px solid #dee2e6',
+    borderBottom: '1px solid #b8e2fb',
     fontSize: 9,
   },
   tableCell: {
-    color: '#000000',
+    color: '#0b1724',
     flex: 1,
   },
   wideCell: {
-    color: '#000000',
+    color: '#0b1724',
     flex: 2,
   },
   badge: {
-    backgroundColor: '#0d3b66',
+    backgroundColor: '#27ADF5',
     color: '#ffffff',
     padding: '2 6',
     borderRadius: 4,
@@ -280,33 +304,33 @@ export const defaultPdfStyles = StyleSheet.create({
     fontWeight: 'bold',
   },
   badgeSuccess: {
-    backgroundColor: '#28a745',
+    backgroundColor: '#27ADF5',
     color: '#ffffff',
   },
   badgeWarning: {
     backgroundColor: '#ffc107',
-    color: '#000000',
+    color: '#0b1724',
   },
   badgeInfo: {
-    backgroundColor: '#17a2b8',
+    backgroundColor: '#27ADF5',
     color: '#ffffff',
   },
   footer: {
     marginTop: 30,
     padding: 15,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#f4faff',
     borderRadius: 6,
     textAlign: 'center',
     fontSize: 8,
-    color: '#6c757d',
+    color: '#24546f',
   },
   divider: {
-    borderBottom: '1px solid #dee2e6',
+    borderBottom: '1px solid #b8e2fb',
     marginVertical: 10,
   },
   highlight: {
-    backgroundColor: '#fff3cd',
-    color: '#856404',
+    backgroundColor: '#d7efff',
+    color: '#0b1724',
     padding: 2,
     borderRadius: 2,
   },
@@ -314,27 +338,27 @@ export const defaultPdfStyles = StyleSheet.create({
     fontSize: 9,
     lineHeight: 1.4,
     marginBottom: 7,
-    color: '#000000',
+    color: '#0b1724',
   },
   qr: {
     width: 54,
     height: 54,
-    border: '1px solid #94a3b8',
+    border: '1px solid #b8e2fb',
     borderRadius: 8,
     textAlign: 'center',
     paddingTop: 21,
-    color: '#64748b',
+    color: '#24546f',
     fontSize: 7,
   },
   timelineItem: {
-    borderLeft: '2px solid #0d3b66',
+    borderLeft: '2px solid #27ADF5',
     paddingLeft: 10,
     paddingBottom: 10,
     marginBottom: 2,
   },
   row: {
     flexDirection: 'row',
-    borderBottom: '1px solid #dee2e6',
+    borderBottom: '1px solid #b8e2fb',
     paddingVertical: 8,
     paddingHorizontal: 8,
   },

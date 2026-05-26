@@ -27,10 +27,10 @@ export default async function TeamPage() {
 
   return (
     <AppShell>
-      <div className="mb-6 rounded-lg border border-white/10 bg-white/[0.06] p-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-6">
+      <div className="mb-6 rounded-lg border border-border bg-white p-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-6">
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
           <div>
-            <p className="text-sm font-semibold text-emerald-100">Usuarios y permisos</p>
+            <p className="text-sm font-semibold text-[#147fba]">Usuarios y permisos</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">Equipo de la clinica</h1>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
               Gestiona veterinarios, recepcionistas y accesos segun el rol operativo.
@@ -43,7 +43,7 @@ export default async function TeamPage() {
               ["Recepcion", receptionists, ShieldCheck],
             ] satisfies Array<[string, number, LucideIcon]>).map(([label, value, Icon]) => (
               <Card key={label} className="p-4">
-                <Icon className="h-4 w-4 text-emerald-100" />
+                <Icon className="h-4 w-4 text-[#147fba]" />
                 <p className="mt-2 text-2xl font-bold">{value}</p>
                 <p className="text-xs text-muted-foreground">{label}</p>
               </Card>
