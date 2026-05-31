@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bot, Crown, LockKeyhole, ShieldCheck, Sparkles, Zap } from "lucide-react";
+import { Bot, CalendarDays, Crown, FileText, LayoutDashboard, PawPrint, ShieldCheck, Sparkles, Users, Zap } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { PremiumCheckoutButton, PremiumTrustBadges } from "@/components/premium-checkout-button";
 import { Badge } from "@/components/ui/badge";
@@ -9,21 +9,51 @@ import { BOLD_PREMIUM_AMOUNT, BOLD_PREMIUM_CURRENCY, PREMIUM_DAYS } from "@/lib/
 import { prisma } from "@/lib/prisma";
 import { requireWorkspace } from "@/lib/session";
 
-const benefits = [
+const offerings = [
+  {
+    icon: LayoutDashboard,
+    title: "Panel completo de la clinica",
+    description: "Maneja el dia a dia con una vista central clara para trabajo rapido y ordenado.",
+  },
+  {
+    icon: CalendarDays,
+    title: "Agenda y solicitudes",
+    description: "Organiza citas, revisa solicitudes del portal y mantiene la operacion en movimiento.",
+  },
+  {
+    icon: PawPrint,
+    title: "Clientes y mascotas",
+    description: "Consulta historiales, perfiles, datos de contacto y la relacion de cada paciente.",
+  },
+  {
+    icon: FileText,
+    title: "Historias, recetas y PDFs",
+    description: "Genera documentos listos para compartir con una identidad profesional de la clinica.",
+  },
   {
     icon: Bot,
-    title: "Toda la plataforma desbloqueada",
-    description: "Dashboard, clientes, pacientes, agenda, PDFs y AI quedan activos para la clinica.",
+    title: "VettiPets AI",
+    description: "Apoyo inteligente para consultas, resumenes y tareas que ahorran tiempo al equipo.",
+  },
+  {
+    icon: Users,
+    title: "Equipo con acceso compartido",
+    description: "La suscripcion la paga la clinica y queda disponible para todos los veterinarios asociados.",
+  },
+  {
+    icon: Sparkles,
+    title: "Portal del cliente",
+    description: "El propietario de la mascota reserva, sigue solicitudes y se mantiene conectado sin pagar.",
   },
   {
     icon: ShieldCheck,
-    title: "Validacion segura",
-    description: "El pago se confirma por webhook y se valida contra monto, moneda y orderId.",
+    title: "Imagen confiable de marca",
+    description: "Logo, nombre y presencia de la veterinaria en una experiencia limpia y coherente.",
   },
   {
     icon: Zap,
     title: "Activacion inmediata",
-    description: "Cuando Bold aprueba la orden, el workspace premium queda activo automaticamente.",
+    description: "Cuando el pago se aprueba, todo el acceso premium de la clinica queda activo sin pasos extra.",
   },
 ];
 
@@ -38,10 +68,11 @@ export default async function PremiumPage() {
       where: {
         organizationId: workspace.organizationId,
         userId: workspace.userId,
+        userEmail: workspace.email,
       },
       orderBy: { createdAt: "desc" },
       take: 4,
-      select: { orderId: true, amount: true, currency: true, status: true, createdAt: true },
+      select: { orderId: true, amount: true, currency: true, status: true, createdAt: true, userEmail: true },
     }),
   ]);
   const premiumIsActive =
@@ -64,7 +95,7 @@ export default async function PremiumPage() {
                   : "Desbloquea todas las funciones de la clinica con una sola suscripcion."}
               </h1>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-                La suscripcion vive a nivel de clinica, asi que todos los veterinarios asociados heredan el mismo acceso. El pago se procesa con Bold y se confirma desde backend antes de activar el acceso.
+                La suscripcion vive a nivel de clinica, asi que todos los veterinarios asociados heredan el mismo acceso. Aqui encuentras todo lo que la plataforma puede darte en un solo lugar.
               </p>
               <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
                 {premiumIsActive ? (
@@ -76,7 +107,7 @@ export default async function PremiumPage() {
                     <Link href="/ai">
                       <Button type="button" variant="secondary" className="w-full sm:w-auto">
                         <Sparkles className="h-4 w-4" />
-                        Abrir VettiPets AI
+                        Explorar la plataforma
                       </Button>
                     </Link>
                   </>
@@ -97,7 +128,7 @@ export default async function PremiumPage() {
                       maximumFractionDigits: 0,
                     }).format(BOLD_PREMIUM_AMOUNT)}
                   </p>
-                  <p className="mt-1 text-sm text-muted-foreground">por workspace / {PREMIUM_DAYS} dias</p>
+                  <p className="mt-1 text-sm text-muted-foreground">por clinica / {PREMIUM_DAYS} dias</p>
                 </div>
                 <span className="grid h-12 w-12 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10 text-[#27ADF5]">
                   <Crown className="h-5 w-5" />
@@ -109,8 +140,12 @@ export default async function PremiumPage() {
                 </p>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
                   {premiumIsActive && organization?.premiumExpiresAt
-                    ? `Tu suscripcion esta activa y vence el ${new Intl.DateTimeFormat("es-CO", { dateStyle: "medium" }).format(organization.premiumExpiresAt)}. Todas las cuentas veterinarias de esta clinica comparten el acceso completo.`
-                    : `Pagas una orden unica por ${PREMIUM_DAYS} dias para desbloquear toda la operacion de la clinica. Puedes renovar antes del vencimiento.`}
+                    ? `Tu suscripcion esta activa y vence el ${new Intl.DateTimeFormat("es-CO", { dateStyle: "medium" }).format(organization.premiumExpiresAt)}. Toda la clinica comparte el acceso completo.`
+                    : `Con una sola compra de ${new Intl.NumberFormat("es-CO", {
+                        style: "currency",
+                        currency: BOLD_PREMIUM_CURRENCY,
+                        maximumFractionDigits: 0,
+                      }).format(BOLD_PREMIUM_AMOUNT)} desbloqueas toda la experiencia de la plataforma durante ${PREMIUM_DAYS} dias.`}
                 </p>
               </div>
             </div>
@@ -121,7 +156,7 @@ export default async function PremiumPage() {
         </section>
 
         <section className="grid gap-4 lg:grid-cols-3">
-          {benefits.map((benefit) => (
+          {offerings.map((benefit) => (
             <Card key={benefit.title} className="p-5 transition hover:-translate-y-0.5 hover:border-sky-200/25">
               <span className="grid h-11 w-11 place-items-center rounded-lg border border-sky-200/20 bg-sky-300/10 text-[#27ADF5]">
                 <benefit.icon className="h-5 w-5" />
@@ -136,8 +171,11 @@ export default async function PremiumPage() {
           <Card className="p-5">
             <h2 className="flex items-center gap-2 text-lg font-bold text-foreground">
               <ShieldCheck className="h-5 w-5 text-[#27ADF5]" />
-              Historial de pagos
+              Historial de esta cuenta
             </h2>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              Aqui solo aparecen los pagos creados desde este acceso. La suscripcion, cuando se activa, sigue siendo de toda la clinica.
+            </p>
             <div className="mt-4 grid gap-3">
               {recentPayments.length ? (
                 recentPayments.map((payment) => (
@@ -180,13 +218,13 @@ export default async function PremiumPage() {
 
           <Card className="p-5">
             <h2 className="flex items-center gap-2 text-lg font-bold text-foreground">
-              <LockKeyhole className="h-5 w-5 text-[#27ADF5]" />
-              Seguridad
+              <Sparkles className="h-5 w-5 text-[#27ADF5]" />
+              Lo que tu clinica gana
             </h2>
             <div className="mt-4 grid gap-3 text-sm leading-6 text-muted-foreground">
-              <p>El frontend nunca activa la suscripcion por si solo.</p>
-              <p>El webhook valida firma, monto, moneda y orderId antes de actualizar la clinica.</p>
-              <p>Las notificaciones duplicadas quedan protegidas por estado aprobado e idempotencia.</p>
+              <p>Una experiencia mas ordenada para tu equipo y para tus pacientes.</p>
+              <p>Una marca mas profesional cuando compartes PDFs, historial y documentos.</p>
+              <p>Una sola suscripcion que cubre a toda la clinica, sin pagar por cada veterinario.</p>
             </div>
           </Card>
         </section>

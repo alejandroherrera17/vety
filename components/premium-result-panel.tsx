@@ -84,7 +84,7 @@ export function PremiumResultPanel({ orderId }: { orderId?: string }) {
         <content.icon className={content.animate ? "h-8 w-8 animate-spin" : "h-8 w-8"} />
       </div>
       <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#27ADF5]/75">Bold Checkout</p>
+      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#27ADF5]/75">Pago de la clinica</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">{content.title}</h1>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground">{content.description}</p>
       </div>
@@ -124,31 +124,31 @@ function getResultContent(status: VerificationState, expiresAt: string | null, e
       icon: Clock3,
       title: "Pago en verificacion",
       description:
-        "Bold puede tardar unos minutos en confirmar la transaccion. Dejaremos el pago pendiente y el webhook activara Premium apenas llegue la aprobacion.",
+        "Estamos confirmando tu pago. En cuanto se apruebe, toda la clinica quedara activa automaticamente.",
       animate: false,
     };
   }
 
   if (status === "rejected") {
-    return {
+      return {
       icon: XCircle,
       title: "Pago rechazado",
-      description: "La transaccion no fue aprobada. Puedes intentar de nuevo con otro metodo de pago.",
+      description: "La transaccion no fue aprobada. Puedes volver a intentarlo con otro metodo de pago.",
       animate: false,
     };
   }
 
   if (status === "not_found") {
-    return {
+      return {
       icon: XCircle,
       title: "Orden no encontrada",
-      description: "No encontramos una orden valida para verificar. Inicia el pago nuevamente desde Premium.",
+      description: "No encontramos una orden valida para verificar. Vuelve a iniciar el pago desde Premium.",
       animate: false,
     };
   }
 
   if (status === "error") {
-    return {
+      return {
       icon: XCircle,
       title: "No pudimos verificar",
       description: error ?? "Intenta actualizar esta pagina o revisa el estado desde Premium.",
@@ -159,7 +159,7 @@ function getResultContent(status: VerificationState, expiresAt: string | null, e
   return {
     icon: Loader2,
     title: "Verificando pago",
-    description: "Estamos consultando tu orden con validacion de backend antes de activar Premium.",
+    description: "Estamos consultando tu orden antes de activar la suscripcion de la clinica.",
     animate: true,
   };
 }

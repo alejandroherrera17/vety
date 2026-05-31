@@ -51,7 +51,7 @@ export function PremiumCheckoutButton({ disabled }: { disabled?: boolean }) {
       await loadBoldScript();
 
       if (!window.BoldCheckout) {
-        throw new Error("Bold Checkout no esta disponible");
+        throw new Error("No se pudo abrir el pago seguro");
       }
 
       const checkout = new window.BoldCheckout(body.checkout);
@@ -76,16 +76,16 @@ export function PremiumCheckoutButton({ disabled }: { disabled?: boolean }) {
       className="h-12 w-full bg-[#27ADF5] text-white shadow-lg shadow-sky-950/20 hover:bg-[#149fe8] sm:w-auto"
     >
       {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-      Desbloquear toda la clinica
+      Activar suscripcion de la clinica
     </Button>
   );
 }
 
 export function PremiumTrustBadges() {
   const items = [
-    { icon: ShieldCheck, label: "Pago validado en backend" },
+    { icon: ShieldCheck, label: "Pago seguro y validado" },
     { icon: CheckCircle2, label: "Activacion automatica" },
-    { icon: Sparkles, label: "Toda la clinica desbloqueada" },
+    { icon: Sparkles, label: "Acceso para toda la clinica" },
   ];
 
   return (
@@ -105,9 +105,7 @@ export function PremiumTrustBadges() {
 
 function loadBoldScript() {
   return new Promise<void>((resolve, reject) => {
-    const existingScript = document.querySelector<HTMLScriptElement>(
-      `script[src="${BOLD_CHECKOUT_SCRIPT}"]`,
-    );
+    const existingScript = document.querySelector<HTMLScriptElement>(`script[src="${BOLD_CHECKOUT_SCRIPT}"]`);
 
     if (window.BoldCheckout) {
       resolve();
@@ -116,7 +114,7 @@ function loadBoldScript() {
 
     if (existingScript) {
       existingScript.addEventListener("load", () => resolve(), { once: true });
-      existingScript.addEventListener("error", () => reject(new Error("No se pudo cargar Bold")), { once: true });
+      existingScript.addEventListener("error", () => reject(new Error("No se pudo cargar el pago seguro")), { once: true });
       return;
     }
 
@@ -124,7 +122,7 @@ function loadBoldScript() {
     script.src = BOLD_CHECKOUT_SCRIPT;
     script.async = true;
     script.onload = () => resolve();
-    script.onerror = () => reject(new Error("No se pudo cargar Bold"));
+    script.onerror = () => reject(new Error("No se pudo cargar el pago seguro"));
     document.head.appendChild(script);
   });
 }
