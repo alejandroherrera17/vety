@@ -64,7 +64,7 @@ export function ClinicProfileForm({
   return (
     <Card className="p-5">
       <div className="mb-5 flex items-start gap-3">
-        <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-lg border border-border bg-white text-[#147fba]">
+        <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-lg border border-border bg-white text-[#27ADF5]">
           {logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={logoUrl} alt="Logo de la clinica" className="h-full w-full object-cover" />

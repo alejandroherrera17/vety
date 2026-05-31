@@ -3,7 +3,7 @@ import { AppShell } from "@/components/app-shell";
 import { ClinicProfileForm } from "@/components/clinic-profile-form";
 import { Card } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
-import { requireWorkspace } from "@/lib/session";
+import { requirePremiumWorkspace } from "@/lib/session";
 
 function openingHoursText(value: unknown) {
   if (!value || typeof value !== "object" || !("notes" in value)) return "";
@@ -11,7 +11,7 @@ function openingHoursText(value: unknown) {
 }
 
 export default async function ClinicPage() {
-  const workspace = await requireWorkspace();
+  const workspace = await requirePremiumWorkspace();
   const [organization, stats] = await Promise.all([
     prisma.organization.findUniqueOrThrow({
       where: { id: workspace.organizationId },
@@ -38,7 +38,7 @@ export default async function ClinicPage() {
       <div className="mb-6 rounded-lg border border-border bg-white p-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-6">
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
           <div>
-            <p className="text-sm font-semibold text-[#147fba]">Configuracion de organizacion</p>
+            <p className="text-sm font-semibold text-[#27ADF5]">Configuracion de organizacion</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">Clinica veterinaria</h1>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
               Perfil, disponibilidad, especialidades y datos visibles para el portal de propietarios.
@@ -52,7 +52,7 @@ export default async function ClinicPage() {
               ["Bloques", stats[3], CalendarClock],
             ] satisfies Array<[string, number, LucideIcon]>).map(([label, value, Icon]) => (
               <Card key={label as string} className="p-3">
-                <Icon className="h-4 w-4 text-[#147fba]" />
+                <Icon className="h-4 w-4 text-[#27ADF5]" />
                 <p className="mt-2 text-2xl font-bold">{value}</p>
                 <p className="text-xs text-muted-foreground">{label}</p>
               </Card>

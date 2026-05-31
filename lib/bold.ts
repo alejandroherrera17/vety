@@ -4,9 +4,9 @@ import crypto from "crypto";
 import { PaymentStatus, Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
-export const BOLD_PREMIUM_AMOUNT = 5000;
+export const BOLD_PREMIUM_AMOUNT = 120000;
 export const BOLD_PREMIUM_CURRENCY = "COP";
-export const BOLD_PREMIUM_DESCRIPTION = "VettiPets Premium 5 dias";
+export const BOLD_PREMIUM_DESCRIPTION = "Suscripcion clinica VettiPets 5 dias";
 export const BOLD_CHECKOUT_SCRIPT = "https://checkout.bold.co/library/boldPaymentButton.js";
 
 export const PREMIUM_DAYS = 5;
@@ -138,7 +138,7 @@ export async function createBoldPremiumPayment(input: {
       description: BOLD_PREMIUM_DESCRIPTION,
       metadata: {
         checkout: "button",
-        product: "premium_5_days",
+        product: "clinic_subscription_5_days",
         userName: input.userName,
       },
     },

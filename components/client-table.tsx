@@ -62,7 +62,7 @@ export function ClientTable({ clients }: { clients: ClientRow[] }) {
                   <p className="mt-1 text-sm text-muted-foreground">{client.phone}</p>
                   <p className="mt-1 truncate text-sm text-muted-foreground">{client.email ?? "Sin email"}</p>
                 </div>
-                <span className="shrink-0 rounded-full border border-sky-200/20 bg-sky-300/10 px-2 py-1 text-xs font-bold text-[#147fba]">
+                <span className="shrink-0 rounded-full border border-sky-200/20 bg-sky-300/10 px-2 py-1 text-xs font-bold text-[#27ADF5]">
                   {client.pets.length} mascotas
                 </span>
               </div>

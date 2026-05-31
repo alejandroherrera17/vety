@@ -46,6 +46,7 @@ function header(
 export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
   const workspace = await getCurrentWorkspace();
   if (!workspace) return new Response("Unauthorized", { status: 401 });
+  if (!workspace.isPremium) return new Response("Premium required", { status: 402 });
 
   const url = new URL(request.url);
   const type = (url.searchParams.get("type") || "complete") as PdfType;

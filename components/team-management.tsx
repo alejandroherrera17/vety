@@ -70,7 +70,7 @@ export function TeamManagement({ members }: { members: TeamMember[] }) {
     <div className="grid gap-5 lg:grid-cols-[420px_1fr]">
       <Card className="p-5">
         <div className="mb-5 flex items-start gap-3">
-          <span className="grid h-11 w-11 place-items-center rounded-lg border border-border bg-white text-[#147fba]">
+          <span className="grid h-11 w-11 place-items-center rounded-lg border border-border bg-white text-[#27ADF5]">
             <UserPlus className="h-5 w-5" />
           </span>
           <div>
@@ -121,7 +121,7 @@ export function TeamManagement({ members }: { members: TeamMember[] }) {
                 <p className="truncate text-sm text-muted-foreground">{member.email}</p>
               </div>
               <span className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-secondary px-3 py-1 text-xs font-bold text-muted-foreground">
-                <ShieldCheck className="h-3.5 w-3.5 text-[#147fba]" />
+                <ShieldCheck className="h-3.5 w-3.5 text-[#27ADF5]" />
                 {roleLabels[member.role]}
               </span>
               <span className="text-sm font-semibold text-muted-foreground">{member.status}</span>

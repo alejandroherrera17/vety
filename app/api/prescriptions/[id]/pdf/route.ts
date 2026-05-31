@@ -30,6 +30,9 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
   if (!workspace) {
     return new Response("Unauthorized", { status: 401 });
   }
+  if (!workspace.isPremium) {
+    return new Response("Premium required", { status: 402 });
+  }
 
   const { id } = await context.params;
   const prescription = await prisma.prescription.findFirst({

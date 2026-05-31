@@ -6,6 +6,9 @@ export async function POST(request: Request) {
   if (!workspace) {
     return new Response("Unauthorized", { status: 401 });
   }
+  if (!workspace.isPremium) {
+    return new Response("Premium required", { status: 402 });
+  }
 
   const formData = await request.formData();
   const purpose = String(formData.get("purpose") ?? "");

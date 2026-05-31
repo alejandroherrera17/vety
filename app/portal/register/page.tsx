@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { Suspense } from "react";
-import { HeartPulse, Sparkles, Activity, ShieldCheck, PawPrint } from "lucide-react";
+import { Activity, HeartPulse, PawPrint, ShieldCheck, Sparkles } from "lucide-react";
 import { PortalRegisterForm } from "@/components/portal/auth-forms";
 
 export default function PortalRegisterPage() {
@@ -14,28 +15,39 @@ export default function PortalRegisterPage() {
             </div>
             <div>
               <p className="text-xl font-semibold tracking-tight">VettiPets Portal</p>
-              <p className="text-xs uppercase tracking-[0.32em] text-[#147fba]/70">Para Dueños</p>
+              <p className="text-xs uppercase tracking-[0.32em] text-sky-700/80">Para clientes</p>
             </div>
           </div>
 
           <div className="mt-16 max-w-xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-white px-3 py-1 text-xs font-semibold text-[#147fba] backdrop-blur-xl">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-white px-3 py-1 text-xs font-semibold text-[#27ADF5] backdrop-blur-xl">
               <Sparkles className="h-3.5 w-3.5" />
-              Únete a la red
+              Unete a la red
             </div>
             <h1 className="text-5xl font-semibold leading-[1.02] tracking-tight">
               Crea tu cuenta gratuita
             </h1>
             <p className="mt-5 max-w-lg text-base leading-7 text-muted-foreground">
-              Registra a tus mascotas, solicita citas y mantén su historia clínica al día.
+              Registra a tus mascotas, solicita citas y manten su historia clinica al dia.
             </p>
+            <div className="mt-7 flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700">
+                Registro de cliente
+              </span>
+              <Link
+                href="/register"
+                className="inline-flex items-center rounded-full border border-border bg-white px-3 py-1 text-xs font-medium text-muted-foreground transition hover:border-sky-200 hover:text-foreground"
+              >
+                Soy una clinica
+              </Link>
+            </div>
           </div>
 
           <div className="mt-10 grid max-w-xl grid-cols-2 gap-3">
             {[
               ["Historial", "Accede a las vacunas de tu mascota", ShieldCheck],
-              ["Citas", "Reserva fácilmente en línea", Activity],
-              ["Clínicas", "Encuentra la mejor atención", HeartPulse],
+              ["Citas", "Reserva facilmente en linea", Activity],
+              ["Clinicas", "Encuentra la mejor atencion", HeartPulse],
               ["100%", "Gratis para siempre", Sparkles],
             ].map(([value, label, Icon]) => (
               <div key={label as string} className="rounded-lg border border-border bg-white p-4 backdrop-blur-xl">
@@ -54,16 +66,16 @@ export default function PortalRegisterPage() {
             </div>
             <div>
               <p className="text-lg font-semibold">VettiPets Portal</p>
-              <p className="text-xs text-muted-foreground">Para Dueños</p>
+              <p className="text-xs text-muted-foreground">Para clientes</p>
             </div>
           </div>
 
           <div className="rounded-lg border border-border bg-white p-5 shadow-2xl shadow-sky-950/10 backdrop-blur-2xl sm:p-8">
             <div className="mb-6">
-              <p className="text-sm font-semibold text-[#27ADF5]">Registro</p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-tight">Crear Cuenta</h2>
+              <p className="text-sm font-semibold text-[#27ADF5]">Registro de cliente</p>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight">Crear cuenta</h2>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                Únete a la plataforma para gestionar a tus mascotas.
+                Unete a la plataforma para gestionar a tus mascotas.
               </p>
             </div>
             <Suspense>

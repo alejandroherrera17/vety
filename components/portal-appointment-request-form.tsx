@@ -76,7 +76,7 @@ export function PortalAppointmentRequestForm({
   return (
     <Card className="p-6">
       <div className="mb-5">
-        <p className="text-sm font-semibold text-[#147fba]">Solicitar cita</p>
+        <p className="text-sm font-semibold text-[#27ADF5]">Solicitar cita</p>
         <h2 className="mt-1 text-2xl font-bold text-foreground">La clinica aprueba antes de agendar</h2>
         <p className="mt-2 text-sm text-muted-foreground">
           Esto crea una solicitud pendiente. La cita oficial aparece cuando la clinica la aprueba.

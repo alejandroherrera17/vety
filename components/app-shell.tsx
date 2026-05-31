@@ -63,7 +63,7 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
         </Link>
 
         <div className="mt-7 rounded-lg border border-[#d6ecfa] bg-[#f4faff] p-3 shadow-inner">
-          <div className="flex items-center gap-2 text-xs font-semibold text-[#147fba]">
+          <div className="flex items-center gap-2 text-xs font-semibold text-[#27ADF5]">
             {session?.user?.role === "admin" ? <Crown className="h-3.5 w-3.5" /> : <Sparkles className="h-3.5 w-3.5" />}
             {session?.user?.role ?? "workspace"}
           </div>
@@ -90,8 +90,8 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
             <p className="truncate text-sm font-semibold text-card-foreground">
               {session?.user?.name}
             </p>
-            <span className="rounded-full border border-[#27ADF5]/25 bg-[#27ADF5]/10 px-2 py-1 text-[10px] font-bold uppercase tracking-normal text-[#147fba]">
-              Azul
+            <span className="rounded-full border border-[#27ADF5]/25 bg-[#27ADF5]/10 px-2 py-1 text-[10px] font-bold uppercase tracking-normal text-[#27ADF5]">
+              Activo
             </span>
           </div>
           <p className="truncate text-xs text-muted-foreground">{session?.user?.email}</p>

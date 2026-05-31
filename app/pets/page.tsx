@@ -7,11 +7,11 @@ import { PetFormModal } from "@/components/pet-form-modal";
 import { Button } from "@/components/ui/button";
 import { Card, EmptyState } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
-import { requireWorkspace } from "@/lib/session";
+import { requirePremiumWorkspace } from "@/lib/session";
 import { initials } from "@/lib/utils";
 
 export default async function PetsPage() {
-  const workspace = await requireWorkspace();
+  const workspace = await requirePremiumWorkspace();
   const [pets, clients] = await Promise.all([
     prisma.pet.findMany({
       where: { organizationId: workspace.organizationId },
@@ -30,7 +30,7 @@ export default async function PetsPage() {
       <div className="mb-6 rounded-lg border border-border bg-white p-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-6">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <p className="text-sm font-semibold text-[#147fba]">Pacientes</p>
+          <p className="text-sm font-semibold text-[#27ADF5]">Pacientes</p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">Mascotas</h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
             Expedientes, propietarios y datos clinicos listos para accion.
@@ -58,7 +58,7 @@ export default async function PetsPage() {
                     {pet.photoUrl ? (
                       <Image src={pet.photoUrl} alt={pet.name} fill className="object-cover" />
                     ) : (
-                      <div className="grid h-full place-items-center bg-sky-300/10 text-lg font-bold text-[#147fba]">
+                      <div className="grid h-full place-items-center bg-sky-300/10 text-lg font-bold text-[#27ADF5]">
                         {initials(pet.name)}
                       </div>
                     )}
@@ -67,7 +67,7 @@ export default async function PetsPage() {
                     <h2 className="truncate text-lg font-bold">{pet.name}</h2>
                     <p className="text-sm text-muted-foreground">{pet.species}</p>
                       <p className="mt-3 flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                      <PawPrint className="h-4 w-4 text-[#147fba]" />
+                      <PawPrint className="h-4 w-4 text-[#27ADF5]" />
                       {pet.client.name}
                     </p>
                   </div>

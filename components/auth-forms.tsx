@@ -55,10 +55,10 @@ function PremiumField({
     <label className="group grid gap-2 text-sm font-medium text-foreground">
       <span className="flex items-center justify-between">
         {label}
-        {error ? <span className="text-xs text-[#147fba]">{error}</span> : null}
+        {error ? <span className="text-xs text-[#F52727]">{error}</span> : null}
       </span>
       <div className="relative">
-        <span className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted-foreground transition group-focus-within:text-[#147fba]">
+        <span className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted-foreground transition group-focus-within:text-[#27ADF5]">
           {icon}
         </span>
         {children}
@@ -95,8 +95,17 @@ export function LoginForm() {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+      <div className="grid gap-2">
+        <div className="inline-flex w-fit items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700">
+          <Stethoscope className="h-3.5 w-3.5" />
+          Acceso de clinica
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Usa el correo y la contrasena de tu workspace clinico.
+        </p>
+      </div>
       {search.get("registered") ? (
-        <div className="rounded-lg border border-sky-300/35 bg-sky-400/10 px-4 py-3 text-sm font-medium text-sky-50">
+        <div className="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-medium text-sky-800">
           Cuenta creada. Ya puedes iniciar sesion.
         </div>
       ) : null}
@@ -124,13 +133,14 @@ export function LoginForm() {
         />
       </PremiumField>
       <Button type="submit" disabled={pending}>
-        {pending ? "Iniciando sesion..." : "Iniciar sesion"}
+        {pending ? "Iniciando sesion..." : "Ingresar a clinica"}
       </Button>
       <p className="text-center text-sm text-muted-foreground">
-        Nueva clinica?{" "}
-        <Link href="/register" className="font-semibold text-[#147fba] transition hover:text-foreground">
-          Crear cuenta
+        Si eres cliente, usa el{" "}
+        <Link href="/portal/login" className="font-semibold text-[#27ADF5] transition hover:text-foreground">
+          portal de clientes
         </Link>
+        .
       </p>
     </form>
   );
@@ -164,9 +174,9 @@ export function RegisterForm() {
       className="grid gap-5"
     >
       <div className="grid gap-2">
-        <div className="inline-flex w-fit items-center gap-2 rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1 text-xs font-semibold text-[#147fba] shadow-[0_0_28px_rgba(39,173,245,0.12)]">
+        <div className="inline-flex w-fit items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700 shadow-[0_0_28px_rgba(39,173,245,0.08)]">
           <Sparkles className="h-3.5 w-3.5" />
-          Onboarding seguro para clinicas
+          Registro de clinica
         </div>
         <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
           Crea tu workspace veterinario
@@ -179,7 +189,7 @@ export function RegisterForm() {
 
       <div className="grid gap-4">
         <div className="grid gap-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#147fba]/70">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sky-700/80">
             Workspace
           </p>
           <p className="text-sm text-muted-foreground">
@@ -269,9 +279,9 @@ export function RegisterForm() {
               <span
                 key={level}
                 className={cn(
-                  "h-1.5 rounded-full bg-white/10 transition-colors",
+                  "h-1.5 rounded-full bg-slate-200 transition-colors",
                   strength >= level &&
-                    (strength < 3 ? "bg-sky-300/65" : "bg-sky-300/80"),
+                    (strength < 3 ? "bg-sky-300/65" : "bg-sky-400"),
                 )}
               />
             ))}
@@ -290,7 +300,7 @@ export function RegisterForm() {
         disabled={pending}
         className="group mt-1 inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-300 via-sky-400 to-sky-300 px-5 text-sm font-bold text-white shadow-[0_18px_55px_rgba(39,173,245,0.22)] transition disabled:pointer-events-none disabled:opacity-70"
       >
-        {pending ? "Creando workspace..." : "Crear cuenta"}
+        {pending ? "Creando workspace..." : "Crear cuenta de clinica"}
         <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
       </motion.button>
 
@@ -299,7 +309,7 @@ export function RegisterForm() {
           <Check className="h-4 w-4 text-[#27ADF5]" />
           Datos protegidos y acceso privado
         </span>
-        <Link href="/login" className="font-semibold text-[#147fba] transition hover:text-foreground">
+        <Link href="/login" className="font-semibold text-[#27ADF5] transition hover:text-foreground">
           Ya tengo cuenta
         </Link>
       </div>

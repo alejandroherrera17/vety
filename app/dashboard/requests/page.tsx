@@ -1,12 +1,12 @@
 import { prisma } from "@/lib/prisma";
-import { requireWorkspace } from "@/lib/session";
+import { requirePremiumWorkspace } from "@/lib/session";
 import { AppShell } from "@/components/app-shell";
 import { AppointmentRequestPanel } from "@/components/appointment-request-panel";
 import { assertCan } from "@/lib/permissions";
 import { Calendar, CheckCircle2 } from "lucide-react";
 
 export default async function DashboardRequestsPage() {
-  const workspace = await requireWorkspace();
+  const workspace = await requirePremiumWorkspace();
   assertCan(workspace.role, "appointment_requests:approve");
 
   const requests = await prisma.appointmentRequest.findMany({

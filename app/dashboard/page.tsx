@@ -7,11 +7,11 @@ import { PetFormModal } from "@/components/pet-form-modal";
 import { Button } from "@/components/ui/button";
 import { Card, EmptyState } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
-import { requireWorkspace } from "@/lib/session";
+import { requirePremiumWorkspace } from "@/lib/session";
 import { formatDate, formatDateTime } from "@/lib/utils";
 
 export default async function DashboardPage() {
-  const workspace = await requireWorkspace();
+  const workspace = await requirePremiumWorkspace();
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0);
   const todayEnd = new Date(todayStart);
@@ -88,7 +88,7 @@ export default async function DashboardPage() {
       <div className="mb-6 overflow-hidden rounded-lg border border-border bg-white p-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-6">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <p className="text-sm font-semibold text-[#147fba]">Hoy en VettiPets</p>
+          <p className="text-sm font-semibold text-[#27ADF5]">Hoy en VettiPets</p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">
             Que bueno verte, {workspace.organizationName}
           </h1>

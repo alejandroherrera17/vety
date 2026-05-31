@@ -100,12 +100,12 @@ export function PortalLookup({
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(14,165,233,0.22),transparent_30%),radial-gradient(circle_at_84%_8%,rgba(39,173,245,0.18),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.05),transparent_38%)]" />
       <div className="relative mx-auto grid w-full max-w-5xl gap-6 px-4 py-8">
       <div className="rounded-lg border border-border bg-white p-6 text-center shadow-2xl shadow-black/20 backdrop-blur-xl">
-        <div className="mx-auto grid h-12 w-12 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10 text-[#147fba] shadow-[0_0_42px_rgba(39,173,245,0.16)]">
+        <div className="mx-auto grid h-12 w-12 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10 text-[#27ADF5] shadow-[0_0_42px_rgba(39,173,245,0.16)]">
           <Stethoscope className="h-5 w-5" />
         </div>
-        <p className="mt-4 text-sm font-bold text-[#147fba]">VettiPets Portal</p>
+        <p className="mt-4 text-sm font-bold text-[#27ADF5]">VettiPets Portal</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">Portal de propietario</h1>
-          <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-300">
+          <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
           Registrate como propietario, consulta tus mascotas y solicita citas que la clinica aprueba antes de agendar.
         </p>
       </div>
@@ -113,7 +113,7 @@ export function PortalLookup({
       <section className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
         <Card className="p-6">
           <div className="mb-4">
-            <p className="text-sm font-semibold text-[#147fba]">Mis mascotas</p>
+            <p className="text-sm font-semibold text-[#27ADF5]">Mis mascotas</p>
             <h2 className="mt-1 text-2xl font-bold text-foreground">Consultar historia clinica</h2>
           </div>
           <form onSubmit={onSubmit} className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
@@ -146,7 +146,7 @@ export function PortalLookup({
         <Card className="p-6">
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
             <div>
-              <p className="text-sm font-semibold text-[#147fba]">Clinicas disponibles</p>
+            <p className="text-sm font-semibold text-[#27ADF5]">Clinicas disponibles</p>
               <h2 className="mt-1 text-2xl font-bold text-foreground">Directorio por ciudad</h2>
             </div>
             <div className="min-w-52">
@@ -172,7 +172,7 @@ export function PortalLookup({
                       {[clinic.city, clinic.address].filter(Boolean).join(" - ") || "Ubicacion por confirmar"}
                     </p>
                   </div>
-                  <span className="rounded-full border border-sky-200/20 bg-sky-300/10 px-2 py-1 text-xs font-bold text-[#147fba]">
+                  <span className="rounded-full border border-sky-200/20 bg-sky-300/10 px-2 py-1 text-xs font-bold text-[#27ADF5]">
                     {clinic.veterinarians.length} vets
                   </span>
                 </div>
@@ -306,8 +306,8 @@ export function PortalLookup({
           />
         )
       ) : null}
-      <div className="mx-auto flex items-center gap-2 text-xs text-slate-400">
-        <Building2 className="h-4 w-4 text-[#147fba]" />
+      <div className="mx-auto flex items-center gap-2 text-xs text-muted-foreground">
+        <Building2 className="h-4 w-4 text-[#27ADF5]" />
         Cada solicitud llega a la bandeja de la clinica y solo se agenda cuando es aprobada.
         <ShieldCheck className="h-4 w-4 text-[#27ADF5]" />
       </div>
@@ -327,7 +327,7 @@ function PortalSection({
 }) {
   return (
     <section className={className}>
-      <h3 className="mb-3 text-sm font-bold uppercase tracking-normal text-[#147fba]/80">{title}</h3>
+      <h3 className="mb-3 text-sm font-bold uppercase tracking-normal text-[#27ADF5]/80">{title}</h3>
       <div className="grid gap-2">{children}</div>
     </section>
   );

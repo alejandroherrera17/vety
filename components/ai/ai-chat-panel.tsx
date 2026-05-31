@@ -31,12 +31,12 @@ export function AiChatPanel() {
     <section className="grid h-full min-h-0 overflow-hidden rounded-lg border border-border bg-card/82 shadow-2xl shadow-black/15 backdrop-blur-xl ring-1 ring-white/[0.035] lg:grid-cols-[280px_minmax(0,1fr)]">
       <aside className="hidden min-h-0 overflow-y-auto border-r border-border bg-white p-4 lg:block">
         <div className="flex items-center gap-3">
-          <span className="grid h-12 w-12 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10 text-[#147fba] shadow-[0_0_38px_rgba(39,173,245,0.14)]">
+          <span className="grid h-12 w-12 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10 text-[#27ADF5] shadow-[0_0_38px_rgba(39,173,245,0.14)]">
             <Bot className="h-5 w-5" />
           </span>
           <div>
             <p className="text-lg font-bold tracking-tight text-foreground">VettiPets AI</p>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#147fba]/70">Clinic copilot</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#27ADF5]/75">Clinic copilot</p>
           </div>
         </div>
 
@@ -56,7 +56,7 @@ export function AiChatPanel() {
               disabled={isLoading}
               className="group flex items-center gap-3 rounded-lg border border-border bg-white px-3 py-3 text-left text-sm font-semibold text-muted-foreground transition hover:-translate-y-0.5 hover:border-sky-200/30 hover:bg-[#edf8ff] hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
             >
-              <suggestion.icon className="h-4 w-4 text-[#147fba]/75 transition group-hover:text-[#147fba]" />
+              <suggestion.icon className="h-4 w-4 text-[#27ADF5]/75 transition group-hover:text-[#27ADF5]" />
               <span>{suggestion.label}</span>
             </button>
           ))}
@@ -127,7 +127,7 @@ function MessageBubble({ message, isLoading }: { message: AiChatMessage; isLoadi
   return (
     <article className={cn("flex gap-3", isUser && "justify-end")}>
       {!isUser ? (
-        <span className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10 text-[#147fba]">
+        <span className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10 text-[#27ADF5]">
           <Bot className="h-4 w-4" />
         </span>
       ) : null}

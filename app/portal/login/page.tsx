@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { Suspense } from "react";
-import { HeartPulse, Sparkles, Activity, ShieldCheck, PawPrint } from "lucide-react";
+import { Activity, HeartPulse, PawPrint, ShieldCheck, Sparkles } from "lucide-react";
 import { PortalLoginForm } from "@/components/portal/auth-forms";
 
 export default function PortalLoginPage() {
@@ -14,12 +15,12 @@ export default function PortalLoginPage() {
             </div>
             <div>
               <p className="text-xl font-semibold tracking-tight">VettiPets Portal</p>
-              <p className="text-xs uppercase tracking-[0.32em] text-[#147fba]/70">Para Dueños</p>
+              <p className="text-xs uppercase tracking-[0.32em] text-sky-700/80">Para clientes</p>
             </div>
           </div>
 
           <div className="mt-16 max-w-xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-white px-3 py-1 text-xs font-semibold text-[#147fba] backdrop-blur-xl">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-white px-3 py-1 text-xs font-semibold text-[#27ADF5] backdrop-blur-xl">
               <Sparkles className="h-3.5 w-3.5" />
               Toda la info de tus mascotas
             </div>
@@ -27,15 +28,26 @@ export default function PortalLoginPage() {
               Bienvenido a tu portal veterinario
             </h1>
             <p className="mt-5 max-w-lg text-base leading-7 text-muted-foreground">
-              Agenda citas, revisa el historial clínico y mantente conectado con las mejores clínicas veterinarias.
+              Agenda citas, revisa el historial clinico y mantente conectado con las mejores clinicas veterinarias.
             </p>
+            <div className="mt-7 flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700">
+                Acceso de cliente
+              </span>
+              <Link
+                href="/login"
+                className="inline-flex items-center rounded-full border border-border bg-white px-3 py-1 text-xs font-medium text-muted-foreground transition hover:border-sky-200 hover:text-foreground"
+              >
+                Soy una clinica
+              </Link>
+            </div>
           </div>
 
           <div className="mt-10 grid max-w-xl grid-cols-2 gap-3">
             {[
               ["Historial", "Accede a las vacunas de tu mascota", ShieldCheck],
-              ["Citas", "Reserva fácilmente en línea", Activity],
-              ["Clínicas", "Encuentra la mejor atención", HeartPulse],
+              ["Citas", "Reserva facilmente en linea", Activity],
+              ["Clinicas", "Encuentra la mejor atencion", HeartPulse],
               ["100%", "Gratis para siempre", Sparkles],
             ].map(([value, label, Icon]) => (
               <div key={label as string} className="rounded-lg border border-border bg-white p-4 backdrop-blur-xl">
@@ -54,14 +66,14 @@ export default function PortalLoginPage() {
             </div>
             <div>
               <p className="text-lg font-semibold">VettiPets Portal</p>
-              <p className="text-xs text-muted-foreground">Para Dueños</p>
+              <p className="text-xs text-muted-foreground">Para clientes</p>
             </div>
           </div>
 
           <div className="rounded-lg border border-border bg-white p-5 shadow-2xl shadow-sky-950/10 backdrop-blur-2xl sm:p-8">
             <div className="mb-6">
-              <p className="text-sm font-semibold text-[#27ADF5]">Acceso seguro</p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-tight">Iniciar Sesión</h2>
+              <p className="text-sm font-semibold text-[#27ADF5]">Acceso de cliente</p>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight">Iniciar sesion</h2>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">
                 Entra a tu cuenta para ver a tus mascotas.
               </p>

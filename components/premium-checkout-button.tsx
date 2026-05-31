@@ -76,7 +76,7 @@ export function PremiumCheckoutButton({ disabled }: { disabled?: boolean }) {
       className="h-12 w-full bg-[#27ADF5] text-white shadow-lg shadow-sky-950/20 hover:bg-[#149fe8] sm:w-auto"
     >
       {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-      Activar Premium
+      Desbloquear toda la clinica
     </Button>
   );
 }
@@ -85,7 +85,7 @@ export function PremiumTrustBadges() {
   const items = [
     { icon: ShieldCheck, label: "Pago validado en backend" },
     { icon: CheckCircle2, label: "Activacion automatica" },
-    { icon: Sparkles, label: "Acceso inmediato" },
+    { icon: Sparkles, label: "Toda la clinica desbloqueada" },
   ];
 
   return (
@@ -95,7 +95,7 @@ export function PremiumTrustBadges() {
           key={item.label}
           className="flex items-center gap-2 rounded-lg border border-border bg-secondary px-3 py-2 text-sm font-semibold text-muted-foreground"
         >
-          <item.icon className="h-4 w-4 text-[#147fba]" />
+          <item.icon className="h-4 w-4 text-[#27ADF5]" />
           {item.label}
         </div>
       ))}

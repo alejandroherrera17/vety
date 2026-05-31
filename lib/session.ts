@@ -72,6 +72,26 @@ export async function requireWorkspace() {
   return workspace;
 }
 
+export async function getCurrentPremiumWorkspace(): Promise<WorkspaceSession | null> {
+  const workspace = await getCurrentWorkspace();
+
+  if (!workspace?.isPremium) {
+    return null;
+  }
+
+  return workspace;
+}
+
+export async function requirePremiumWorkspace() {
+  const workspace = await getCurrentPremiumWorkspace();
+
+  if (!workspace) {
+    redirect("/premium");
+  }
+
+  return workspace;
+}
+
 export async function getCurrentVeterinarian() {
   const workspace = await getCurrentWorkspace();
 

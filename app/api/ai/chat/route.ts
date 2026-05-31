@@ -30,10 +30,7 @@ export async function POST(request: Request) {
     }
 
     if (!workspace.isPremium) {
-      return NextResponse.json(
-        { error: "VettiPets AI requiere Premium activo" },
-        { status: 402 },
-      );
+      return NextResponse.json({ error: "Premium required" }, { status: 402 });
     }
 
     const body = (await request.json()) as AiChatRequest;

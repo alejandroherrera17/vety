@@ -4,11 +4,11 @@ import { AppointmentCalendar } from "@/components/appointment-calendar";
 import { AppointmentRequestPanel } from "@/components/appointment-request-panel";
 import { Card } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
-import { requireWorkspace } from "@/lib/session";
+import { requirePremiumWorkspace } from "@/lib/session";
 import { formatDateTime } from "@/lib/utils";
 
 export default async function AppointmentsPage() {
-  const workspace = await requireWorkspace();
+  const workspace = await requirePremiumWorkspace();
   const now = new Date();
   const [appointments, pets, veterinarians, appointmentRequests, nextAppointment] = await Promise.all([
     prisma.appointment.findMany({
@@ -63,7 +63,7 @@ export default async function AppointmentsPage() {
       <div className="mb-6 rounded-lg border border-border bg-white p-5 shadow-2xl shadow-black/10 backdrop-blur-xl sm:p-6">
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
         <div>
-          <p className="text-sm font-semibold text-[#147fba]">Agenda clinica</p>
+          <p className="text-sm font-semibold text-[#27ADF5]">Agenda clinica</p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">Calendario de citas</h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
             Vista diaria, semanal y mensual con filtros, reasignacion, solicitudes y validacion de conflictos.
@@ -98,7 +98,7 @@ export default async function AppointmentsPage() {
       </div>
       <section className="mb-5 rounded-lg border border-border bg-white p-5 shadow-2xl shadow-black/10 backdrop-blur-xl">
         <div className="mb-4">
-          <p className="text-sm font-semibold text-[#147fba]">Solicitudes de propietarios</p>
+          <p className="text-sm font-semibold text-[#27ADF5]">Solicitudes de propietarios</p>
           <h2 className="mt-1 text-xl font-bold text-foreground">Bandeja de aprobacion</h2>
         </div>
         <AppointmentRequestPanel

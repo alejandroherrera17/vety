@@ -213,7 +213,7 @@ export function ClinicalRecordWorkspace({ data }: { data: ClinicalRecordData }) 
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold ring-1 ring-white/15">{data.pet.species}</span>
-                <span className="rounded-full bg-sky-300/15 px-3 py-1 text-xs font-semibold text-[#147fba] ring-1 ring-sky-200/20">Expediente activo</span>
+                <span className="rounded-full bg-sky-300/15 px-3 py-1 text-xs font-semibold text-[#27ADF5] ring-1 ring-sky-200/20">Expediente activo</span>
               </div>
               <h1 className="mt-3 text-3xl font-bold tracking-tight md:text-5xl">{data.pet.name}</h1>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">

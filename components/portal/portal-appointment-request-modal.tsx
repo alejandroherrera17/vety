@@ -1,15 +1,15 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Calendar as CalendarIcon, Clock, PawPrint } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Calendar as CalendarIcon, Clock, PawPrint, FileText } from "lucide-react";
+import { z } from "zod";
 import { toast } from "sonner";
 import { createAppointmentRequest } from "@/app/actions/portal";
 import { Button } from "@/components/ui/button";
 import { FormModalShell } from "@/components/ui/form-modal-shell";
-import { Field, Select, Input, Textarea } from "@/components/ui/input";
-import { z } from "zod";
+import { Field, Input, Select, Textarea } from "@/components/ui/input";
 
 const requestSchema = z.object({
   petId: z.string().min(1, "Selecciona una mascota"),
@@ -54,7 +54,7 @@ export function PortalAppointmentRequestModal({
       });
 
       if (result.ok) {
-        toast.success("Solicitud enviada a la clínica");
+        toast.success("Solicitud enviada a la clinica");
         setOpen(false);
         form.reset();
       } else {
@@ -65,31 +65,32 @@ export function PortalAppointmentRequestModal({
 
   return (
     <>
-      <Button 
-        onClick={() => setOpen(true)}
-        className="w-full md:w-auto bg-sky-600 hover:bg-sky-700 text-foreground shadow-lg shadow-sky-600/20 px-8 py-6 text-lg"
-      >
+      <Button onClick={() => setOpen(true)} className="w-full bg-[#27ADF5] px-8 py-6 text-lg text-white hover:bg-[#149fe8] md:w-auto">
         <CalendarIcon className="mr-2 h-5 w-5" />
-        Solicitar Cita
+        Solicitar cita
       </Button>
 
-      {open && (
+      {open ? (
         <FormModalShell
           title={`Solicitar cita en ${clinicName}`}
-          description="Tu solicitud será enviada a la clínica para ser confirmada."
-          icon={<CalendarIcon className="h-5 w-5 text-sky-600 dark:text-sky-400" />}
+          description="Tu solicitud sera enviada a la clinica para ser confirmada."
+          icon={<CalendarIcon className="h-5 w-5 text-[#27ADF5]" />}
           onClose={() => setOpen(false)}
         >
           {pets.length === 0 ? (
-            <div className="py-8 text-center space-y-4">
-              <PawPrint className="mx-auto h-12 w-12 text-slate-300 dark:text-slate-600" />
-              <p className="text-slate-900 dark:text-foreground font-medium">No tienes mascotas registradas</p>
-              <p className="text-sm text-slate-500">Debes registrar al menos una mascota en tu perfil para poder agendar una cita.</p>
-              <Button onClick={() => setOpen(false)} className="mt-4 bg-sky-600 hover:bg-sky-700">Entendido</Button>
+            <div className="space-y-4 py-8 text-center">
+              <PawPrint className="mx-auto h-12 w-12 text-muted-foreground" />
+              <p className="font-medium text-foreground">No tienes mascotas registradas</p>
+              <p className="text-sm text-muted-foreground">
+                Debes registrar al menos una mascota en tu perfil para poder agendar una cita.
+              </p>
+              <Button onClick={() => setOpen(false)} className="mt-4 bg-[#27ADF5] text-white hover:bg-[#149fe8]">
+                Entendido
+              </Button>
             </div>
           ) : (
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
-              <Field label="¿Para cuál mascota es la cita?" error={form.formState.errors.petId?.message}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
+              <Field label="Para cual mascota es la cita?" error={form.formState.errors.petId?.message}>
                 <Select {...form.register("petId")}>
                   <option value="">Seleccionar mascota...</option>
                   {pets.map((pet) => (
@@ -104,16 +105,16 @@ export function PortalAppointmentRequestModal({
                 <Select {...form.register("service")}>
                   <option value="">Seleccionar servicio...</option>
                   <option value="Consulta General">Consulta General</option>
-                  <option value="Vacunación">Vacunación</option>
-                  <option value="Desparasitación">Desparasitación</option>
+                  <option value="Vacunacion">Vacunacion</option>
+                  <option value="Desparasitacion">Desparasitacion</option>
                   <option value="Control">Control</option>
                   <option value="Urgencia">Urgencia</option>
-                  <option value="Peluquería / Baño">Peluquería / Baño</option>
+                  <option value="Peluqueria / Bano">Peluqueria / Bano</option>
                   <option value="Otro">Otro</option>
                 </Select>
               </Field>
 
-              {veterinarians.length > 0 && (
+              {veterinarians.length > 0 ? (
                 <Field label="Veterinario de preferencia (opcional)" error={form.formState.errors.requestedVeterinarianId?.message}>
                   <Select {...form.register("requestedVeterinarianId")}>
                     <option value="">Cualquiera disponible</option>
@@ -124,35 +125,31 @@ export function PortalAppointmentRequestModal({
                     ))}
                   </Select>
                 </Field>
-              )}
+              ) : null}
 
               <Field label="Fecha y hora preferida" error={form.formState.errors.requestedStart?.message}>
                 <div className="relative">
                   <Input type="datetime-local" {...form.register("requestedStart")} className="pl-10" />
-                  <Clock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                  <Clock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 </div>
               </Field>
 
               <Field label="Motivo o notas adicionales (opcional)" error={form.formState.errors.reason?.message}>
-                <Textarea 
-                  {...form.register("reason")} 
-                  placeholder="Describe brevemente los síntomas o motivo de la visita..."
-                  rows={3}
-                />
+                <Textarea {...form.register("reason")} placeholder="Describe brevemente los sintomas o motivo de la visita..." rows={3} />
               </Field>
 
-              <div className="pt-4 border-t border-slate-100 dark:border-border flex justify-end gap-3 mt-6">
+              <div className="mt-6 flex justify-end gap-3 border-t border-border pt-4">
                 <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                   Cancelar
                 </Button>
-                <Button type="submit" disabled={pending} className="bg-sky-600 hover:bg-sky-700 text-foreground">
-                  {pending ? "Enviando..." : "Enviar Solicitud"}
+                <Button type="submit" disabled={pending} className="bg-[#27ADF5] text-white hover:bg-[#149fe8]">
+                  {pending ? "Enviando..." : "Enviar solicitud"}
                 </Button>
               </div>
             </form>
           )}
         </FormModalShell>
-      )}
+      ) : null}
     </>
   );
 }
