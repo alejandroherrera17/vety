@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import type { ActionResult } from "@/actions/clients";
 
 const registerSchema = z.object({
   name: z.string().min(2, "El nombre es muy corto"),
@@ -11,6 +12,21 @@ const registerSchema = z.object({
   phone: z.string().min(7, "El teléfono es requerido"),
   document: z.string().optional(),
 });
+
+const clinicAppointmentRequestSchema = z
+  .object({
+    organizationId: z.string().uuid("Selecciona una clinica"),
+    petId: z.string().uuid("Selecciona una mascota"),
+    service: z.string().trim().min(2, "Selecciona o escribe un servicio"),
+    reason: z.string().trim().optional(),
+    requestedVeterinarianId: z.string().trim().optional(),
+    requestedStart: z.string().min(1, "Selecciona fecha y hora"),
+    requestedEnd: z.string().trim().optional(),
+  })
+  .refine((value) => !value.requestedEnd || new Date(value.requestedEnd) > new Date(value.requestedStart), {
+    message: "La hora final debe ser posterior",
+    path: ["requestedEnd"],
+  });
 
 export async function registerClient(formData: FormData) {
   try {
@@ -87,30 +103,102 @@ export async function createPortalPet(input: unknown) {
   }
 }
 
-export async function createAppointmentRequest(input: any) {
+export async function createAppointmentRequest(input: any): Promise<ActionResult<{ id: string }>> {
   const session = await getServerSession(authOptions);
   
   if (!session?.user?.id || session.user.role !== "client") {
     return { ok: false, error: "No autorizado" };
   }
 
-  try {
-    const request = await prisma.appointmentRequest.create({
-      data: {
-        clientId: session.user.id,
-        petId: input.petId,
-        organizationId: input.organizationId,
-        service: input.service,
-        reason: input.reason || null,
-        requestedStart: new Date(input.requestedStart),
-        requestedVeterinarianId: input.requestedVeterinarianId || null,
-        status: "pending",
+  const parsed = clinicAppointmentRequestSchema.safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, fieldErrors: parsed.error.flatten().fieldErrors };
+  }
+
+  const clinic = await prisma.organization.findUnique({
+    where: { id: parsed.data.organizationId },
+    select: { id: true, name: true },
+  });
+
+  if (!clinic) {
+    return { ok: false, error: "La clinica seleccionada no existe" };
+  }
+
+  const pet = await prisma.pet.findFirst({
+    where: {
+      id: parsed.data.petId,
+      clientId: session.user.id,
+      organizationId: parsed.data.organizationId,
+    },
+    select: { id: true, name: true },
+  });
+
+  if (!pet) {
+    return { ok: false, error: "La mascota no pertenece a esta cuenta en la clinica seleccionada" };
+  }
+
+  if (parsed.data.requestedVeterinarianId) {
+    const veterinarian = await prisma.veterinarian.findFirst({
+      where: {
+        id: parsed.data.requestedVeterinarianId,
+        organizationUsers: {
+          some: {
+            organizationId: parsed.data.organizationId,
+            status: "active",
+            role: { in: ["admin", "veterinarian"] },
+          },
+        },
       },
+      select: { id: true },
     });
 
+    if (!veterinarian) {
+      return { ok: false, error: "El veterinario seleccionado no esta disponible en esta clinica" };
+    }
+  }
+
+  try {
+    const requestedStart = new Date(parsed.data.requestedStart);
+    const requestedEnd = parsed.data.requestedEnd ? new Date(parsed.data.requestedEnd) : null;
+
+    const request = await prisma.$transaction(async (tx) => {
+      const createdRequest = await tx.appointmentRequest.create({
+        data: {
+          clientId: session.user.id,
+          petId: pet.id,
+          organizationId: parsed.data.organizationId,
+          service: parsed.data.service,
+          reason: parsed.data.reason || null,
+          requestedStart,
+          requestedEnd,
+          requestedVeterinarianId: parsed.data.requestedVeterinarianId || null,
+          status: "pending",
+        },
+      });
+
+      await tx.notification.create({
+        data: {
+          organizationId: parsed.data.organizationId,
+          type: "appointment_request",
+          title: "Nueva solicitud de cita",
+          body: `${session.user.name ?? "Un propietario"} solicitó ${parsed.data.service} para ${pet.name}.`,
+          data: {
+            appointmentRequestId: createdRequest.id,
+            clientId: session.user.id,
+            clientName: session.user.name ?? null,
+            petId: pet.id,
+            petName: pet.name,
+          },
+        },
+      });
+
+      return createdRequest;
+    });
+
+    revalidatePath(`/portal/clinics/${parsed.data.organizationId}`);
     revalidatePath("/portal/requests");
     revalidatePath("/dashboard/requests");
-    return { ok: true, data: request };
+    return { ok: true, data: { id: request.id } };
   } catch (error) {
     console.error("Error creating appointment request:", error);
     return { ok: false, error: "Error al crear la solicitud" };

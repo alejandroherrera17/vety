@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { ArrowLeft, Building2, Clock, MapPin, Phone, Stethoscope } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { PortalAppointmentRequestModal } from "@/components/portal/portal-appointment-request-modal";
+import { PortalClinicRequestForm } from "@/components/portal/portal-clinic-request-form";
 
 export default async function ClinicDetailPage({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
@@ -68,9 +68,6 @@ export default async function ClinicDetailPage({ params }: { params: { id: strin
               </div>
             </div>
 
-            <div className="w-full flex-shrink-0 md:w-auto">
-              <PortalAppointmentRequestModal clinicId={clinic.id} clinicName={clinic.name} pets={myPets} veterinarians={veterinarians} />
-            </div>
           </div>
 
           <div className="grid gap-8 md:grid-cols-3">
@@ -118,6 +115,8 @@ export default async function ClinicDetailPage({ params }: { params: { id: strin
             </div>
 
             <div className="space-y-6">
+              <PortalClinicRequestForm clinicId={clinic.id} clinicName={clinic.name} pets={myPets} veterinarians={veterinarians} />
+
               <div className="rounded-xl border border-border bg-secondary p-6">
                 <h3 className="mb-4 flex items-center font-semibold text-foreground">
                   <MapPin className="mr-2 h-5 w-5 text-[#27ADF5]" />

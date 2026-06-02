@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth";
-import { AlertCircle, Building2, Calendar, CheckCircle2, Clock, PawPrint, XCircle } from "lucide-react";
+import { AlertCircle, BellRing, Building2, Calendar, CheckCircle2, Clock, PawPrint, XCircle } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
@@ -37,10 +37,17 @@ function getStatusBadge(status: string) {
   }
 }
 
-export default async function PortalRequestsPage() {
+export default async function PortalRequestsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ submitted?: string }>;
+}) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.id) return null;
+
+  const params = await searchParams;
+  const submitted = params.submitted === "1";
 
   const requests = await prisma.appointmentRequest.findMany({
     where: { clientId: session.user.id },
@@ -51,6 +58,14 @@ export default async function PortalRequestsPage() {
     },
     orderBy: { createdAt: "desc" },
   });
+  const notifications = await prisma.notification.findMany({
+    where: {
+      clientId: session.user.id,
+      type: { in: ["appointment_approved", "appointment_rejected"] },
+    },
+    orderBy: { createdAt: "desc" },
+    take: 4,
+  });
 
   return (
     <div className="mx-auto max-w-7xl space-y-8 p-6 md:p-8">
@@ -58,6 +73,61 @@ export default async function PortalRequestsPage() {
         <h1 className="text-3xl font-bold tracking-tight text-foreground">Mis solicitudes de citas</h1>
         <p className="mt-1 text-muted-foreground">Sigue el estado de las citas que has solicitado en las clinicas veterinarias.</p>
       </div>
+
+      {submitted ? (
+        <div className="rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm text-[#27ADF5]">
+          La solicitud fue registrada correctamente. Ahora aparece en la bandeja de la clinica.
+        </div>
+      ) : null}
+
+      <section className="grid gap-4 lg:grid-cols-[1fr_360px]">
+        <div className="rounded-xl border border-border bg-white p-5 shadow-sm md:p-6">
+          <div className="flex items-center gap-2">
+            <BellRing className="h-5 w-5 text-[#27ADF5]" />
+            <h2 className="text-lg font-bold text-foreground">Respuestas de la clinica</h2>
+          </div>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+            Aqui aparecen las respuestas recientes de la veterinaria cuando aprueba o rechaza una solicitud.
+          </p>
+          <div className="mt-4 grid gap-3">
+            {notifications.length ? (
+              notifications.map((notification) => (
+                <div key={notification.id} className="rounded-lg border border-border bg-secondary p-4">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{notification.title}</p>
+                      <p className="mt-1 text-sm leading-6 text-muted-foreground">{notification.body ?? "La clinica actualizo el estado de tu solicitud."}</p>
+                    </div>
+                    <span className={notification.type === "appointment_approved" ? "inline-flex w-fit rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-medium text-[#27ADF5]" : "inline-flex w-fit rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-medium text-[#F52727]"}>
+                      {notification.type === "appointment_approved" ? "Aprobada" : "Rechazada"}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    {formatDateTime(notification.createdAt.toISOString())}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <div className="rounded-lg border border-dashed border-border bg-secondary p-4 text-sm text-muted-foreground">
+                Aun no tienes respuestas recientes de la clinica.
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-border bg-white p-5 shadow-sm md:p-6">
+          <div className="flex items-center gap-2">
+            <Calendar className="h-5 w-5 text-[#27ADF5]" />
+            <h2 className="text-lg font-bold text-foreground">Estado de tus solicitudes</h2>
+          </div>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+            Cada cambio queda reflejado aqui y en las respuestas recibidas.
+          </p>
+          <div className="mt-4 rounded-lg border border-dashed border-border bg-secondary p-4 text-sm text-muted-foreground">
+            Si una solicitud fue aprobada o rechazada, veras su detalle completo mas abajo.
+          </div>
+        </div>
+      </section>
 
       {requests.length === 0 ? (
         <div className="rounded-xl border border-border bg-white p-12 text-center shadow-sm">
