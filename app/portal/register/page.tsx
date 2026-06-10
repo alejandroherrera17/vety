@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { Activity, HeartPulse, PawPrint, ShieldCheck, Sparkles } from "lucide-react";
+import { AuthModeBanner } from "@/components/auth-mode-banner";
 import { PortalRegisterForm } from "@/components/portal/auth-forms";
 
 export default function PortalRegisterPage() {
@@ -60,15 +61,7 @@ export default function PortalRegisterPage() {
         </div>
 
         <div className="mx-auto w-full max-w-[500px]">
-          <div className="mb-8 flex items-center gap-3 lg:hidden">
-            <div className="grid h-11 w-11 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10">
-              <PawPrint className="h-5 w-5 text-[#27ADF5]" />
-            </div>
-            <div>
-              <p className="text-lg font-semibold">VettiPets Portal</p>
-              <p className="text-xs text-muted-foreground">Para clientes</p>
-            </div>
-          </div>
+          <AuthModeBanner mode="client" flow="register" className="mb-5 lg:hidden" />
 
           <div className="rounded-lg border border-border bg-white p-5 shadow-2xl shadow-sky-950/10 backdrop-blur-2xl sm:p-8">
             <div className="mb-6">

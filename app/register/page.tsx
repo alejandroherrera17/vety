@@ -8,6 +8,7 @@ import {
   Stethoscope,
 } from "lucide-react";
 import Link from "next/link";
+import { AuthModeBanner } from "@/components/auth-mode-banner";
 import { RegisterForm } from "@/components/auth-forms";
 
 const metrics = [
@@ -156,15 +157,7 @@ export default function RegisterPage() {
 
         <div className="flex min-h-screen items-center px-5 py-8 sm:px-8 lg:px-12">
           <div className="mx-auto w-full max-w-[520px]">
-          <div className="mb-8 flex items-center gap-3 lg:hidden">
-            <div className="grid h-11 w-11 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10">
-              <Stethoscope className="h-5 w-5 text-[#27ADF5]" />
-            </div>
-            <div>
-              <p className="text-lg font-semibold">VettiPets</p>
-              <p className="text-xs text-muted-foreground">Gestion clinica</p>
-            </div>
-          </div>
+            <AuthModeBanner mode="clinic" flow="register" className="mb-5 lg:hidden" />
 
             <div className="rounded-lg border border-border bg-white p-5 shadow-2xl shadow-sky-950/10 backdrop-blur-2xl sm:p-8">
               <RegisterForm />
