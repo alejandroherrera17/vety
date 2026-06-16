@@ -20,11 +20,12 @@ const configs = {
     },
     description: {
       login: "Agenda, pacientes, historia clinica y equipo en una sola pantalla.",
-      register: "Configura tu veterinaria para operar con agenda, historias y clientes desde el primer dia.",
+      register:
+        "Configura tu veterinaria para operar con agenda, historias y clientes desde el primer dia. Incluye 15 dias de prueba gratuita con acceso total.",
     },
     chips: {
       login: ["Agenda activa", "Pacientes", "Historias"],
-      register: ["Workspace", "Equipo", "Seguridad"],
+      register: ["Workspace", "Equipo", "15 dias gratis"],
     },
   },
   client: {

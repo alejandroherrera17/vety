@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { Prisma } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { buildFreeTrialSettings } from "@/lib/subscription";
 import { registerSchema } from "@/lib/validations";
 import type { ActionResult } from "@/actions/clients";
 
@@ -31,7 +32,7 @@ export async function registerVeterinarian(input: unknown): Promise<ActionResult
         data: {
           name: parsed.data.clinicName,
           phone: parsed.data.phone,
-          settings: {},
+          settings: buildFreeTrialSettings(),
         },
         select: { id: true },
       });

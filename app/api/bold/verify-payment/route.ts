@@ -30,12 +30,16 @@ export async function GET(request: Request) {
   }
 
   const result = await verifyBoldPaymentByOrderId(orderId);
+  const freshWorkspace = await getCurrentWorkspace();
 
   return NextResponse.json({
     status: result.status,
     orderId,
     isPremium: result.payment?.organization.isPremium ?? false,
     premiumExpiresAt: result.payment?.organization.premiumExpiresAt ?? null,
+    accessSource: freshWorkspace?.accessSource ?? workspace.accessSource,
+    trialIsActive: freshWorkspace?.trialIsActive ?? workspace.trialIsActive,
+    trialDaysRemaining: freshWorkspace?.trialDaysRemaining ?? workspace.trialDaysRemaining,
   });
 }
 

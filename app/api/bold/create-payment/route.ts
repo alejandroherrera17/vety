@@ -13,6 +13,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    if (workspace.hasPaidPremium) {
+      return NextResponse.json(
+        {
+          error: "Tu clinica ya tiene la suscripcion activa",
+          accessSource: workspace.accessSource,
+          premiumExpiresAt: workspace.premiumExpiresAt,
+        },
+        { status: 409 },
+      );
+    }
+
     const checkout = await createBoldPremiumPayment({
       organizationId: workspace.organizationId,
       userId: workspace.userId,

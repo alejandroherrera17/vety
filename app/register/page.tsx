@@ -26,6 +26,7 @@ const clinicHighlights = [
   "Equipo clinico",
   "Turnos",
   "Panel seguro",
+  "15 dias gratis",
 ];
 
 export default function RegisterPage() {
@@ -59,11 +60,14 @@ export default function RegisterPage() {
               </h2>
               <p className="mt-5 max-w-lg text-base leading-7 text-muted-foreground">
                 Agenda, pacientes, historia clinica y operaciones en un entorno
-                rapido, seguro y personalizable para clinicas reales.
+                rapido, seguro y personalizable para clinicas reales. Empiezas con 15 dias de prueba gratuita para toda la clinica.
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-2">
                 <span className="inline-flex items-center rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700">
                   Registro de clinica
+                </span>
+                <span className="inline-flex items-center rounded-full border border-sky-200 bg-white px-3 py-1 text-xs font-semibold text-[#27ADF5]">
+                  15 dias gratis
                 </span>
                 <Link
                   href="/portal/register"

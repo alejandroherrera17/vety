@@ -1,5 +1,16 @@
 import Link from "next/link";
-import { Bot, CalendarDays, Crown, FileText, LayoutDashboard, PawPrint, ShieldCheck, Sparkles, Users, Zap } from "lucide-react";
+import {
+  Bot,
+  CalendarDays,
+  Crown,
+  FileText,
+  LayoutDashboard,
+  PawPrint,
+  ShieldCheck,
+  Sparkles,
+  Users,
+  Zap,
+} from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { PremiumCheckoutButton, PremiumTrustBadges } from "@/components/premium-checkout-button";
 import { Badge } from "@/components/ui/badge";
@@ -7,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { BOLD_PREMIUM_AMOUNT, BOLD_PREMIUM_CURRENCY, PREMIUM_DAYS } from "@/lib/bold";
 import { prisma } from "@/lib/prisma";
+import { FREE_TRIAL_DAYS } from "@/lib/subscription";
 import { requireWorkspace } from "@/lib/session";
 
 const offerings = [
@@ -59,25 +71,52 @@ const offerings = [
 
 export default async function PremiumPage() {
   const workspace = await requireWorkspace();
-  const [organization, recentPayments] = await Promise.all([
-    prisma.organization.findUnique({
-      where: { id: workspace.organizationId },
-      select: { isPremium: true, premiumSince: true, premiumExpiresAt: true },
-    }),
-    prisma.payment.findMany({
-      where: {
-        organizationId: workspace.organizationId,
-        userId: workspace.userId,
-        userEmail: workspace.email,
-      },
-      orderBy: { createdAt: "desc" },
-      take: 4,
-      select: { orderId: true, amount: true, currency: true, status: true, createdAt: true, userEmail: true },
-    }),
-  ]);
-  const premiumIsActive =
-    Boolean(organization?.isPremium) &&
-    (!organization?.premiumExpiresAt || organization.premiumExpiresAt > new Date());
+  const recentPayments = await prisma.payment.findMany({
+    where: {
+      organizationId: workspace.organizationId,
+      userId: workspace.userId,
+    },
+    orderBy: { createdAt: "desc" },
+    take: 4,
+    select: { orderId: true, amount: true, currency: true, status: true, createdAt: true },
+  });
+
+  const accessLabel =
+    workspace.accessSource === "premium"
+      ? "Suscripcion activa"
+      : workspace.accessSource === "trial"
+        ? "Prueba gratuita activa"
+        : "Suscripcion requerida";
+
+  const heroTitle =
+    workspace.accessSource === "premium"
+      ? "Tu clinica ya tiene todas las funciones premium desbloqueadas."
+      : workspace.accessSource === "trial"
+        ? `Tu prueba gratuita esta activa. Te quedan ${workspace.trialDaysRemaining} dias.`
+        : "Tu prueba gratuita termino. Activa la suscripcion para recuperar el acceso completo.";
+
+  const heroDescription =
+    workspace.accessSource === "premium"
+      ? "Toda la clinica comparte el mismo acceso: agenda, clientes, historias, PDFs, AI y solicitudes."
+      : workspace.accessSource === "trial"
+        ? `Durante ${FREE_TRIAL_DAYS} dias la clinica tiene acceso total a la plataforma, sin costo y sin fricciones.`
+        : `La suscripcion cuesta ${formatMoney(BOLD_PREMIUM_AMOUNT)} por clinica durante ${PREMIUM_DAYS} dias.`;
+
+  const rightCardCopy =
+    workspace.accessSource === "premium"
+      ? workspace.premiumExpiresAt
+        ? `Tu suscripcion esta activa y vence el ${formatDate(workspace.premiumExpiresAt)}.`
+        : "Tu suscripcion esta activa y la clinica mantiene acceso completo."
+      : workspace.accessSource === "trial"
+        ? `La prueba gratuita termina el ${formatDate(workspace.trialExpiresAt)}.`
+        : "No hay acceso premium activo. La clinica necesita activar el plan para volver a usar todas las funciones.";
+
+  const trustMessage =
+    workspace.accessSource === "premium"
+      ? "No necesitas hacer nada mas por ahora."
+      : workspace.accessSource === "trial"
+        ? "La prueba gratuita incluye todas las funciones internas."
+        : "Cuando el pago se apruebe, el desbloqueo es automatico para toda la clinica.";
 
   return (
     <AppShell>
@@ -87,27 +126,36 @@ export default async function PremiumPage() {
             <div>
               <Badge className="border-sky-200/25 bg-sky-300/10 text-[#27ADF5]">
                 <Crown className="h-3.5 w-3.5" />
-                Suscripcion de la clinica
+                {accessLabel}
               </Badge>
               <h1 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-                {premiumIsActive
-                  ? "Tu clinica ya tiene todas las funciones desbloqueadas."
-                  : "Desbloquea todas las funciones de la clinica con una sola suscripcion."}
+                {heroTitle}
               </h1>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-                La suscripcion vive a nivel de clinica, asi que todos los veterinarios asociados heredan el mismo acceso. Aqui encuentras todo lo que la plataforma puede darte en un solo lugar.
-              </p>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">{heroDescription}</p>
               <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
-                {premiumIsActive ? (
+                {workspace.accessSource === "premium" ? (
                   <>
                     <div className="inline-flex w-full items-center gap-2 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-700 sm:w-auto">
                       <ShieldCheck className="h-4 w-4" />
-                      Suscripcion activa para toda la clinica
+                      Acceso premium para toda la clinica
                     </div>
-                    <Link href="/ai">
+                    <Link href="/dashboard">
                       <Button type="button" variant="secondary" className="w-full sm:w-auto">
                         <Sparkles className="h-4 w-4" />
-                        Explorar la plataforma
+                        Ir al panel
+                      </Button>
+                    </Link>
+                  </>
+                ) : workspace.accessSource === "trial" ? (
+                  <>
+                    <div className="inline-flex w-full items-center gap-2 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-700 sm:w-auto">
+                      <ShieldCheck className="h-4 w-4" />
+                      Te quedan {workspace.trialDaysRemaining} dias de acceso gratis
+                    </div>
+                    <Link href="#plan">
+                      <Button type="button" variant="secondary" className="w-full sm:w-auto">
+                        <Sparkles className="h-4 w-4" />
+                        Ver el plan
                       </Button>
                     </Link>
                   </>
@@ -120,15 +168,13 @@ export default async function PremiumPage() {
             <div className="rounded-lg border border-border bg-white p-5 shadow-xl shadow-sky-950/10">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                <p className="text-sm font-semibold text-[#27ADF5]">Plan Premium</p>
+                  <p className="text-sm font-semibold text-[#27ADF5]">Plan de la clinica</p>
                   <p className="mt-2 text-4xl font-bold text-foreground">
-                    {new Intl.NumberFormat("es-CO", {
-                      style: "currency",
-                      currency: BOLD_PREMIUM_CURRENCY,
-                      maximumFractionDigits: 0,
-                    }).format(BOLD_PREMIUM_AMOUNT)}
+                    {formatMoney(BOLD_PREMIUM_AMOUNT)}
                   </p>
-                  <p className="mt-1 text-sm text-muted-foreground">por clinica / {PREMIUM_DAYS} dias</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    por clinica / {PREMIUM_DAYS} dias
+                  </p>
                 </div>
                 <span className="grid h-12 w-12 place-items-center rounded-lg border border-sky-200/25 bg-sky-300/10 text-[#27ADF5]">
                   <Crown className="h-5 w-5" />
@@ -136,17 +182,18 @@ export default async function PremiumPage() {
               </div>
               <div className="mt-5 rounded-lg border border-border bg-secondary p-4">
                 <p className="text-sm font-semibold text-foreground">
-                  {premiumIsActive ? "Actualmente tienes la suscripcion activa" : "Suscripcion lista para activar"}
+                  {workspace.accessSource === "premium"
+                    ? "Actualmente tienes la suscripcion activa"
+                    : workspace.accessSource === "trial"
+                      ? "Actualmente tienes una prueba gratuita activa"
+                      : "Suscripcion lista para activar"}
                 </p>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  {premiumIsActive && organization?.premiumExpiresAt
-                    ? `Tu suscripcion esta activa y vence el ${new Intl.DateTimeFormat("es-CO", { dateStyle: "medium" }).format(organization.premiumExpiresAt)}. Toda la clinica comparte el acceso completo.`
-                    : `Con una sola compra de ${new Intl.NumberFormat("es-CO", {
-                        style: "currency",
-                        currency: BOLD_PREMIUM_CURRENCY,
-                        maximumFractionDigits: 0,
-                      }).format(BOLD_PREMIUM_AMOUNT)} desbloqueas toda la experiencia de la plataforma durante ${PREMIUM_DAYS} dias.`}
-                </p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">{rightCardCopy}</p>
+                {workspace.accessSource === "trial" ? (
+                  <p className="mt-2 text-sm font-medium text-[#27ADF5]">
+                    En cuanto termine la prueba, la clinica debera activar el plan para seguir usando todo.
+                  </p>
+                ) : null}
               </div>
             </div>
           </div>
@@ -167,14 +214,14 @@ export default async function PremiumPage() {
           ))}
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-[1fr_360px]">
+        <section id="plan" className="grid gap-4 lg:grid-cols-[1fr_360px]">
           <Card className="p-5">
             <h2 className="flex items-center gap-2 text-lg font-bold text-foreground">
               <ShieldCheck className="h-5 w-5 text-[#27ADF5]" />
               Historial de esta cuenta
             </h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Aqui solo aparecen los pagos creados desde este acceso. La suscripcion, cuando se activa, sigue siendo de toda la clinica.
+              Aqui solo aparecen los pagos creados desde esta cuenta de clinica.
             </p>
             <div className="mt-4 grid gap-3">
               {recentPayments.length ? (
@@ -186,18 +233,12 @@ export default async function PremiumPage() {
                     <div>
                       <p className="font-mono text-xs text-muted-foreground">{payment.orderId}</p>
                       <p className="mt-1 text-sm font-semibold text-foreground">
-                        {new Intl.NumberFormat("es-CO", {
-                          style: "currency",
-                          currency: payment.currency,
-                          maximumFractionDigits: 0,
-                        }).format(payment.amount)}
+                        {formatMoney(payment.amount)}
                       </p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-xs text-muted-foreground">
-                        {new Intl.DateTimeFormat("es-CO", { dateStyle: "medium" }).format(payment.createdAt)}
-                      </span>
-                      <Badge className={statusClass(payment.status)}>{payment.status}</Badge>
+                      <span className="text-xs text-muted-foreground">{formatDate(payment.createdAt)}</span>
+                      <Badge className={statusClass(payment.status)}>{statusLabel(payment.status)}</Badge>
                       {payment.status === "pending" ? (
                         <Link href={`/premium/resultado?orderId=${payment.orderId}`}>
                           <Button type="button" variant="ghost" size="sm">
@@ -225,6 +266,7 @@ export default async function PremiumPage() {
               <p>Una experiencia mas ordenada para tu equipo y para tus pacientes.</p>
               <p>Una marca mas profesional cuando compartes PDFs, historial y documentos.</p>
               <p>Una sola suscripcion que cubre a toda la clinica, sin pagar por cada veterinario.</p>
+              <p>{trustMessage}</p>
             </div>
           </Card>
         </section>
@@ -233,9 +275,32 @@ export default async function PremiumPage() {
   );
 }
 
+function formatMoney(amount: number) {
+  return new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: BOLD_PREMIUM_CURRENCY,
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
+function formatDate(date: Date | string | null | undefined) {
+  if (!date) return "Pendiente";
+
+  return new Intl.DateTimeFormat("es-CO", { dateStyle: "medium" }).format(new Date(date));
+}
+
 function statusClass(status: string) {
   if (status === "approved") return "border-sky-300/25 bg-sky-300/10 text-[#27ADF5]";
   if (status === "rejected" || status === "failed") return "border-red-300/25 bg-red-300/10 text-[#F52727]";
 
   return "border-amber-300/25 bg-amber-300/10 text-amber-700";
+}
+
+function statusLabel(status: string) {
+  if (status === "approved") return "aprobado";
+  if (status === "rejected") return "rechazado";
+  if (status === "failed") return "fallido";
+  if (status === "expired") return "expirado";
+
+  return "pendiente";
 }
